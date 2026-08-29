@@ -251,8 +251,8 @@ const SearchBloodPage = () => {
       const q = location.toLowerCase();
       const asGroup = parseBloodGroupQuery(location);
       list = list.filter((d) =>
-        d.city.toLowerCase().includes(q) ||
-        d.name.toLowerCase().includes(q) ||
+        (d.city && d.city.toLowerCase().includes(q)) ||
+        (d.name && d.name.toLowerCase().includes(q)) ||
         (asGroup && d.bloodGroup === asGroup)
       );
     }
