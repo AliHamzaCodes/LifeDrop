@@ -1,0 +1,242 @@
+@use '../../styles/variables';
+
+.info-page {
+  padding: variables.$spacing-16 0 variables.$spacing-20;
+  background: variables.$bg-light;
+  min-height: 70vh;
+
+  &__title {
+    font-size: variables.$font-size-3xl;
+    font-weight: 800;
+    color: variables.$text-dark;
+    margin-bottom: variables.$spacing-3;
+  }
+
+  &__lead {
+    color: variables.$text-body;
+    max-width: 40rem;
+    margin-bottom: variables.$spacing-10;
+  }
+
+  &__card {
+    background: variables.$bg-white;
+    border: 1px solid variables.$border-color;
+    border-radius: variables.$radius-lg;
+    padding: variables.$spacing-8;
+    box-shadow: variables.$shadow-sm;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: variables.$spacing-3;
+    overflow-x: auto;
+
+    @media (max-width: variables.$bp-md) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  &__cell {
+    border: 1px solid variables.$border-color;
+    border-radius: variables.$radius-md;
+    padding: variables.$spacing-3;
+    background: variables.$bg-white;
+    font-size: variables.$font-size-sm;
+
+    strong { display: block; color: variables.$primary; margin-bottom: variables.$spacing-1; }
+  }
+
+  &__form {
+    display: grid;
+    gap: variables.$spacing-4;
+    max-width: 36rem;
+  }
+
+  &__label {
+    font-size: variables.$font-size-sm;
+    font-weight: 600;
+    color: variables.$text-dark;
+  }
+
+  &__input,
+  &__textarea,
+  &__select {
+    width: 100%;
+    margin-top: variables.$spacing-1;
+    padding: variables.$spacing-3 variables.$spacing-4;
+    border: 1.5px solid variables.$border-color;
+    border-radius: variables.$radius-md;
+    font-family: variables.$font-family-body;
+    font-size: variables.$font-size-sm;
+
+    &:focus {
+      outline: 3px solid rgba(variables.$primary, 0.25);
+      border-color: variables.$primary;
+    }
+  }
+
+  &__error {
+    color: variables.$primary-light;
+    font-size: variables.$font-size-xs;
+    font-weight: 600;
+  }
+
+  &__btn {
+    justify-self: start;
+    background: variables.$primary;
+    color: #fff;
+    border: none;
+    border-radius: variables.$radius-full;
+    padding: variables.$spacing-3 variables.$spacing-6;
+    font-weight: 700;
+    font-family: variables.$font-family-body;
+
+    &:hover { background: variables.$primary-dark; }
+    &:disabled { opacity: 0.7; }
+  }
+
+  &__result {
+    margin-top: variables.$spacing-8;
+    padding: variables.$spacing-6;
+    border-radius: variables.$radius-xl;
+    background: white;
+    border: 1px solid variables.$border-color;
+    box-shadow: variables.$shadow-md;
+    animation: fadeIn 0.4s ease;
+
+    .result-header {
+      display: flex;
+      align-items: center;
+      gap: variables.$spacing-3;
+      margin-bottom: variables.$spacing-4;
+
+      .result-icon {
+        font-size: variables.$font-size-2xl;
+      }
+      
+      h2 {
+        font-size: variables.$font-size-xl;
+        font-weight: 800;
+        margin: 0;
+      }
+    }
+
+    .result-reasons {
+      margin-bottom: variables.$spacing-6;
+      padding-left: variables.$spacing-4;
+      list-style-type: disc;
+      color: variables.$text-body;
+      font-size: variables.$font-size-base;
+      
+      li {
+        margin-bottom: variables.$spacing-2;
+      }
+    }
+
+    .result-actions {
+      display: flex;
+      gap: variables.$spacing-4;
+      flex-wrap: wrap;
+    }
+
+    // Specific Status Styles
+    &.result-green {
+      background: #F0FDF4; // Light green
+      border-color: #BBF7D0;
+      .result-icon { color: #16A34A; }
+      h2 { color: #166534; }
+    }
+    
+    &.result-yellow {
+      background: #FEFCE8; // Light yellow
+      border-color: #FEF08A;
+      .result-icon { color: #EAB308; }
+      h2 { color: #854D0E; }
+    }
+    
+    &.result-red {
+      background: #FEF2F2; // Light red
+      border-color: #FECACA;
+      .result-icon { color: #DC2626; }
+      h2 { color: #991B1B; }
+    }
+  }
+
+  // Progress Bar
+  .form-progress {
+    margin-bottom: variables.$spacing-8;
+    
+    .progress-text {
+      display: block;
+      font-size: variables.$font-size-sm;
+      font-weight: 600;
+      color: variables.$text-muted;
+      margin-bottom: variables.$spacing-2;
+    }
+    
+    .progress-bar {
+      height: 6px;
+      background: variables.$border-color;
+      border-radius: variables.$radius-full;
+      overflow: hidden;
+      
+      .progress-fill {
+        height: 100%;
+        background: variables.$primary;
+        border-radius: variables.$radius-full;
+        transition: width variables.$transition-base;
+      }
+    }
+  }
+
+  // Form Group Spacing
+  .form-group {
+    margin-bottom: variables.$spacing-6;
+  }
+
+  &__disclaimer {
+    font-size: variables.$font-size-sm;
+    color: variables.$text-muted;
+    margin-top: variables.$spacing-8;
+    padding-top: variables.$spacing-6;
+    border-top: 1px solid variables.$border-color;
+    line-height: 1.6;
+  }
+
+  &__faq {
+    display: grid;
+    gap: variables.$spacing-3;
+  }
+
+  &__faq-item {
+    background: variables.$bg-white;
+    border: 1px solid variables.$border-color;
+    border-radius: variables.$radius-md;
+    overflow: hidden;
+  }
+
+  &__faq-q {
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    padding: variables.$spacing-4 variables.$spacing-5;
+    font-weight: 600;
+    font-family: variables.$font-family-body;
+    color: variables.$text-dark;
+    cursor: pointer;
+  }
+
+  &__faq-a {
+    padding: 0 variables.$spacing-5 variables.$spacing-4;
+    color: variables.$text-body;
+    font-size: variables.$font-size-sm;
+  }
+
+  &__meta {
+    color: variables.$text-body;
+    margin-bottom: variables.$spacing-4;
+    a { color: variables.$primary; font-weight: 600; }
+  }
+}

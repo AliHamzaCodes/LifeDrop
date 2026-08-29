@@ -1,0 +1,242 @@
+@use '../../styles/variables';
+
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background: variables.$bg-light;
+  padding: variables.$spacing-12 0;
+}
+
+.auth-background {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  z-index: 0;
+  pointer-events: none;
+
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.5;
+  }
+
+  .blob-1 {
+    top: -20%; left: -10%;
+    width: 50vw; height: 50vw;
+    background: variables.$primary-lighter;
+  }
+
+  .blob-2 {
+    bottom: -20%; right: -10%;
+    width: 60vw; height: 60vw;
+    background: rgba(variables.$primary, 0.05);
+  }
+}
+
+.auth-home-link {
+  position: absolute;
+  top: variables.$spacing-6;
+  left: variables.$spacing-6;
+  display: flex;
+  align-items: center;
+  gap: variables.$spacing-2;
+  font-weight: 800;
+  font-size: variables.$font-size-xl;
+  color: variables.$text-dark;
+  z-index: 10;
+  text-decoration: none;
+
+  .fa-droplet {
+    color: variables.$primary;
+  }
+}
+
+.auth-container {
+  position: relative;
+  z-index: 1;
+  max-width: 500px;
+  width: 100%;
+  margin: 0 auto;
+  padding: variables.$spacing-10;
+  background: white;
+  border-radius: variables.$radius-2xl;
+  box-shadow: variables.$shadow-xl;
+  border: 1px solid rgba(0,0,0,0.04);
+
+  @media (max-width: variables.$bp-sm) {
+    padding: variables.$spacing-6;
+    margin: variables.$spacing-4;
+  }
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: variables.$spacing-5;
+
+  .form-title {
+    font-size: variables.$font-size-3xl;
+    font-weight: 800;
+    margin-bottom: variables.$spacing-1;
+    text-align: center;
+    color: variables.$text-dark;
+  }
+
+  .form-subtitle {
+    text-align: center;
+    color: variables.$text-body;
+    font-size: variables.$font-size-base;
+    margin-bottom: variables.$spacing-4;
+  }
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: variables.$spacing-4;
+
+  @media (max-width: variables.$bp-sm) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: variables.$spacing-1;
+
+  label {
+    font-size: variables.$font-size-sm;
+    font-weight: 600;
+    color: variables.$text-dark;
+  }
+
+  input, select {
+    width: 100%;
+    padding: variables.$spacing-3 variables.$spacing-4;
+    border-radius: variables.$radius-md;
+    border: 1px solid variables.$border-color;
+    background: variables.$bg-light;
+    font-size: variables.$font-size-base;
+    color: variables.$text-dark;
+    transition: all variables.$transition-fast;
+
+    &:focus {
+      border-color: variables.$primary;
+      background: white;
+      box-shadow: 0 0 0 4px rgba(variables.$primary, 0.1);
+      outline: none;
+    }
+  }
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  input {
+    padding-right: 45px;
+  }
+
+  .pw-toggle {
+    position: absolute;
+    right: variables.$spacing-3;
+    color: variables.$text-muted;
+    background: transparent;
+    border: none;
+    padding: variables.$spacing-1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    &:hover {
+      color: variables.$text-dark;
+    }
+  }
+}
+
+.pw-help {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: variables.$spacing-1;
+
+  a {
+    font-size: variables.$font-size-xs;
+    color: variables.$primary;
+    font-weight: 600;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.pw-strength {
+  display: flex;
+  align-items: center;
+  gap: variables.$spacing-2;
+  margin-top: variables.$spacing-2;
+  font-size: variables.$font-size-xs;
+  font-weight: 600;
+  color: variables.$text-muted;
+
+  .strength-bar-bg {
+    flex: 1;
+    height: 4px;
+    background: variables.$border-color;
+    border-radius: variables.$radius-full;
+    overflow: hidden;
+  }
+
+  .strength-bar-fill {
+    height: 100%;
+    transition: width 0.3s ease, background-color 0.3s ease;
+  }
+}
+
+.btn-block {
+  width: 100%;
+  margin-top: variables.$spacing-2;
+  padding: variables.$spacing-3;
+}
+
+.auth-switch {
+  text-align: center;
+  font-size: variables.$font-size-sm;
+  color: variables.$text-body;
+  margin-top: variables.$spacing-4;
+
+  button {
+    font-weight: 700;
+    color: variables.$primary;
+    text-decoration: none;
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.auth-alert {
+  padding: variables.$spacing-3;
+  border-radius: variables.$radius-md;
+  font-size: variables.$font-size-sm;
+  font-weight: 500;
+  text-align: center;
+
+  &.error {
+    background: rgba(variables.$primary, 0.1);
+    color: variables.$primary-dark;
+    border: 1px solid rgba(variables.$primary, 0.2);
+  }
+}

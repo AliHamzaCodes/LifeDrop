@@ -1,0 +1,84 @@
+@use '../../styles/variables';
+
+/* ── Full-screen shell ───────────────────────────────────── */
+.dashboard-page {
+  min-height: 100vh;
+  height: 100vh;
+  background: linear-gradient(135deg, #fff0f2 0%, #fce7f3 50%, #f3e8ff 100%);
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  display: flex;
+  overflow: hidden;
+
+  @media (max-width: variables.$bp-lg) {
+    flex-direction: column;
+    height: 100vh;   // keep fixed height so topbar is sticky
+    overflow: hidden;
+  }
+}
+
+/* ── Side-by-side layout ─────────────────────────────────── */
+.dashboard-layout {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+
+  @media (max-width: variables.$bp-lg) {
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+  }
+}
+
+/* ── Scrollable content area ─────────────────────────────── */
+.dashboard-main {
+  flex: 1;
+  min-width: 0;
+  overflow-y: auto;
+  padding: 2rem;
+
+  @media (max-width: variables.$bp-lg) {
+    padding: 1.5rem;
+    // fill remaining height after the topbar (3.375rem)
+    height: calc(100vh - 3.375rem);
+    overflow-y: auto;
+  }
+
+  @media (max-width: variables.$bp-sm) {
+    padding: 1rem;
+  }
+}
+
+/* ── Messages tab: edge-to-edge ──────────────────────────── */
+.dashboard-main--chat {
+  padding: 0;
+  overflow: hidden;
+}
+
+/* ── Placeholder card ────────────────────────────────────── */
+.dashboard-placeholder {
+  background: variables.$bg-white;
+  border-radius: variables.$radius-xl;
+  border: 0.0625rem solid variables.$border-color;
+  padding: 2.5rem;
+  box-shadow: variables.$shadow-sm;
+  animation: dashboard-rise 0.4s ease both;
+}
+
+.dashboard-placeholder__title {
+  text-transform: capitalize;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: variables.$text-dark;
+  margin-bottom: 0.5rem;
+}
+
+.dashboard-placeholder__text {
+  color: variables.$text-body;
+}
+
+/* ── Keyframes ───────────────────────────────────────────── */
+@keyframes dashboard-rise {
+  from { opacity: 0; transform: translateY(0.75rem); }
+  to   { opacity: 1; transform: translateY(0); }
+}

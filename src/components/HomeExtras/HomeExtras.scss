@@ -1,0 +1,209 @@
+@use '../../styles/variables';
+
+.home-cta {
+  background: variables.$primary;
+  color: white;
+  padding: variables.$spacing-20 0;
+  position: relative;
+  overflow: hidden;
+
+  // Dot pattern texture
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image: radial-gradient(circle at 100% 0%, rgba(255,255,255,0.15) 0%, transparent 50%),
+                      radial-gradient(circle at 0% 100%, rgba(0,0,0,0.1) 0%, transparent 50%),
+                      radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+    background-size: 100% 100%, 100% 100%, 20px 20px; // Last one is the dot pattern scale
+    pointer-events: none;
+  }
+
+  &__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: variables.$spacing-8;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+  }
+
+  h2 {
+    font-size: variables.$font-size-3xl;
+    font-weight: 800;
+    margin-bottom: variables.$spacing-3;
+    color: white;
+    letter-spacing: -0.5px;
+  }
+
+  p {
+    max-width: 40rem;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: variables.$font-size-lg;
+    line-height: 1.6;
+  }
+
+  &__btn {
+    background: white;
+    color: variables.$primary-dark;
+    font-weight: 800;
+    border-radius: variables.$radius-full;
+    padding: variables.$spacing-4 variables.$spacing-8;
+    font-size: variables.$font-size-lg;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: all variables.$transition-base;
+    display: inline-flex;
+    align-items: center;
+    gap: variables.$spacing-2;
+    white-space: nowrap;
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 25px rgba(0,0,0,0.2);
+      background: variables.$bg-light;
+    }
+  }
+}
+
+.home-teasers {
+  padding: variables.$spacing-24 0;
+  background: variables.$bg-light;
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: variables.$spacing-8;
+
+    @media (max-width: variables.$bp-md) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__card {
+    background: white;
+    border-radius: variables.$radius-2xl;
+    padding: variables.$spacing-10 variables.$spacing-8;
+    box-shadow: variables.$shadow-sm;
+    transition: all variables.$transition-base;
+    display: flex;
+    flex-direction: column;
+    gap: variables.$spacing-4;
+    position: relative;
+    overflow: hidden;
+
+    // Colored Top Bars via pseudo-element
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: variables.$primary;
+      transition: height variables.$transition-fast;
+    }
+
+    &:nth-child(1)::before { background: #3B82F6; } // Blue
+    &:nth-child(2)::before { background: #10B981; } // Green
+    &:nth-child(3)::before { background: variables.$primary; } // Crimson
+
+    &:hover {
+      transform: translateY(-8px);
+      box-shadow: variables.$shadow-lg;
+      
+      &::before {
+        height: 6px; // Thickens slightly on hover
+      }
+    }
+
+    h3 {
+      color: variables.$text-dark;
+      font-size: variables.$font-size-xl;
+      font-weight: 800;
+    }
+
+    p {
+      color: variables.$text-body;
+      font-size: variables.$font-size-base;
+      flex-grow: 1;
+      line-height: 1.6;
+    }
+
+    a {
+      display: inline-block;
+      margin-top: variables.$spacing-2;
+      color: variables.$text-dark;
+      font-weight: 700;
+      font-size: variables.$font-size-base;
+      transition: all variables.$transition-fast;
+
+      &:hover {
+        color: variables.$primary;
+      }
+    }
+  }
+}
+
+.home-faq {
+  padding: variables.$spacing-16 0 variables.$spacing-24;
+  background: white;
+
+  h2 {
+    font-size: variables.$font-size-3xl;
+    font-weight: 800;
+    color: variables.$text-dark;
+    margin-bottom: variables.$spacing-12;
+    text-align: center;
+  }
+
+  &__list {
+    display: grid;
+    gap: variables.$spacing-6;
+    max-width: 800px;
+    margin: 0 auto;
+
+    article {
+      background: variables.$bg-light;
+      border: 1px solid rgba(0,0,0,0.02);
+      border-radius: variables.$radius-xl;
+      padding: variables.$spacing-6 variables.$spacing-8;
+      transition: all variables.$transition-fast;
+
+      &:hover {
+        background: white;
+        box-shadow: variables.$shadow-md;
+      }
+    }
+
+    article h3 {
+      font-size: variables.$font-size-lg;
+      font-weight: 700;
+      color: variables.$text-dark;
+      margin-bottom: variables.$spacing-2;
+    }
+
+    article p {
+      color: variables.$text-body;
+      font-size: variables.$font-size-base;
+      line-height: 1.7;
+    }
+  }
+
+  &__more {
+    margin-top: variables.$spacing-12;
+    text-align: center;
+    font-size: variables.$font-size-base;
+    color: variables.$text-muted;
+
+    a { 
+      color: variables.$primary; 
+      font-weight: 700; 
+      padding: 0 variables.$spacing-2;
+      transition: color variables.$transition-fast;
+
+      &:hover {
+        color: variables.$primary-dark;
+        text-decoration: underline;
+      }
+    }
+  }
+}

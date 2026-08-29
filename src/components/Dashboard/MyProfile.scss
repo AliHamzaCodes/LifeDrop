@@ -1,0 +1,1322 @@
+@use '../../styles/variables';
+
+/* ══════════════════════════════════════════════════════════
+   My Profile — Page Wrapper
+══════════════════════════════════════════════════════════ */
+.my-profile {
+  padding: 2rem 2.25rem;
+  background: variables.$bg-light;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  animation: profileFadeIn 0.35s ease;
+
+  @media (max-width: variables.$bp-md) {
+    padding: 1.25rem 1rem;
+    gap: 1.125rem;
+  }
+
+  /* Heading */
+  &__heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__title {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: variables.$text-dark;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+
+    @media (max-width: variables.$bp-sm) { font-size: 1.375rem; }
+  }
+
+  &__subtitle {
+    font-size: 0.875rem;
+    color: variables.$text-muted;
+    margin-top: 0.25rem;
+  }
+
+  /* Layout Rows */
+  &__hero-row {
+    display: grid;
+    grid-template-columns: 1fr 14rem;
+    gap: 1.25rem;
+
+    @media (max-width: variables.$bp-md) { grid-template-columns: 1fr; }
+  }
+
+  &__mid-row {
+    display: grid;
+    grid-template-columns: 1fr 1.35fr;
+    gap: 1.25rem;
+
+    @media (max-width: variables.$bp-md) { grid-template-columns: 1fr; }
+  }
+
+  &__tracker-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+
+    @media (max-width: variables.$bp-md) { grid-template-columns: 1fr; }
+  }
+
+  &__bottom-row {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 1.25rem;
+
+    @media (max-width: variables.$bp-md) { grid-template-columns: 1fr; }
+  }
+}
+
+/* ══════════════════════════════════════════════════════════
+   Shared Card Base
+══════════════════════════════════════════════════════════ */
+%card-base {
+  background: variables.$bg-white;
+  border-radius: variables.$radius-lg;
+  border: 0.0625rem solid variables.$border-color;
+  box-shadow: variables.$shadow-sm;
+  padding: 1.5rem;
+  transition: box-shadow variables.$transition-base;
+
+  &:hover { box-shadow: variables.$shadow-md; }
+}
+
+/* ══════════════════════════════════════════════════════════
+   Hero Card (Avatar + Name + Bio)
+══════════════════════════════════════════════════════════ */
+.profile-hero-card {
+  @extend %card-base;
+  display: flex;
+  align-items: flex-start;
+  gap: 1.375rem;
+
+  @media (max-width: variables.$bp-sm) {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  /* Avatar */
+  &__avatar-wrap {
+    position: relative;
+    flex-shrink: 0;
+    width: 5.5rem;
+    height: 5.5rem;
+  }
+
+  &__avatar {
+    width: 5.5rem;
+    height: 5.5rem;
+    border-radius: variables.$radius-full;
+    object-fit: cover;
+    border: 0.1875rem solid variables.$primary-light;
+    display: block;
+  }
+
+  &__avatar-fallback {
+    width: 5.5rem;
+    height: 5.5rem;
+    border-radius: variables.$radius-full;
+    background: linear-gradient(135deg, variables.$primary, variables.$primary-dark);
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 0.1875rem solid variables.$primary-light;
+  }
+
+  &__avatar-overlay {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: variables.$radius-full;
+    background: variables.$primary;
+    color: #fff;
+    font-size: 0.625rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 0.1875rem solid variables.$bg-white;
+    transition: all variables.$transition-fast;
+
+    &:hover {
+      background: variables.$primary-dark;
+      transform: scale(1.15);
+    }
+  }
+
+  /* Info */
+  &__info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-width: 0;
+  }
+
+  &__name-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  &__name {
+    font-size: 1.375rem;
+    font-weight: 800;
+    color: variables.$text-dark;
+    letter-spacing: -0.015em;
+  }
+
+  &__edit-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.4375rem 1rem;
+    background: variables.$primary-lighter;
+    color: variables.$primary;
+    border: 0.0625rem solid variables.$primary-light;
+    border-radius: variables.$radius-md;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    font-family: variables.$font-family-body;
+    transition: all variables.$transition-fast;
+
+    &:hover {
+      background: variables.$primary;
+      color: #fff;
+      border-color: variables.$primary;
+    }
+  }
+
+  &__meta-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  &__verified-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3125rem;
+    padding: 0.1875rem 0.625rem;
+    background: variables.$primary-lighter;
+    color: variables.$primary;
+    border: 0.0625rem solid variables.$primary-light;
+    border-radius: variables.$radius-full;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  &__joined {
+    font-size: 0.8125rem;
+    color: variables.$text-muted;
+  }
+
+  &__bio {
+    font-size: 0.875rem;
+    color: variables.$text-body;
+    line-height: 1.65;
+    max-width: 36rem;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════
+   Blood Group Card
+══════════════════════════════════════════════════════════ */
+.profile-blood-card {
+  @extend %card-base;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 0.625rem;
+  background: linear-gradient(160deg, variables.$primary-lighter 0%, #fff7f6 100%);
+  border-color: variables.$primary-light;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -2rem;
+    right: -2rem;
+    width: 8rem;
+    height: 8rem;
+    border-radius: variables.$radius-full;
+    background: rgba(variables.$primary, 0.06);
+  }
+
+  &__label {
+    display: flex;
+    align-items: center;
+    gap: 0.3125rem;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    color: variables.$text-muted;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+  }
+
+  &__label-icon {
+    color: variables.$primary;
+  }
+
+  &__group {
+    font-size: 3rem;
+    font-weight: 900;
+    color: variables.$primary;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    animation: bloodPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+  }
+
+  &__eligibility {
+    font-size: 0.8125rem;
+    color: variables.$text-body;
+  }
+
+  &__days {
+    color: variables.$primary;
+    font-weight: 700;
+  }
+
+  &__countdown-bar {
+    width: 100%;
+    height: 0.375rem;
+    background: variables.$primary-light;
+    border-radius: variables.$radius-full;
+    overflow: hidden;
+    margin-top: 0.25rem;
+  }
+
+  &__countdown-fill {
+    height: 100%;
+    background: linear-gradient(90deg, variables.$primary-dark, variables.$primary);
+    border-radius: variables.$radius-full;
+    transition: width 0.8s ease;
+  }
+
+  &__countdown-hint {
+    font-size: 0.6875rem;
+    color: variables.$text-muted;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════
+   Contact Details Card
+══════════════════════════════════════════════════════════ */
+.profile-contact-card {
+  @extend %card-base;
+
+  &__title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: variables.$text-dark;
+    margin-bottom: 1.125rem;
+    padding-bottom: 0.625rem;
+    border-bottom: 0.0625rem solid variables.$border-color;
+  }
+
+  &__fields {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  &__items {
+    display: flex;
+    flex-direction: column;
+    gap: 1.125rem;
+  }
+}
+
+.profile-contact-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.875rem;
+
+  &__icon {
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: variables.$radius-md;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.875rem;
+    flex-shrink: 0;
+    transition: transform variables.$transition-fast;
+
+    &:hover { transform: scale(1.1); }
+
+    &--location {
+      background: variables.$primary-lighter;
+      color: variables.$primary;
+    }
+
+    &--email {
+      background: #ede9fe;
+      color: #7c3aed;
+    }
+
+    &--phone {
+      background: #e0f2f1;
+      color: #00796b;
+    }
+  }
+
+  &__primary {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: variables.$text-muted;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  &__value {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: variables.$text-dark;
+    margin-top: 0.125rem;
+  }
+
+  &__sub {
+    font-size: 0.75rem;
+    color: variables.$text-muted;
+    margin-top: 0.125rem;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════
+   Lifetime Impact Card
+══════════════════════════════════════════════════════════ */
+.profile-impact-card {
+  background: linear-gradient(145deg, variables.$primary 0%, variables.$primary-dark 60%, #7b1e14 100%);
+  border-radius: variables.$radius-lg;
+  padding: 1.5rem;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  box-shadow: variables.$shadow-lg;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    bottom: -3rem;
+    right: -3rem;
+    width: 12rem;
+    height: 12rem;
+    border-radius: variables.$radius-full;
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: -2rem;
+    left: -2rem;
+    width: 7rem;
+    height: 7rem;
+    border-radius: variables.$radius-full;
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  &__icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: variables.$radius-md;
+    background: rgba(255, 255, 255, 0.18);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    animation: heartbeat 1.8s ease-in-out infinite;
+  }
+
+  &__title {
+    font-size: 1.125rem;
+    font-weight: 800;
+    color: #fff;
+  }
+
+  &__subtitle {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: 0.125rem;
+  }
+
+  &__stats {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  &__extra {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+    border-top: 0.0625rem solid rgba(255, 255, 255, 0.15);
+    padding-top: 1rem;
+  }
+}
+
+.profile-impact-stat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+
+  &__value {
+    font-size: 2.25rem;
+    font-weight: 900;
+    color: #fff;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    animation: countUp 0.8s ease backwards;
+  }
+
+  &__label {
+    font-size: 0.625rem;
+    color: rgba(255, 255, 255, 0.65);
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    font-weight: 600;
+  }
+}
+
+.profile-impact-divider {
+  width: 0.0625rem;
+  background: rgba(255, 255, 255, 0.2);
+  align-self: stretch;
+}
+
+.profile-impact-mini {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+
+  &__val {
+    font-size: 1.125rem;
+    font-weight: 800;
+    color: #fff;
+  }
+
+  &__unit {
+    font-size: 0.6875rem;
+    font-weight: 500;
+    opacity: 0.75;
+  }
+
+  &__lbl {
+    font-size: 0.625rem;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════
+   Lifestyle Tracker
+══════════════════════════════════════════════════════════ */
+.profile-lifestyle {
+  @extend %card-base;
+  display: flex;
+  flex-direction: column;
+  gap: 1.125rem;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.625rem;
+  }
+
+  &__title-group {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  &__icon-wrap {
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: variables.$radius-md;
+    background: linear-gradient(135deg, #ff6b35, #f59e0b);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.875rem;
+  }
+
+  &__title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: variables.$text-dark;
+  }
+
+  &__subtitle {
+    font-size: 0.75rem;
+    color: variables.$text-muted;
+    margin-top: 0.0625rem;
+  }
+
+  &__score {
+    font-size: 0.8125rem;
+    color: variables.$text-muted;
+    background: variables.$bg-light;
+    border: 0.0625rem solid variables.$border-color;
+    border-radius: variables.$radius-full;
+    padding: 0.25rem 0.75rem;
+
+    strong {
+      color: variables.$text-dark;
+      font-weight: 800;
+    }
+  }
+
+  &__items {
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3125rem;
+  }
+
+  &__item-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__item-label {
+    display: flex;
+    align-items: center;
+    gap: 0.4375rem;
+  }
+
+  &__item-icon {
+    font-size: 0.875rem;
+  }
+
+  &__item-name {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: variables.$text-body;
+  }
+
+  &__item-value {
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: variables.$text-dark;
+  }
+
+  &__bar-track {
+    height: 0.375rem;
+    background: variables.$border-color;
+    border-radius: variables.$radius-full;
+    overflow: hidden;
+  }
+
+  &__bar-fill {
+    height: 100%;
+    border-radius: variables.$radius-full;
+    transition: width 1s ease;
+  }
+
+  &__item-target {
+    font-size: 0.6875rem;
+    color: variables.$text-muted;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════
+   Achievements
+══════════════════════════════════════════════════════════ */
+.profile-achievements {
+  @extend %card-base;
+  display: flex;
+  flex-direction: column;
+  gap: 1.125rem;
+
+  &__title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: variables.$text-dark;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  &__title-icon {
+    color: #f59e0b;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.875rem;
+
+    @media (max-width: variables.$bp-sm) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  &__item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 1rem 0.625rem;
+    border: 0.0625rem solid variables.$border-color;
+    border-radius: variables.$radius-md;
+    background: linear-gradient(145deg, variables.$bg-light, variables.$bg-white);
+    cursor: default;
+    transition: all variables.$transition-base;
+
+    &:hover {
+      transform: translateY(-0.125rem);
+      box-shadow: variables.$shadow-md;
+    }
+
+    &--locked {
+      opacity: 0.45;
+      filter: grayscale(1);
+
+      &:hover { transform: none; box-shadow: none; }
+    }
+  }
+
+  &__icon {
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: variables.$radius-full;
+    background: linear-gradient(135deg, variables.$primary-lighter, variables.$primary-light);
+    color: variables.$primary;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.125rem;
+  }
+
+  &__label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: variables.$text-dark;
+    text-align: center;
+  }
+
+  &__desc {
+    font-size: 0.625rem;
+    color: variables.$text-muted;
+    text-align: center;
+  }
+
+  &__check {
+    position: absolute;
+    top: 0.375rem;
+    right: 0.375rem;
+    color: #16a34a;
+    font-size: 0.875rem;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════
+   Donation Timeline
+══════════════════════════════════════════════════════════ */
+.profile-timeline {
+  @extend %card-base;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: variables.$text-dark;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  &__title-icon {
+    color: variables.$primary;
+  }
+
+  &__count {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #fff;
+    background: variables.$primary;
+    border-radius: variables.$radius-full;
+    padding: 0.125rem 0.5625rem;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    list-style: none;
+  }
+
+  &__item {
+    display: flex;
+    gap: 0.875rem;
+    position: relative;
+    padding-bottom: 1.25rem;
+
+    &:last-child { padding-bottom: 0; }
+  }
+
+  &__dot {
+    width: 2rem;
+    height: 2rem;
+    border-radius: variables.$radius-full;
+    background: variables.$primary;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.625rem;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  &__line {
+    position: absolute;
+    left: 0.9375rem;
+    top: 2rem;
+    bottom: 0;
+    width: 0.125rem;
+    background: linear-gradient(variables.$primary-light, variables.$border-color);
+    transform: translateX(-50%);
+  }
+
+  &__content {
+    flex: 1;
+    padding-top: 0.25rem;
+  }
+
+  &__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  &__hospital {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: variables.$text-dark;
+  }
+
+  &__badge {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    color: variables.$primary;
+    background: variables.$primary-lighter;
+    border: 0.0625rem solid variables.$primary-light;
+    border-radius: variables.$radius-full;
+    padding: 0.125rem 0.5rem;
+  }
+
+  &__meta {
+    font-size: 0.75rem;
+    color: variables.$text-muted;
+    margin-top: 0.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+
+    svg { color: variables.$primary; font-size: 0.625rem; }
+  }
+
+  &__show-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: variables.$primary;
+    background: transparent;
+    border: none;
+    padding: 0;
+    font-family: variables.$font-family-body;
+    transition: gap variables.$transition-fast;
+
+    &:hover { gap: 0.625rem; }
+  }
+}
+
+/* ══════════════════════════════════════════════════════════
+   Notification Preferences
+══════════════════════════════════════════════════════════ */
+.profile-notif {
+  @extend %card-base;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  &__title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: variables.$text-dark;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  &__title-icon {
+    color: variables.$primary;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    padding: 0.75rem;
+    border: 0.0625rem solid variables.$border-color;
+    border-radius: variables.$radius-md;
+    transition: background variables.$transition-fast;
+
+    &:hover {
+      background: variables.$primary-lighter;
+    }
+  }
+
+  &__pref-icon {
+    width: 2.125rem;
+    height: 2.125rem;
+    border-radius: variables.$radius-md;
+    background: variables.$primary-lighter;
+    color: variables.$primary;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.875rem;
+    flex-shrink: 0;
+  }
+
+  &__text {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: variables.$text-dark;
+  }
+
+  &__desc {
+    font-size: 0.75rem;
+    color: variables.$text-muted;
+    margin-top: 0.0625rem;
+  }
+}
+
+/* Toggle Switch */
+.profile-toggle {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  flex-shrink: 0;
+
+  &__input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+
+    &:checked + .profile-toggle__track {
+      background: variables.$primary;
+
+      .profile-toggle__thumb {
+        transform: translateX(1.375rem);
+        background: #fff;
+        color: variables.$primary;
+      }
+    }
+
+    &:focus-visible + .profile-toggle__track {
+      outline: 0.125rem solid variables.$primary;
+      outline-offset: 0.125rem;
+    }
+  }
+
+  &__track {
+    display: block;
+    width: 3rem;
+    height: 1.625rem;
+    background: variables.$border-color;
+    border-radius: variables.$radius-full;
+    transition: background variables.$transition-base;
+    position: relative;
+  }
+
+  &__thumb {
+    position: absolute;
+    top: 0.1875rem;
+    left: 0.1875rem;
+    width: 1.25rem;
+    height: 1.25rem;
+    border-radius: variables.$radius-full;
+    background: variables.$text-muted;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.5rem;
+    transition: transform variables.$transition-base, background variables.$transition-base;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════
+   Editable Field
+══════════════════════════════════════════════════════════ */
+.profile-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3125rem;
+
+  &__label {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    color: variables.$text-muted;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  &__view-row {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+  }
+
+  &__value {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: variables.$text-dark;
+    flex: 1;
+  }
+
+  &__error {
+    color: variables.$primary-light;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  &__edit-btn {
+    color: variables.$text-muted;
+    background: transparent;
+    border: none;
+    font-size: 0.875rem;
+    transition: color variables.$transition-fast;
+    padding: 0.25rem;
+
+    &:hover { color: variables.$primary; }
+  }
+
+  &__edit-row {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  &__input {
+    flex: 1;
+    padding: 0.4375rem 0.75rem;
+    border: 0.0625rem solid variables.$primary-light;
+    border-radius: variables.$radius-sm;
+    font-size: 0.875rem;
+    font-family: variables.$font-family-body;
+    color: variables.$text-dark;
+    background: variables.$bg-white;
+    outline: none;
+    transition: border-color variables.$transition-fast, box-shadow variables.$transition-fast;
+
+    &:focus {
+      border-color: variables.$primary;
+      box-shadow: 0 0 0 0.1875rem rgba(variables.$primary, 0.1);
+    }
+  }
+
+  &__save-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3125rem;
+    padding: 0.4375rem 0.875rem;
+    background: variables.$primary;
+    color: #fff;
+    border: none;
+    border-radius: variables.$radius-sm;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    font-family: variables.$font-family-body;
+    transition: background variables.$transition-fast;
+    white-space: nowrap;
+
+    &:hover { background: variables.$primary-dark; }
+  }
+
+  &__saved-tag {
+    font-size: 0.75rem;
+    color: #16a34a;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    animation: savedFade 0.3s ease;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════
+   Account Security Card
+══════════════════════════════════════════════════════════ */
+.profile-security-card {
+  @extend %card-base;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+
+  &__left {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.875rem;
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__icon {
+    width: 2.625rem;
+    height: 2.625rem;
+    border-radius: variables.$radius-md;
+    background: variables.$primary-lighter;
+    color: variables.$primary;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  &__title {
+    font-size: 0.9375rem;
+    font-weight: 700;
+    color: variables.$text-dark;
+  }
+
+  &__desc {
+    font-size: 0.8125rem;
+    color: variables.$text-muted;
+    margin-top: 0.125rem;
+  }
+
+  &__actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+
+    @media (max-width: variables.$bp-sm) { width: 100%; }
+  }
+
+  &__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5625rem 1.125rem;
+    border-radius: variables.$radius-md;
+    font-size: 0.875rem;
+    font-weight: 600;
+    font-family: variables.$font-family-body;
+    transition: all variables.$transition-fast;
+    white-space: nowrap;
+
+    @media (max-width: variables.$bp-sm) { flex: 1; justify-content: center; }
+
+    &--outline {
+      background: variables.$bg-white;
+      color: variables.$text-dark;
+      border: 0.0625rem solid variables.$border-color;
+
+      &:hover {
+        background: variables.$bg-light;
+        border-color: variables.$text-muted;
+      }
+    }
+
+    &--danger {
+      background: variables.$primary-lighter;
+      color: variables.$primary;
+      border: 0.0625rem solid variables.$primary-light;
+
+      &:hover {
+        background: variables.$primary;
+        color: #fff;
+        border-color: variables.$primary;
+      }
+    }
+
+    &--primary {
+      background: variables.$primary;
+      color: #fff;
+      border: 0.0625rem solid variables.$primary;
+
+      &:hover {
+        background: variables.$primary-dark;
+        border-color: variables.$primary-dark;
+      }
+    }
+  }
+}
+
+/* ══════════════════════════════════════════════════════════
+   Change Password Modal
+══════════════════════════════════════════════════════════ */
+.profile-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(0.25rem);
+  animation: overlayIn 0.2s ease;
+  padding: 1rem;
+}
+
+.profile-modal {
+  background: variables.$bg-white;
+  border-radius: variables.$radius-xl;
+  padding: 2rem;
+  width: 100%;
+  max-width: 26rem;
+  box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.2);
+  animation: modalSlide 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  &__title {
+    font-size: 1.125rem;
+    font-weight: 800;
+    color: variables.$text-dark;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+
+    svg { color: variables.$primary; }
+  }
+
+  &__hint {
+    font-size: 0.8125rem;
+    color: variables.$text-muted;
+    margin: -0.75rem 0 1rem;
+  }
+
+  &__fields {
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+    margin-bottom: 1.5rem;
+  }
+
+  &__actions {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: flex-end;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════
+   Keyframe Animations
+══════════════════════════════════════════════════════════ */
+@keyframes profileFadeIn {
+  from { opacity: 0; transform: translateY(0.5rem); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes bloodPop {
+  0%   { transform: scale(0.4); opacity: 0; }
+  80%  { transform: scale(1.08); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  15%       { transform: scale(1.18); }
+  30%       { transform: scale(1); }
+  45%       { transform: scale(1.1); }
+  60%       { transform: scale(1); }
+}
+
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(0.75rem); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes savedFade {
+  from { opacity: 0; transform: translateX(-0.375rem); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes overlayIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes modalSlide {
+  from { opacity: 0; transform: translateY(1.5rem) scale(0.95); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}

@@ -1,0 +1,282 @@
+@use "sass:color";
+@use '../../styles/variables';
+
+/* ══════════════════════════════════════════════════════════
+   LOGOUT MODAL — Full-screen overlay
+══════════════════════════════════════════════════════════ */
+
+/* ── Overlay ─────────────────────────────────────────────── */
+.logout-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  /* Same blush background as the screenshot */
+  background: #fdf3f2;
+
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  align-items: start;
+  overflow-y: auto;
+
+  animation: lo-fade-in 0.28s ease both;
+  font-family: variables.$font-family-body;
+}
+
+@keyframes lo-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ── Top Brand Bar ───────────────────────────────────────── */
+.logout-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem 2rem;
+  border-bottom: 0.0625rem solid rgba(variables.$primary, 0.12);
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(0.5rem);
+
+  &__brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: variables.$primary;
+    text-decoration: none;
+    letter-spacing: -0.02em;
+    font-family: variables.$font-family-body;
+
+    strong { font-weight: 900; }
+
+    &:hover { opacity: 0.82; }
+  }
+
+  &__logo-icon {
+    font-size: 1.125rem;
+    color: variables.$primary;
+  }
+}
+
+/* ── Card ────────────────────────────────────────────────── */
+.logout-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0;
+
+  /* Centre vertically in the flex row */
+  margin: auto;
+  padding: 2.5rem 2.25rem 2rem;
+  width: min(26rem, calc(100vw - 2rem));
+
+  background: variables.$bg-white;
+  border-radius: variables.$radius-xl;
+  box-shadow:
+    0 1.25rem 3rem rgba(variables.$primary, 0.1),
+    0 0.25rem 0.75rem rgba(0, 0, 0, 0.06);
+  border: 0.0625rem solid rgba(variables.$primary, 0.1);
+
+  animation: lo-card-up 0.38s cubic-bezier(0.34, 1.56, 0.64, 1) 0.05s both;
+
+  /* Each child gets consistent vertical spacing */
+  & > * + * { margin-top: 1rem; }
+
+  /* ── Icon Wrap ── */
+  &__icon-wrap {
+    position: relative;
+    width: 4.5rem;
+    height: 4.5rem;
+    border-radius: variables.$radius-full;
+    background: linear-gradient(135deg, variables.$primary-light 0%, rgba(variables.$primary, 0.18) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 0.125rem solid rgba(variables.$primary, 0.18);
+    margin-bottom: 0.25rem;
+    flex-shrink: 0;
+    animation: lo-icon-pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s both;
+  }
+
+  &__icon {
+    font-size: 1.625rem;
+    color: variables.$primary;
+  }
+
+  &__icon-drop {
+    position: absolute;
+    top: -0.3125rem;
+    right: -0.1875rem;
+    font-size: 0.875rem;
+    color: variables.$primary-dark;
+    background: variables.$bg-white;
+    border-radius: variables.$radius-full;
+    width: 1.375rem;
+    height: 1.375rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 0.125rem solid rgba(variables.$primary, 0.2);
+    box-shadow: 0 0.125rem 0.5rem rgba(variables.$primary, 0.2);
+  }
+
+  /* ── Text ── */
+  &__title {
+    font-size: 1.625rem;
+    font-weight: 900;
+    color: variables.$text-dark;
+    line-height: 1.25;
+    letter-spacing: -0.03em;
+    margin: 0;
+  }
+
+  &__desc {
+    font-size: 0.9rem;
+    color: variables.$text-muted;
+    line-height: 1.65;
+    max-width: 20rem;
+    margin: 0;
+  }
+
+  /* ── Action Buttons ── */
+  &__actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    width: 100%;
+    margin-top: 1.375rem;
+  }
+
+  /* ── Divider ── */
+  &__divider {
+    width: 100%;
+    height: 0.0625rem;
+    background: variables.$border-color;
+    margin: 0.25rem 0;
+  }
+
+  /* ── Quote ── */
+  &__quote {
+    font-size: 0.8125rem;
+    font-style: italic;
+    color: variables.$text-muted;
+    margin: 0;
+    padding-top: 0.125rem;
+  }
+}
+
+@keyframes lo-card-up {
+  from { opacity: 0; transform: translateY(1.5rem) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes lo-icon-pop {
+  from { opacity: 0; transform: scale(0.5) rotate(-15deg); }
+  to   { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+
+/* ── Buttons ─────────────────────────────────────────────── */
+.logout-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5625rem;
+  width: 100%;
+  padding: 0.9375rem 1.5rem;
+  border-radius: variables.$radius-lg;
+  font-family: variables.$font-family-body;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  transition:
+    background variables.$transition-fast,
+    box-shadow variables.$transition-fast,
+    transform variables.$transition-fast;
+  letter-spacing: -0.01em;
+
+  svg { font-size: 0.9375rem; }
+
+  /* ── Log Out (primary — dark red) ── */
+  &--confirm {
+    background: linear-gradient(135deg, variables.$primary-dark 0%, variables.$primary 100%);
+    color: #fff;
+    box-shadow: 0 0.375rem 1.25rem rgba(variables.$primary, 0.38);
+
+    &:hover {
+      box-shadow: 0 0.625rem 1.75rem rgba(variables.$primary, 0.48);
+      transform: translateY(-0.0625rem);
+    }
+
+    &:active {
+      transform: translateY(0.0625rem);
+      box-shadow: 0 0.25rem 0.75rem rgba(variables.$primary, 0.3);
+    }
+  }
+
+  /* ── Stay Logged In (soft blush) ── */
+  &--stay {
+    background: variables.$primary-light;
+    color: variables.$primary-dark;
+    border: 0.0625rem solid rgba(variables.$primary, 0.22);
+
+    &:hover {
+      background: color.adjust(#fadbd8, $lightness: -5%);
+      border-color: rgba(variables.$primary, 0.4);
+      transform: translateY(-0.0625rem);
+    }
+
+    &:active { transform: translateY(0.0625rem); }
+  }
+}
+
+/* ── Footer ──────────────────────────────────────────────── */
+.logout-footer {
+  padding: 1.25rem 2rem;
+  border-top: 0.0625rem solid rgba(variables.$primary, 0.1);
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(0.5rem);
+  text-align: center;
+
+  &__links {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.25rem 1.25rem;
+    margin-bottom: 0.625rem;
+  }
+
+  &__link {
+    font-size: 0.8125rem;
+    color: variables.$text-muted;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color variables.$transition-fast;
+
+    &:hover { color: variables.$primary; }
+  }
+
+  &__copy {
+    font-size: 0.75rem;
+    color: variables.$text-muted;
+    margin: 0;
+    opacity: 0.7;
+  }
+}
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: variables.$bp-sm) {
+  .logout-card {
+    padding: 2rem 1.5rem 1.75rem;
+
+    &__title { font-size: 1.375rem; }
+  }
+
+  .logout-footer__links {
+    gap: 0.25rem 0.875rem;
+  }
+}

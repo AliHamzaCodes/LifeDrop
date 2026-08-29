@@ -1,0 +1,172 @@
+@use '../../styles/variables';
+
+.not-found {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: variables.$bg-light;
+  padding: variables.$spacing-8 variables.$spacing-4;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 20% 20%, rgba(variables.$primary, 0.05) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(variables.$primary, 0.04) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  &__content {
+    position: relative;
+    z-index: 1;
+    max-width: 560px;
+    animation: nfFadeIn 0.5s ease;
+  }
+
+  /* Big decorative 404 */
+  &__number {
+    font-size: clamp(6rem, 20vw, 10rem);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.06em;
+    background: linear-gradient(135deg, variables.$primary-light 0%, rgba(variables.$primary, 0.6) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    user-select: none;
+    margin-bottom: variables.$spacing-4;
+    position: relative;
+
+    /* Blood drop inside the zero */
+    &::after {
+      content: '🩸';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: clamp(2rem, 6vw, 3.5rem);
+      -webkit-text-fill-color: initial;
+      animation: drip 3s ease-in-out infinite;
+    }
+  }
+
+  &__icon {
+    font-size: 3rem;
+    margin-bottom: variables.$spacing-4;
+    display: block;
+    animation: floatIcon 3s ease-in-out infinite;
+  }
+
+  &__title {
+    font-size: variables.$font-size-2xl;
+    font-weight: 800;
+    color: variables.$text-dark;
+    letter-spacing: -0.03em;
+    margin-bottom: variables.$spacing-3;
+  }
+
+  &__desc {
+    font-size: variables.$font-size-base;
+    color: variables.$text-muted;
+    line-height: 1.65;
+    margin-bottom: variables.$spacing-8;
+  }
+
+  &__actions {
+    display: flex;
+    gap: variables.$spacing-4;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  &__btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: variables.$spacing-2;
+    background: variables.$primary-dark;
+    color: variables.$text-dark;
+    font-size: variables.$font-size-sm;
+    font-weight: 600;
+    padding: variables.$spacing-3 variables.$spacing-6;
+    border-radius: variables.$radius-full;
+    border: 2px solid variables.$primary-dark;
+    text-decoration: none;
+    transition: all variables.$transition-base;
+    box-shadow: 0 4px 16px rgba(variables.$primary, 0.35);
+
+    &:hover {
+      background: variables.$primary;
+      border-color: variables.$primary;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(variables.$primary, 0.45);
+    }
+  }
+
+  &__btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: variables.$spacing-2;
+    background: transparent;
+    color: variables.$text-dark;
+    font-size: variables.$font-size-sm;
+    font-weight: 600;
+    padding: variables.$spacing-3 variables.$spacing-6;
+    border-radius: variables.$radius-full;
+    border: 2px solid variables.$border-color;
+    text-decoration: none;
+    transition: all variables.$transition-base;
+
+    &:hover {
+      border-color: variables.$primary;
+      color: variables.$primary;
+      transform: translateY(-2px);
+    }
+  }
+
+  /* Helpful links */
+  &__links {
+    margin-top: variables.$spacing-10;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: variables.$spacing-2;
+  }
+
+  &__link {
+    font-size: variables.$font-size-xs;
+    color: variables.$text-muted;
+    text-decoration: none;
+    padding: variables.$spacing-1 variables.$spacing-3;
+    border-radius: variables.$radius-full;
+    border: 1px solid variables.$border-color;
+    transition: all variables.$transition-fast;
+
+    &:hover {
+      border-color: variables.$primary;
+      color: variables.$primary;
+      background: variables.$primary-lighter;
+    }
+  }
+}
+
+@keyframes nfFadeIn {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+@keyframes floatIcon {
+  0%, 100% { transform: translateY(0);   }
+  50%       { transform: translateY(-8px); }
+}
+
+@keyframes drip {
+  0%, 100% { transform: translate(-50%, -50%) scale(1);    opacity: 0.8; }
+  50%       { transform: translate(-50%, -40%) scale(1.1); opacity: 1;   }
+}
+
+

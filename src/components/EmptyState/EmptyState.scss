@@ -1,0 +1,48 @@
+@use '../../styles/variables';
+
+.empty-state {
+  text-align: center;
+  padding: variables.$spacing-12 variables.$spacing-6;
+  background: variables.$bg-white;
+  border: 1px solid variables.$border-color;
+  border-radius: variables.$radius-lg;
+
+  &__icon {
+    font-size: 2.5rem;
+    margin-bottom: variables.$spacing-4;
+    color: variables.$primary;
+  }
+
+  &__title {
+    font-size: variables.$font-size-xl;
+    font-weight: 700;
+    color: variables.$text-dark;
+    margin-bottom: variables.$spacing-2;
+  }
+
+  &__message {
+    color: variables.$text-body;
+    max-width: 28rem;
+    margin: 0 auto variables.$spacing-6;
+  }
+
+  &__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: variables.$primary;
+    color: variables.$text-dark;
+    font-weight: 600;
+    padding: variables.$spacing-3 variables.$spacing-6;
+    border-radius: variables.$radius-full;
+    border: none;
+    font-family: variables.$font-family-body;
+    transition: background variables.$transition-base;
+
+    &:hover {
+      background: variables.$primary-dark;
+    }
+  }
+}
+
+

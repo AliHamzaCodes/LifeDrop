@@ -1,0 +1,814 @@
+@use "sass:color";
+@use '../../styles/variables';
+
+/* ══════════════════════════════════════════════════
+   Admin Panel — Base Layout
+══════════════════════════════════════════════════ */
+.admin-panel {
+  padding: 2rem 2.25rem;
+  background: variables.$bg-light;
+  min-height: 100%;
+  animation: adminFadeIn 0.35s ease;
+
+  @media (max-width: variables.$bp-md) {
+    padding: 1.25rem 1rem;
+  }
+
+  /* ── Header ─────────────────────────────────── */
+  &__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.75rem;
+  }
+
+  &__header-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  &__title-row {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+  }
+
+  &__shield-icon {
+    color: variables.$primary;
+    font-size: 1.375rem;
+  }
+
+  &__title {
+    font-size: 1.625rem;
+    font-weight: 800;
+    color: variables.$text-dark;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+
+    @media (max-width: variables.$bp-sm) {
+      font-size: 1.25rem;
+    }
+  }
+
+  &__subtitle {
+    font-size: 0.875rem;
+    color: variables.$text-muted;
+    margin-left: calc(1.375rem + 0.625rem); // align below shield icon
+  }
+
+  &__notif-btn {
+    position: relative;
+    width: 2.625rem;
+    height: 2.625rem;
+    border-radius: variables.$radius-md;
+    background: variables.$bg-white;
+    border: 0.0625rem solid variables.$border-color;
+    color: variables.$text-body;
+    font-size: 1.0625rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all variables.$transition-base;
+    box-shadow: variables.$shadow-sm;
+
+    &:hover {
+      background: variables.$primary-lighter;
+      color: variables.$primary;
+      border-color: variables.$primary-light;
+      transform: translateY(-0.0625rem);
+    }
+  }
+
+  &__notif-badge {
+    position: absolute;
+    top: -0.375rem;
+    right: -0.375rem;
+    width: 1.125rem;
+    height: 1.125rem;
+    border-radius: variables.$radius-full;
+    background: variables.$primary;
+    color: #fff;
+    font-size: 0.625rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 0.125rem solid variables.$bg-light;
+    animation: pulseDot 2s infinite;
+  }
+
+  /* ── Tabs ────────────────────────────────────── */
+  &__tabs-wrap {
+    margin-bottom: 1.25rem;
+  }
+}
+
+/* ══════════════════════════════════════════════════
+   Stats Cards
+══════════════════════════════════════════════════ */
+.admin-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.125rem;
+  margin-bottom: 2rem;
+
+  @media (max-width: variables.$bp-md) {
+    grid-template-columns: 1fr;
+    gap: 0.875rem;
+  }
+
+  @media (min-width: variables.$bp-sm) and (max-width: variables.$bp-md) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  &__card {
+    background: variables.$bg-white;
+    border-radius: variables.$radius-lg;
+    border: 0.0625rem solid variables.$border-color;
+    padding: 1.375rem 1.5rem;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    box-shadow: variables.$shadow-sm;
+    transition: all variables.$transition-base;
+    animation: slideUpCard 0.4s ease backwards;
+
+    &:nth-child(1) { animation-delay: 0.05s; }
+    &:nth-child(2) { animation-delay: 0.1s; }
+    &:nth-child(3) { animation-delay: 0.15s; }
+
+    &:hover {
+      box-shadow: variables.$shadow-md;
+      transform: translateY(-0.125rem);
+    }
+  }
+
+  &__card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  &__label {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: variables.$text-muted;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  &__value-row {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  &__value {
+    font-size: 2rem;
+    font-weight: 800;
+    color: variables.$text-dark;
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+
+  &__unit {
+    font-size: 0.75rem;
+    color: variables.$text-muted;
+    font-weight: 500;
+  }
+
+  &__trend {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #16a34a;
+    background: #dcfce7;
+    padding: 0.1875rem 0.5rem;
+    border-radius: variables.$radius-full;
+
+    svg {
+      font-size: 0.625rem;
+    }
+  }
+
+  &__icon-wrap {
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: variables.$radius-md;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.125rem;
+    flex-shrink: 0;
+    transition: transform variables.$transition-base;
+
+    .admin-stats__card:hover & {
+      transform: scale(1.1) rotate(5deg);
+    }
+
+    &--red {
+      background: variables.$primary-lighter;
+      color: variables.$primary;
+    }
+
+    &--teal {
+      background: #e0f2f1;
+      color: #00796b;
+    }
+
+    &--indigo {
+      background: #ede9fe;
+      color: #7c3aed;
+    }
+  }
+}
+
+/* ══════════════════════════════════════════════════
+   Tabs
+══════════════════════════════════════════════════ */
+.admin-tabs {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  border-bottom: 0.125rem solid variables.$border-color;
+  margin-bottom: 1.5rem;
+
+  &__tab {
+    position: relative;
+    padding: 0.6875rem 1.375rem;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: variables.$text-muted;
+    background: transparent;
+    border-bottom: 0.1875rem solid transparent;
+    margin-bottom: -0.125rem;
+    transition: all variables.$transition-fast;
+    border-radius: variables.$radius-sm variables.$radius-sm 0 0;
+
+    &:hover {
+      color: variables.$primary;
+      background: variables.$primary-lighter;
+    }
+
+    &--active {
+      color: variables.$primary;
+      font-weight: 700;
+      border-bottom-color: variables.$primary;
+    }
+  }
+}
+
+/* ══════════════════════════════════════════════════
+   Table Section
+══════════════════════════════════════════════════ */
+.admin-table-section {
+  background: variables.$bg-white;
+  border-radius: variables.$radius-lg;
+  border: 0.0625rem solid variables.$border-color;
+  box-shadow: variables.$shadow-sm;
+  overflow: hidden;
+  animation: adminFadeIn 0.3s ease;
+}
+
+/* ── Toolbar ─────────────────────────────────── */
+.admin-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 1.125rem 1.375rem;
+  border-bottom: 0.0625rem solid variables.$border-color;
+
+  @media (max-width: variables.$bp-sm) {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+.admin-search-wrap {
+  position: relative;
+  flex: 1;
+  max-width: 22rem;
+
+  @media (max-width: variables.$bp-sm) {
+    max-width: 100%;
+  }
+
+  &__icon {
+    position: absolute;
+    left: 0.875rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: variables.$text-muted;
+    font-size: 0.8125rem;
+    pointer-events: none;
+  }
+
+  &__input {
+    width: 100%;
+    padding: 0.5625rem 0.875rem 0.5625rem 2.375rem;
+    border: 0.0625rem solid variables.$border-color;
+    border-radius: variables.$radius-md;
+    font-size: 0.875rem;
+    color: variables.$text-body;
+    background: variables.$bg-light;
+    font-family: variables.$font-family-body;
+    transition: all variables.$transition-fast;
+    outline: none;
+
+    &::placeholder {
+      color: variables.$text-muted;
+    }
+
+    &:focus {
+      border-color: variables.$primary-light;
+      background: variables.$bg-white;
+      box-shadow: 0 0 0 0.1875rem rgba(variables.$primary, 0.08);
+    }
+  }
+}
+
+.admin-filter-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4375rem;
+  padding: 0.5625rem 1.0625rem;
+  border: 0.0625rem solid variables.$border-color;
+  border-radius: variables.$radius-md;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: variables.$text-body;
+  background: variables.$bg-white;
+  font-family: variables.$font-family-body;
+  transition: all variables.$transition-fast;
+
+  &:hover {
+    background: variables.$primary-lighter;
+    color: variables.$primary;
+    border-color: variables.$primary-light;
+  }
+
+  select {
+    border: none;
+    background: transparent;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+  }
+}
+
+/* ── Table Wrapper ───────────────────────────── */
+.admin-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+
+  thead {
+    background: #fafafa;
+    border-bottom: 0.0625rem solid variables.$border-color;
+
+    th {
+      padding: 0.8125rem 1.125rem;
+      text-align: left;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: variables.$text-muted;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+  }
+
+  tbody tr {
+    border-bottom: 0.0625rem solid color.adjust(variables.$border-color, $lightness: -2%);
+    transition: background variables.$transition-fast;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &:hover {
+      background: variables.$primary-lighter;
+    }
+  }
+
+  td {
+    padding: 0.9375rem 1.125rem;
+    vertical-align: middle;
+    color: variables.$text-body;
+  }
+
+  &__id {
+    font-weight: 700;
+    color: variables.$text-dark;
+    font-size: 0.8125rem;
+    white-space: nowrap;
+    font-family: 'Courier New', monospace;
+  }
+
+  &__primary {
+    font-weight: 600;
+    color: variables.$text-dark;
+    font-size: 0.875rem;
+  }
+
+  &__secondary {
+    font-size: 0.75rem;
+    color: variables.$text-muted;
+    margin-top: 0.125rem;
+  }
+
+  &__units {
+    font-weight: 600;
+    color: variables.$text-dark;
+    white-space: nowrap;
+  }
+
+  &__date {
+    font-size: 0.8125rem;
+    color: variables.$text-muted;
+    white-space: nowrap;
+  }
+
+  &__empty {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: variables.$text-muted;
+    font-style: italic;
+  }
+
+  // Row state highlights
+  &__row {
+    &--approved td:first-child {
+      border-left: 0.1875rem solid #16a34a;
+    }
+
+    &--rejected td:first-child {
+      border-left: 0.1875rem solid variables.$primary;
+    }
+
+    &--pending td:first-child {
+      border-left: 0.1875rem solid #f59e0b;
+    }
+  }
+}
+
+/* ── Table Footer ────────────────────────────── */
+.admin-table-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.9375rem 1.375rem;
+  border-top: 0.0625rem solid variables.$border-color;
+  background: #fafafa;
+
+  @media (max-width: variables.$bp-sm) {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  &__info {
+    font-size: 0.8125rem;
+    color: variables.$text-muted;
+  }
+}
+
+/* ══════════════════════════════════════════════════
+   Badges & Chips
+══════════════════════════════════════════════════ */
+
+/* Blood Group Badge */
+.admin-blood-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.5rem;
+  height: 2.25rem;
+  padding: 0 0.625rem;
+  border: 0.125rem solid variables.$primary-light;
+  border-radius: variables.$radius-sm;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: variables.$primary;
+  background: variables.$primary-lighter;
+  letter-spacing: 0.02em;
+}
+
+/* Urgency Badge */
+.admin-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3125rem;
+  padding: 0.25rem 0.6875rem;
+  border-radius: variables.$radius-full;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+
+  &__icon {
+    font-size: 0.625rem;
+  }
+
+  &--critical {
+    background: #fee2e2;
+    color: #991b1b;
+  }
+
+  &--high {
+    background: #fef3c7;
+    color: #92400e;
+  }
+
+  &--standard {
+    background: #e0f2fe;
+    color: #075985;
+  }
+}
+
+/* Status Pill */
+.admin-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: variables.$radius-full;
+  font-size: 0.75rem;
+  font-weight: 600;
+
+  &--pending {
+    background: #fef3c7;
+    color: #92400e;
+  }
+
+  &--approved {
+    background: #dcfce7;
+    color: #166534;
+  }
+
+  &--rejected {
+    background: #fee2e2;
+    color: #991b1b;
+  }
+}
+
+/* Role Pill */
+.admin-role {
+  display: inline-block;
+  padding: 0.1875rem 0.625rem;
+  border-radius: variables.$radius-full;
+  font-size: 0.75rem;
+  font-weight: 600;
+
+  &--donor {
+    background: variables.$primary-lighter;
+    color: variables.$primary;
+  }
+
+  &--recipient {
+    background: #ede9fe;
+    color: #7c3aed;
+  }
+
+  &--admin {
+    background: #fef3c7;
+    color: #92400e;
+  }
+}
+
+/* ══════════════════════════════════════════════════
+   Action Buttons
+══════════════════════════════════════════════════ */
+.admin-actions {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.375rem;
+  min-width: 5.25rem;
+}
+
+.admin-actions__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.875rem;
+  border-radius: variables.$radius-sm;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  font-family: variables.$font-family-body;
+  transition: all variables.$transition-fast;
+  white-space: nowrap;
+
+  &--approve {
+    background: variables.$primary;
+    color: #fff;
+    border: 0.0625rem solid variables.$primary;
+
+    &:hover {
+      background: variables.$primary-dark;
+      border-color: variables.$primary-dark;
+      transform: translateY(-0.0625rem);
+      box-shadow: 0 0.25rem 0.75rem rgba(variables.$primary, 0.35);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+
+  &--reject {
+    background: variables.$bg-white;
+    color: variables.$text-body;
+    border: 0.0625rem solid variables.$border-color;
+
+    &:hover {
+      background: #fee2e2;
+      color: #991b1b;
+      border-color: #fca5a5;
+    }
+  }
+
+  &--more {
+    width: 2.125rem;
+    height: 2.125rem;
+    padding: 0;
+    border-radius: variables.$radius-md;
+    background: variables.$bg-light;
+    color: variables.$text-muted;
+    border: 0.0625rem solid variables.$border-color;
+
+    &:hover {
+      background: variables.$primary-lighter;
+      color: variables.$primary;
+    }
+  }
+
+  &--delete {
+    width: 2.125rem;
+    height: 2.125rem;
+    padding: 0;
+    border-radius: variables.$radius-md;
+    background: #fff1f1;
+    color: #b91c1c;
+    border: 0.0625rem solid #fca5a5;
+    flex-shrink: 0;
+
+    &:hover:not(:disabled) {
+      background: #fee2e2;
+      color: #991b1b;
+      border-color: #f87171;
+      transform: scale(1.08);
+    }
+
+    &:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+  }
+}
+
+/* ══════════════════════════════════════════════════
+   Pagination
+══════════════════════════════════════════════════ */
+.admin-pagination {
+  display: flex;
+  align-items: center;
+  gap: 0.3125rem;
+
+  &__btn {
+    width: 2rem;
+    height: 2rem;
+    border-radius: variables.$radius-sm;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    border: 0.0625rem solid variables.$border-color;
+    background: variables.$bg-white;
+    color: variables.$text-body;
+    font-family: variables.$font-family-body;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all variables.$transition-fast;
+
+    &:hover:not(:disabled) {
+      background: variables.$primary-lighter;
+      color: variables.$primary;
+      border-color: variables.$primary-light;
+    }
+
+    &:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    &--active {
+      background: variables.$primary;
+      color: #fff;
+      border-color: variables.$primary;
+      font-weight: 700;
+
+      &:hover {
+        background: variables.$primary-dark;
+        border-color: variables.$primary-dark;
+      }
+    }
+  }
+}
+
+/* ══════════════════════════════════════════════════
+   Animations
+══════════════════════════════════════════════════ */
+@keyframes adminFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUpCard {
+  from {
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulseDot {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(variables.$primary, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 0.25rem rgba(variables.$primary, 0);
+  }
+}
+
+/* ══════════════════════════════════════════════════
+   Access Denied Screen
+══════════════════════════════════════════════════ */
+.admin-access-denied {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  text-align: center;
+  min-height: 60vh;
+  animation: adminFadeIn 0.4s ease;
+
+  &__icon {
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50%;
+    background: #fee2e2;
+    color: variables.$primary;
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 16px rgba(variables.$primary, 0.2);
+  }
+
+  &__title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: variables.$text-dark;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.02em;
+  }
+
+  &__desc {
+    font-size: 0.9375rem;
+    color: variables.$text-muted;
+    max-width: 28rem;
+    line-height: 1.7;
+
+    strong {
+      color: variables.$primary;
+      font-weight: 700;
+    }
+  }
+}

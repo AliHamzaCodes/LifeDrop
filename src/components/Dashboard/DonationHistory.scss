@@ -1,0 +1,250 @@
+@use '../../styles/variables';
+
+// ─── Section wrapper ─────────────────────────────────────────────────────────
+.donation-history {
+  animation: dashboard-rise 0.4s ease both;
+}
+
+// ─── Card ────────────────────────────────────────────────────────────────────
+.dh-card {
+  background: variables.$bg-white;
+  border-radius: variables.$radius-xl;
+  border: 1px solid variables.$border-color;
+  box-shadow: variables.$shadow-sm;
+  overflow: hidden;
+}
+
+.dh-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: variables.$spacing-4;
+  padding: variables.$spacing-5 variables.$spacing-6;
+  border-bottom: 1px solid variables.$border-color;
+  background: variables.$bg-white;
+}
+
+.dh-card__title {
+  font-size: variables.$font-size-lg;
+  font-weight: 700;
+  color: variables.$text-dark;
+  letter-spacing: -0.2px;
+}
+
+// ─── Export Button ───────────────────────────────────────────────────────────
+.dh-card__export-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: variables.$spacing-2;
+  padding: 8px variables.$spacing-4;
+  border-radius: variables.$radius-md;
+  border: 1px solid variables.$border-color;
+  background: variables.$bg-white;
+  color: variables.$text-dark;
+  font-size: variables.$font-size-sm;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background variables.$transition-fast, border-color variables.$transition-fast,
+    box-shadow variables.$transition-fast, transform variables.$transition-fast;
+
+  svg {
+    font-size: 13px;
+    color: variables.$text-muted;
+    transition: color variables.$transition-fast;
+  }
+
+  &:hover {
+    background: variables.$primary-lighter;
+    border-color: rgba(192, 57, 43, 0.3);
+    color: variables.$primary-dark;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(192, 57, 43, 0.1);
+
+    svg {
+      color: variables.$primary;
+    }
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: none;
+  }
+}
+
+// ─── Table Wrapper (horizontal scroll, visible scrollbar) ────────────────────
+.dh-table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+
+  &:focus-visible {
+    outline: 3px solid rgba(variables.$primary, 0.45);
+    outline-offset: 2px;
+  }
+
+  @media (max-width: variables.$bp-md) {
+    display: none;
+  }
+}
+
+.dh-cards {
+  display: none;
+  padding: variables.$spacing-4 variables.$spacing-5;
+  gap: variables.$spacing-3;
+
+  @media (max-width: variables.$bp-md) {
+    display: grid;
+  }
+}
+
+.dh-card-item {
+  border: 1px solid variables.$border-color;
+  border-radius: variables.$radius-md;
+  padding: variables.$spacing-3 variables.$spacing-4;
+  font-size: variables.$font-size-sm;
+  color: variables.$text-body;
+}
+
+.dh-table__empty {
+  padding: variables.$spacing-8 variables.$spacing-6;
+  text-align: center;
+  color: variables.$text-muted;
+}
+
+// ─── Table ───────────────────────────────────────────────────────────────────
+.dh-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: variables.$font-size-sm;
+}
+
+// ─── Table Head ──────────────────────────────────────────────────────────────
+.dh-table__th {
+  padding: 10px variables.$spacing-6;
+  text-align: left;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.7px;
+  text-transform: uppercase;
+  color: variables.$text-muted;
+  background: variables.$primary-lighter;
+  border-bottom: 1px solid variables.$border-color;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.dh-table__th--sortable {
+  cursor: pointer;
+
+  &:hover {
+    color: variables.$primary-dark;
+    background: variables.$primary-light;
+  }
+}
+
+.dh-table__th--sorted {
+  color: variables.$primary-dark;
+}
+
+.dh-table__sort-icon {
+  margin-left: 6px;
+  font-size: 10px;
+  vertical-align: middle;
+}
+
+.dh-table__sort-icon--idle {
+  color: variables.$border-color;
+}
+
+.dh-table__sort-icon--active {
+  color: variables.$primary;
+}
+
+// ─── Table Rows ──────────────────────────────────────────────────────────────
+.dh-table__row {
+  border-bottom: 1px solid variables.$border-color;
+  animation: dashboard-rise 0.35s ease both;
+  transition: background variables.$transition-fast;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:hover {
+    background: variables.$primary-lighter;
+  }
+}
+
+.dh-table__td {
+  padding: variables.$spacing-4 variables.$spacing-6;
+  color: variables.$text-body;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.dh-table__td--date {
+  color: variables.$text-dark;
+  font-weight: 500;
+}
+
+// ─── Status Badge ────────────────────────────────────────────────────────────
+.dh-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 12px;
+  border-radius: variables.$radius-full;
+  font-size: variables.$font-size-xs;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.dh-badge--completed {
+  background: rgba(39, 174, 96, 0.1);
+  color: #1a7a3e;
+  border: 1px solid rgba(39, 174, 96, 0.25);
+
+  svg {
+    font-size: 11px;
+    color: #27ae60;
+  }
+}
+
+.dh-badge--pending {
+  background: rgba(243, 156, 18, 0.1);
+  color: #a0700e;
+  border: 1px solid rgba(243, 156, 18, 0.25);
+}
+
+.dh-badge--cancelled {
+  background: rgba(192, 57, 43, 0.08);
+  color: variables.$primary-dark;
+  border: 1px solid rgba(192, 57, 43, 0.2);
+}
+
+// ─── Footer ──────────────────────────────────────────────────────────────────
+.dh-card__footer {
+  padding: variables.$spacing-3 variables.$spacing-6;
+  font-size: variables.$font-size-xs;
+  color: variables.$text-muted;
+  border-top: 1px solid variables.$border-color;
+  background: variables.$primary-lighter;
+
+  strong {
+    color: variables.$text-dark;
+    font-weight: 600;
+  }
+}
+
+// ─── Responsive ──────────────────────────────────────────────────────────────
+@media (max-width: variables.$bp-md) {
+  .dh-card__header {
+    padding: variables.$spacing-4;
+    flex-wrap: wrap;
+  }
+
+  .dh-table__th,
+  .dh-table__td {
+    padding: variables.$spacing-3 variables.$spacing-4;
+  }
+}

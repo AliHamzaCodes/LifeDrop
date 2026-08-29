@@ -1,0 +1,344 @@
+@use '../../styles/variables';
+
+// ─── Section ─────────────────────────────────────────────────────────────────
+.active-requests {
+  display: flex;
+  flex-direction: column;
+  gap: variables.$spacing-5;
+  animation: dashboard-rise 0.4s ease both;
+}
+
+// ─── Header Row ───────────────────────────────────────────────────────────────
+.ar-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: variables.$spacing-4;
+  flex-wrap: wrap;
+}
+
+.ar-header__title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: variables.$text-dark;
+  letter-spacing: -0.4px;
+}
+
+.ar-header__subtitle {
+  font-size: variables.$font-size-sm;
+  color: variables.$text-muted;
+  margin-top: 4px;
+}
+
+// ─── Filter Tabs ──────────────────────────────────────────────────────────────
+.ar-filters {
+  display: flex;
+  align-items: center;
+  gap: variables.$spacing-1;
+  background: variables.$bg-white;
+  border: 1px solid variables.$border-color;
+  border-radius: variables.$radius-md;
+  padding: 4px;
+  box-shadow: variables.$shadow-sm;
+  flex-shrink: 0;
+}
+
+.ar-filters__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: variables.$font-size-sm;
+  font-weight: 500;
+  color: variables.$text-muted;
+  background: transparent;
+  border: none;
+  outline: none;
+  transition: background variables.$transition-fast, color variables.$transition-fast, box-shadow variables.$transition-fast;
+  cursor: pointer;
+  white-space: nowrap;
+
+  &:hover:not(.ar-filters__btn--active) {
+    background: variables.$primary-lighter;
+    color: variables.$primary;
+  }
+}
+
+.ar-filters__btn--active {
+  background: variables.$primary;
+  color: #fff;
+  font-weight: 600;
+  box-shadow: 0 2px 6px rgba(variables.$primary, 0.25);
+}
+
+// Count pill inside filter button
+.ar-filters__count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: variables.$radius-full;
+  font-size: 0.65rem;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.18);
+  color: inherit;
+
+  .ar-filters__btn:not(.ar-filters__btn--active) & {
+    background: variables.$primary-lighter;
+    color: variables.$primary-dark;
+  }
+}
+
+// ─── Request List ─────────────────────────────────────────────────────────────
+.ar-list {
+  display: flex;
+  flex-direction: column;
+  gap: variables.$spacing-3;
+}
+
+// ─── Request Card ─────────────────────────────────────────────────────────────
+.ar-card {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: variables.$spacing-5;
+  padding: variables.$spacing-5 variables.$spacing-6;
+  background: variables.$bg-white;
+  border: 1px solid variables.$border-color;
+  border-radius: variables.$radius-xl;
+  box-shadow: variables.$shadow-sm;
+  animation: dashboard-rise 0.35s ease both;
+  transition: border-color variables.$transition-fast, box-shadow variables.$transition-fast, transform variables.$transition-fast;
+
+  &:hover {
+    border-color: rgba(192, 57, 43, 0.2);
+    box-shadow: variables.$shadow-md;
+    transform: translateY(-1px);
+  }
+}
+
+// ─── Blood Type Badge ─────────────────────────────────────────────────────────
+.ar-card__blood {
+  min-width: 60px;
+  height: 60px;
+  border-radius: variables.$radius-lg;
+  display: grid;
+  place-items: center;
+  font-size: variables.$font-size-lg;
+  font-weight: 800;
+  flex-shrink: 0;
+  letter-spacing: -0.5px;
+}
+
+// Color variants
+.ar-card__blood--salmon {
+  background: rgba(192, 57, 43, 0.1);
+  color: variables.$primary-dark;
+}
+
+.ar-card__blood--teal {
+  background: rgba(22, 160, 133, 0.12);
+  color: #0d6b59;
+}
+
+.ar-card__blood--blush {
+  background: rgba(192, 57, 43, 0.07);
+  color: variables.$primary;
+}
+
+.ar-card__blood--blue {
+  background: rgba(52, 152, 219, 0.1);
+  color: #1a5e8f;
+}
+
+.ar-card__blood--default {
+  background: variables.$primary-lighter;
+  color: variables.$primary-dark;
+}
+
+// ─── Card Info ────────────────────────────────────────────────────────────────
+.ar-card__info {
+  flex: 1;
+  min-width: 0;
+}
+
+.ar-card__hospital {
+  font-size: variables.$font-size-base;
+  font-weight: 700;
+  color: variables.$text-dark;
+  letter-spacing: -0.1px;
+  margin-bottom: variables.$spacing-2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ar-card__meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: variables.$spacing-4;
+  font-size: variables.$font-size-xs;
+  color: variables.$text-muted;
+
+  span {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    white-space: nowrap;
+
+    svg {
+      font-size: 11px;
+      color: variables.$text-muted;
+      opacity: 0.75;
+    }
+  }
+}
+
+// ─── Status Wrap (right side) ─────────────────────────────────────────────────
+.ar-card__status-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: variables.$spacing-2;
+  flex-shrink: 0;
+}
+
+// ─── Status Badge ─────────────────────────────────────────────────────────────
+.ar-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  border-radius: variables.$radius-full;
+  font-size: variables.$font-size-xs;
+  font-weight: 700;
+  white-space: nowrap;
+
+  svg {
+    font-size: 11px;
+  }
+}
+
+.ar-badge--pending {
+  background: rgba(192, 57, 43, 0.1);
+  color: variables.$primary-dark;
+  border: 1px solid rgba(192, 57, 43, 0.2);
+}
+
+.ar-badge--approved {
+  background: #0d6b59;
+  color: #fff;
+  border: 1px solid transparent;
+}
+
+.ar-badge--rejected {
+  background: rgba(192, 57, 43, 0.1);
+  color: variables.$primary-dark;
+  border: 1px solid rgba(192, 57, 43, 0.2);
+}
+
+// ─── Action Link ──────────────────────────────────────────────────────────────
+.ar-card__action {
+  background: none;
+  border: none;
+  outline: none;
+  font-size: variables.$font-size-xs;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity variables.$transition-fast;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+
+  &:hover {
+    opacity: 0.7;
+  }
+}
+
+.ar-card__action--pending {
+  color: variables.$text-muted;
+}
+
+.ar-card__action--approved {
+  color: #0d6b59;
+}
+
+.ar-card__action--rejected {
+  color: variables.$text-muted;
+}
+
+// ─── Empty State ──────────────────────────────────────────────────────────────
+.ar-empty {
+  padding: variables.$spacing-10 variables.$spacing-6;
+  text-align: center;
+  background: variables.$bg-white;
+  border: 1px dashed variables.$border-color;
+  border-radius: variables.$radius-xl;
+  color: variables.$text-muted;
+  font-size: variables.$font-size-sm;
+
+  strong {
+    color: variables.$text-dark;
+    text-transform: capitalize;
+  }
+}
+
+.ar-card__details {
+  flex-basis: 100%;
+  margin-top: variables.$spacing-2;
+  padding: variables.$spacing-4;
+  background: variables.$bg-light;
+  border-radius: variables.$radius-md;
+  font-size: variables.$font-size-sm;
+  color: variables.$text-body;
+
+  a { color: variables.$primary; font-weight: 600; }
+}
+.ar-summary {
+  font-size: variables.$font-size-xs;
+  color: variables.$text-muted;
+  text-align: right;
+
+  strong {
+    color: variables.$text-dark;
+    font-weight: 600;
+  }
+}
+
+// ─── Responsive ──────────────────────────────────────────────────────────────
+@media (max-width: variables.$bp-md) {
+  .ar-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .ar-filters {
+    align-self: flex-start;
+  }
+
+  .ar-card {
+    flex-wrap: wrap;
+    gap: variables.$spacing-4;
+    padding: variables.$spacing-4;
+  }
+
+  .ar-card__status-wrap {
+    align-items: flex-start;
+    width: 100%;
+  }
+}
+
+@media (max-width: variables.$bp-sm) {
+  .ar-card__meta {
+    gap: variables.$spacing-2;
+  }
+
+  .ar-card__blood {
+    min-width: 52px;
+    height: 52px;
+    font-size: variables.$font-size-base;
+  }
+}

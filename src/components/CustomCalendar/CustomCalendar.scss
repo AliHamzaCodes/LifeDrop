@@ -1,0 +1,208 @@
+@use '../../styles/variables' as *;
+
+/* ═══════════════════════════════════════════════════════════
+   CUSTOM CALENDAR  —  Inline, full-width, premium design
+   ═══════════════════════════════════════════════════════════ */
+
+.cust-cal {
+  width: 100%;
+  background: $bg-white;
+  border-radius: $radius-md;
+  border: 1.5px solid $primary-light;
+  overflow: hidden;
+  font-family: $font-family-body;
+
+  /* ── Top accent stripe ── */
+  &::before {
+    content: '';
+    display: block;
+    height: 3px;
+    background: linear-gradient(90deg, $primary, $primary-light);
+    border-radius: $radius-md $radius-md 0 0;
+  }
+
+  /* ── Header: ‹ Month Year › ── */
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: $spacing-4 $spacing-5;
+    background: $primary-lighter;
+    border-bottom: 1px solid $primary-light;
+  }
+
+  &__nav {
+    width: 30px;
+    height: 30px;
+    border: 1.5px solid $primary-light;
+    background: $bg-white;
+    border-radius: $radius-full;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all $transition-fast;
+    flex-shrink: 0;
+
+    svg {
+      width: 16px;
+      height: 16px;
+      fill: $primary;
+      display: block;
+    }
+
+    &:hover {
+      background: $primary;
+      border-color: $primary;
+      svg { fill: #fff; }
+      box-shadow: 0 3px 10px rgba($primary, 0.3);
+    }
+  }
+
+  &__month {
+    font-size: $font-size-base;
+    font-weight: 700;
+    color: $text-dark;
+    letter-spacing: -0.01em;
+  }
+
+  /* ── 7-column grid ── */
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    padding: $spacing-4 $spacing-5 $spacing-3;
+    gap: 2px 0;
+  }
+
+  /* Day-of-week labels */
+  &__day-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: $primary;
+    text-align: center;
+    padding-bottom: $spacing-3;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  /* Individual day cells */
+  &__day {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 36px;
+    border-radius: $radius-full;
+    font-size: $font-size-xs;
+    font-weight: 500;
+    color: $text-dark;
+    cursor: pointer;
+    transition: background $transition-fast, color $transition-fast, transform 0.1s ease;
+    position: relative;
+    margin: 1px auto;
+    width: 36px;
+
+    &:hover:not(&--disabled):not(&--other) {
+      background: $primary-lighter;
+      color: $primary;
+      font-weight: 600;
+    }
+
+    /* Grayed-out days from adjacent months */
+    &--other {
+      color: #d8d8d8;
+      cursor: default;
+      pointer-events: none;
+      font-weight: 400;
+    }
+
+    /* Today — red dot below the number */
+    &--today:not(&--selected) {
+      color: $primary;
+      font-weight: 800;
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 4px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background: $primary;
+      }
+    }
+
+    /* Selected day — filled red circle */
+    &--selected {
+      background: $primary;
+      color: #fff;
+      font-weight: 700;
+      box-shadow: 0 4px 12px rgba($primary, 0.4);
+      transform: scale(1.1);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Future / disabled day */
+    &--disabled {
+      color: #d8d8d8;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+  }
+
+  /* ── Footer: Today / Clear ── */
+  &__footer {
+    display: flex;
+    align-items: center;
+    gap: $spacing-3;
+    padding: $spacing-3 $spacing-5 $spacing-4;
+    border-top: 1px solid $border-color;
+    background: #fafafa;
+  }
+
+  &__footer-btn {
+    flex: 1;
+    padding: $spacing-2 0;
+    border-radius: $radius-md;
+    font-family: $font-family-body;
+    font-size: $font-size-xs;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all $transition-fast;
+    letter-spacing: 0.02em;
+
+    &:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    &--today {
+      background: $primary;
+      color: #fff;
+      border: 1.5px solid $primary;
+      box-shadow: 0 3px 10px rgba($primary, 0.25);
+
+      &:hover:not(:disabled) {
+        background: $primary-dark;
+        border-color: $primary-dark;
+        box-shadow: 0 4px 14px rgba($primary, 0.35);
+        transform: translateY(-1px);
+      }
+      &:active { transform: translateY(0); }
+    }
+
+    &--clear {
+      background: $bg-white;
+      color: $text-muted;
+      border: 1.5px solid $border-color;
+
+      &:hover:not(:disabled) {
+        background: #f0f0f5;
+        color: $text-dark;
+        border-color: #ccc;
+      }
+    }
+  }
+}

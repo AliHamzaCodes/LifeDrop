@@ -1,0 +1,197 @@
+@use '../../styles/variables';
+
+.footer {
+  background: white;
+  padding: variables.$spacing-16 0 variables.$spacing-6;
+  border-top: 1px solid variables.$border-color;
+}
+
+.footer-top {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1.5fr;
+  gap: variables.$spacing-12;
+  margin-bottom: variables.$spacing-12;
+
+  @media (max-width: variables.$bp-lg) {
+    grid-template-columns: 1fr 1fr;
+  }
+  @media (max-width: variables.$bp-sm) {
+    grid-template-columns: 1fr;
+    gap: variables.$spacing-8;
+  }
+}
+
+.footer-brand {
+  .footer-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: variables.$spacing-3;
+    font-size: variables.$font-size-2xl;
+    font-weight: 800;
+    color: variables.$text-dark;
+    letter-spacing: -0.5px;
+    text-decoration: none;
+    margin-bottom: variables.$spacing-4;
+    font-family: variables.$font-family-heading;
+
+    .logo-icon-wrap {
+      width: 36px;
+      height: 36px;
+      background: variables.$primary-lighter;
+      border-radius: variables.$radius-md;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+      .logo-icon {
+        color: variables.$primary;
+        font-size: variables.$font-size-lg;
+      }
+    }
+  }
+
+  .footer-tagline {
+    color: variables.$text-body;
+    font-size: variables.$font-size-base;
+    max-width: 320px;
+    line-height: 1.6;
+    margin-bottom: variables.$spacing-6;
+  }
+}
+
+.social-links {
+  display: flex;
+  gap: variables.$spacing-3;
+
+  a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: variables.$radius-full;
+    background: variables.$bg-light;
+    color: variables.$primary;
+    transition: all variables.$transition-fast;
+    font-size: variables.$font-size-lg;
+    border: 1px solid rgba(0,0,0,0.03);
+
+    &:hover {
+      background: variables.$primary;
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(variables.$primary, 0.2);
+    }
+  }
+}
+
+.footer-nav {
+  h4 {
+    font-size: variables.$font-size-sm;
+    font-weight: 800;
+    color: variables.$text-dark;
+    margin-bottom: variables.$spacing-5;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    gap: variables.$spacing-3;
+
+    a {
+      color: variables.$text-body;
+      font-size: variables.$font-size-base;
+      transition: color variables.$transition-fast;
+      font-weight: 500;
+      
+      &:hover {
+        color: variables.$primary;
+      }
+    }
+  }
+}
+
+.footer-newsletter {
+  h4 {
+    font-size: variables.$font-size-sm;
+    font-weight: 800;
+    color: variables.$text-dark;
+    margin-bottom: variables.$spacing-4;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  p {
+    color: variables.$text-body;
+    font-size: variables.$font-size-sm;
+    margin-bottom: variables.$spacing-4;
+    line-height: 1.6;
+  }
+
+  .newsletter-form {
+    display: flex;
+    gap: variables.$spacing-2;
+
+    input {
+      flex: 1;
+      padding: variables.$spacing-3 variables.$spacing-4;
+      border: 1px solid variables.$border-color;
+      border-radius: variables.$radius-md;
+      background: variables.$bg-light;
+      color: variables.$text-dark;
+      outline: none;
+      transition: border-color variables.$transition-fast;
+      font-family: variables.$font-family-body;
+
+      &:focus {
+        border-color: variables.$primary;
+        background: white;
+      }
+    }
+
+    button {
+      padding: 0 variables.$spacing-4;
+      background: variables.$primary;
+      color: white;
+      border: none;
+      border-radius: variables.$radius-md;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all variables.$transition-fast;
+
+      &:hover {
+        background: variables.$primary-dark;
+        transform: translateX(2px);
+      }
+    }
+  }
+}
+
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: variables.$spacing-6;
+  border-top: 1px solid variables.$border-color;
+  font-size: variables.$font-size-sm;
+  color: variables.$text-muted;
+
+  @media (max-width: variables.$bp-md) {
+    flex-direction: column;
+    gap: variables.$spacing-4;
+    text-align: center;
+  }
+
+  .footer-badge {
+    display: flex;
+    align-items: center;
+    gap: variables.$spacing-2;
+    font-weight: 500;
+
+    .heart-icon {
+      color: variables.$primary;
+    }
+  }
+}

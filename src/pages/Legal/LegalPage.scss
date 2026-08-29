@@ -1,0 +1,295 @@
+@use "sass:color";
+@use '../../styles/variables';
+
+/* ═══════════════════════════════════════════════════════
+   Legal Pages — Terms & Privacy (shared styles)
+═══════════════════════════════════════════════════════ */
+.legal-page {
+  background: variables.$bg-white;
+  min-height: 100vh;
+
+  /* ── Hero Banner ────────────────────────────── */
+  &__hero {
+    background: linear-gradient(135deg, variables.$primary-dark 0%, color.adjust(variables.$primary, $lightness: -8%) 100%);
+    padding: variables.$spacing-16 0 variables.$spacing-12;
+    position: relative;
+    overflow: hidden;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 48px;
+      background: variables.$bg-white;
+      clip-path: ellipse(55% 100% at 50% 100%);
+    }
+  }
+
+  &__hero-inner {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 variables.$spacing-6;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  &__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: variables.$spacing-2;
+    background: rgba(255, 255, 255, 0.15);
+    color: rgba(255, 255, 255, 0.9);
+    font-size: variables.$font-size-xs;
+    font-weight: 600;
+    padding: variables.$spacing-2 variables.$spacing-4;
+    border-radius: variables.$radius-full;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    margin-bottom: variables.$spacing-5;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  &__title {
+    font-size: variables.$font-size-4xl;
+    font-weight: 900;
+    color: #ffffff;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    margin-bottom: variables.$spacing-4;
+
+    @media (max-width: variables.$bp-md) {
+      font-size: variables.$font-size-3xl;
+    }
+  }
+
+  &__meta {
+    font-size: variables.$font-size-sm;
+    color: rgba(255, 255, 255, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: variables.$spacing-4;
+    flex-wrap: wrap;
+
+    span {
+      display: flex;
+      align-items: center;
+      gap: variables.$spacing-2;
+    }
+  }
+
+  /* ── Body Layout ────────────────────────────── */
+  &__body {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: variables.$spacing-10;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: variables.$spacing-10 variables.$spacing-6;
+    align-items: start;
+
+    @media (max-width: variables.$bp-lg) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* ── TOC Sidebar ────────────────────────────── */
+  &__toc {
+    position: sticky;
+    top: variables.$spacing-8;
+    background: variables.$bg-light;
+    border-radius: variables.$radius-lg;
+    padding: variables.$spacing-5;
+    border: 1px solid variables.$border-color;
+
+    @media (max-width: variables.$bp-lg) {
+      display: none;
+    }
+
+    &-title {
+      font-size: variables.$font-size-xs;
+      font-weight: 700;
+      color: variables.$text-muted;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: variables.$spacing-4;
+    }
+
+    &-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: variables.$spacing-1;
+    }
+
+    &-link {
+      display: block;
+      font-size: variables.$font-size-sm;
+      color: variables.$text-body;
+      text-decoration: none;
+      padding: variables.$spacing-2 variables.$spacing-3;
+      border-radius: variables.$radius-sm;
+      transition: all variables.$transition-fast;
+      border-left: 2px solid transparent;
+
+      &:hover {
+        color: variables.$primary;
+        background: variables.$primary-lighter;
+        border-left-color: variables.$primary;
+        padding-left: variables.$spacing-4;
+      }
+    }
+  }
+
+  /* ── Article Content ────────────────────────── */
+  &__article {
+    min-width: 0;
+  }
+
+  &__section {
+    margin-bottom: variables.$spacing-12;
+    animation: legalFadeIn 0.4s ease backwards;
+
+    @for $i from 1 through 10 {
+      &:nth-child(#{$i}) { animation-delay: #{$i * 0.05}s; }
+    }
+  }
+
+  &__section-title {
+    font-size: variables.$font-size-xl;
+    font-weight: 800;
+    color: variables.$text-dark;
+    letter-spacing: -0.02em;
+    margin-bottom: variables.$spacing-4;
+    padding-bottom: variables.$spacing-3;
+    border-bottom: 2px solid variables.$primary-lighter;
+    display: flex;
+    align-items: center;
+    gap: variables.$spacing-3;
+
+    &::before {
+      content: attr(data-num);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      min-width: 28px;
+      border-radius: 50%;
+      background: variables.$primary;
+      color: #fff;
+      font-size: variables.$font-size-xs;
+      font-weight: 700;
+    }
+  }
+
+  &__text {
+    font-size: variables.$font-size-base;
+    color: variables.$text-body;
+    line-height: 1.8;
+    margin-bottom: variables.$spacing-4;
+
+    &:last-child { margin-bottom: 0; }
+
+    a {
+      color: variables.$primary;
+      font-weight: 600;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(variables.$primary, 0.3);
+      transition: border-color variables.$transition-fast;
+
+      &:hover { border-color: variables.$primary; }
+    }
+
+    strong {
+      color: variables.$text-dark;
+      font-weight: 700;
+    }
+  }
+
+  &__list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: variables.$spacing-3;
+    margin: variables.$spacing-4 0;
+    padding: 0;
+
+    li {
+      display: flex;
+      align-items: flex-start;
+      gap: variables.$spacing-3;
+      font-size: variables.$font-size-base;
+      color: variables.$text-body;
+      line-height: 1.65;
+
+      &::before {
+        content: '';
+        width: 8px;
+        height: 8px;
+        min-width: 8px;
+        border-radius: 50%;
+        background: variables.$primary;
+        margin-top: 8px;
+      }
+    }
+  }
+
+  /* Alert / callout box */
+  &__callout {
+    background: variables.$primary-lighter;
+    border-left: 4px solid variables.$primary;
+    border-radius: 0 variables.$radius-md variables.$radius-md 0;
+    padding: variables.$spacing-4 variables.$spacing-5;
+    margin: variables.$spacing-5 0;
+    font-size: variables.$font-size-sm;
+    color: variables.$text-dark;
+    line-height: 1.65;
+
+    strong {
+      color: variables.$primary;
+      display: block;
+      margin-bottom: variables.$spacing-1;
+    }
+  }
+
+  /* ── Footer actions ─────────────────────────── */
+  &__footer {
+    border-top: 1px solid variables.$border-color;
+    padding: variables.$spacing-8 variables.$spacing-6;
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: variables.$spacing-4;
+  }
+
+  &__footer-text {
+    font-size: variables.$font-size-sm;
+    color: variables.$text-muted;
+  }
+
+  &__footer-links {
+    display: flex;
+    gap: variables.$spacing-5;
+
+    a {
+      font-size: variables.$font-size-sm;
+      color: variables.$primary;
+      font-weight: 600;
+      text-decoration: none;
+
+      &:hover { text-decoration: underline; }
+    }
+  }
+}
+
+@keyframes legalFadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}

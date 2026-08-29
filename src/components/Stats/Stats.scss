@@ -1,0 +1,107 @@
+@use '../../styles/variables';
+
+.stats-section {
+  padding: variables.$spacing-24 0;
+  background: white;
+  position: relative;
+  z-index: 10; // Sit above hero blobs
+}
+
+.stats-header {
+  margin-bottom: variables.$spacing-16;
+  text-align: center;
+  
+  .section-title {
+    font-size: variables.$font-size-3xl;
+    font-weight: 800;
+    color: variables.$text-dark;
+    margin-bottom: variables.$spacing-4;
+  }
+  
+  .section-subtitle {
+    color: variables.$text-body;
+    font-size: variables.$font-size-lg;
+  }
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: variables.$spacing-8;
+
+  @media (max-width: variables.$bp-md) {
+    grid-template-columns: 1fr;
+    gap: variables.$spacing-6;
+  }
+}
+
+.stat-card {
+  display: flex;
+  align-items: center;
+  gap: variables.$spacing-6;
+  padding: variables.$spacing-8 variables.$spacing-6;
+  background: variables.$bg-light;
+  border-radius: variables.$radius-2xl;
+  border: 1px solid rgba(0,0,0,0.04);
+  border-left: 4px solid variables.$primary; // Thin accent left-bar
+  transition: transform variables.$transition-base, box-shadow variables.$transition-base;
+  text-align: left;
+  
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: variables.$shadow-lg;
+    background: white;
+  }
+
+  // Subtle colored backgrounds per stat
+  &.stat-donors {
+    border-left-color: #3B82F6; // Blue
+    background: linear-gradient(to right, rgba(59, 130, 246, 0.05), transparent);
+    .stat-icon-wrap { color: #3B82F6; background: rgba(59, 130, 246, 0.1); }
+  }
+
+  &.stat-requests {
+    border-left-color: variables.$primary; // Crimson
+    background: linear-gradient(to right, rgba(variables.$primary, 0.05), transparent);
+    .stat-icon-wrap { color: variables.$primary; background: rgba(variables.$primary, 0.1); }
+  }
+
+  &.stat-donations {
+    border-left-color: #10B981; // Green
+    background: linear-gradient(to right, rgba(16, 185, 129, 0.05), transparent);
+    .stat-icon-wrap { color: #10B981; background: rgba(16, 185, 129, 0.1); }
+  }
+
+  .stat-icon-wrap {
+    width: 64px;
+    height: 64px;
+    border-radius: variables.$radius-full;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: variables.$font-size-2xl;
+    flex-shrink: 0;
+  }
+
+  .stat-content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .stat-value {
+    font-size: variables.$font-size-4xl;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: variables.$spacing-1;
+    color: variables.$text-dark;
+    font-family: variables.$font-family-heading;
+  }
+  
+  .stat-label {
+    font-size: variables.$font-size-sm;
+    font-weight: 600;
+    color: variables.$text-muted;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+}

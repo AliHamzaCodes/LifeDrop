@@ -1,0 +1,410 @@
+@use '../../styles/variables';
+
+/* ────────────────────────────────────────────────────────────────
+   About Page — global wrapper
+──────────────────────────────────────────────────────────────── */
+.about {
+  background: variables.$bg-white;
+
+  // shared section spacing
+  section {
+    padding-bottom: variables.$spacing-20;
+  }
+}
+
+/* ── Section headings (shared) ─────────────────────────────────── */
+.about__section-title {
+  font-size: variables.$font-size-3xl;
+  font-weight: 700;
+  color: variables.$text-dark;
+  text-align: center;
+  margin-bottom: variables.$spacing-3;
+}
+
+.about__section-sub {
+  font-size: variables.$font-size-base;
+  color: variables.$text-muted;
+  text-align: center;
+  max-width: 480px;
+  margin: 0 auto variables.$spacing-12;
+}
+
+/* ────────────────────────────────────────────────────────────────
+   HERO
+──────────────────────────────────────────────────────────────── */
+.about__hero {
+  background: linear-gradient(135deg, #fff9f9 0%, #fff 60%, #f0f8ff 100%);
+  padding-top: variables.$spacing-20 !important;
+  padding-bottom: variables.$spacing-16 !important;
+}
+
+.about__hero-inner {
+  display: flex;
+  align-items: center;
+  gap: variables.$spacing-16;
+
+  @media (max-width: variables.$bp-md) {
+    flex-direction: column;
+    gap: variables.$spacing-10;
+    text-align: center;
+  }
+}
+
+.about__hero-text {
+  flex: 1;
+}
+
+.about__hero-title {
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-weight: 800;
+  color: variables.$text-dark;
+  line-height: 1.15;
+  margin-bottom: variables.$spacing-5;
+}
+
+.about__hero-desc {
+  font-size: variables.$font-size-sm;
+  color: variables.$text-body;
+  line-height: 1.7;
+  max-width: 440px;
+  margin-bottom: variables.$spacing-8;
+
+  @media (max-width: variables.$bp-md) {
+    margin: 0 auto variables.$spacing-8;
+  }
+}
+
+.about__hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: variables.$spacing-2;
+  background: variables.$primary;
+  color: #fff;
+  font-size: variables.$font-size-sm;
+  font-weight: 600;
+  padding: variables.$spacing-3 variables.$spacing-6;
+  border-radius: variables.$radius-full;
+  transition: background variables.$transition-base, transform variables.$transition-fast, box-shadow variables.$transition-base;
+
+  &:hover {
+    background: variables.$primary-dark;
+    transform: translateY(-2px);
+    box-shadow: variables.$shadow-lg;
+  }
+}
+
+.about__hero-image {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+
+  img {
+    width: 100%;
+    max-width: 480px;
+    border-radius: variables.$radius-xl;
+    object-fit: cover;
+    box-shadow: variables.$shadow-md;
+    animation: floatImage 4s ease-in-out infinite;
+  }
+}
+
+@keyframes floatImage {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-10px); }
+}
+
+/* ────────────────────────────────────────────────────────────────
+   IMPACT STATS
+──────────────────────────────────────────────────────────────── */
+.about__impact {
+  background: #fff;
+}
+
+.about__stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: variables.$spacing-6;
+
+  @media (max-width: variables.$bp-md) {
+    grid-template-columns: 1fr;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+}
+
+.about__stat-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: variables.$spacing-3;
+  padding: variables.$spacing-8 variables.$spacing-6;
+  border: 1.5px solid variables.$border-color;
+  border-radius: variables.$radius-lg;
+  background: #fff;
+  transition: box-shadow variables.$transition-base, transform variables.$transition-base;
+
+  &:hover {
+    box-shadow: variables.$shadow-md;
+    transform: translateY(-4px);
+  }
+}
+
+.about__stat-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: variables.$primary-lighter;
+  border-radius: variables.$radius-full;
+  color: variables.$primary;
+
+  svg {
+    width: 22px;
+    height: 22px;
+  }
+}
+
+.about__stat-value {
+  font-size: variables.$font-size-3xl;
+  font-weight: 800;
+  color: variables.$primary;
+  line-height: 1;
+}
+
+.about__stat-label {
+  font-size: variables.$font-size-xs;
+  font-weight: 600;
+  color: variables.$text-muted;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  text-align: center;
+}
+
+/* ────────────────────────────────────────────────────────────────
+   OUR STORY
+──────────────────────────────────────────────────────────────── */
+.about__story {
+  background: variables.$bg-light;
+}
+
+.about__story-inner {
+  display: flex;
+  align-items: center;
+  gap: variables.$spacing-16;
+
+  @media (max-width: variables.$bp-md) {
+    flex-direction: column;
+    gap: variables.$spacing-10;
+  }
+}
+
+.about__story-image {
+  flex: 1;
+
+  img {
+    width: 100%;
+    max-width: 500px;
+    border-radius: variables.$radius-lg;
+    object-fit: cover;
+    box-shadow: variables.$shadow-lg;
+  }
+}
+
+.about__story-text {
+  flex: 1;
+}
+
+.about__story-title {
+  font-size: variables.$font-size-2xl;
+  font-weight: 700;
+  color: variables.$text-dark;
+  margin-bottom: variables.$spacing-5;
+}
+
+.about__story-text p {
+  font-size: variables.$font-size-sm;
+  color: variables.$text-body;
+  line-height: 1.8;
+  margin-bottom: variables.$spacing-4;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+/* ────────────────────────────────────────────────────────────────
+   CORE VALUES
+──────────────────────────────────────────────────────────────── */
+.about__values {
+  background: #fff;
+}
+
+.about__values-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: variables.$spacing-5;
+
+  @media (max-width: variables.$bp-lg) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: variables.$bp-sm) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.about__value-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: variables.$spacing-8 variables.$spacing-5;
+  border: 1.5px solid variables.$border-color;
+  border-radius: variables.$radius-lg;
+  background: #fff;
+  transition: box-shadow variables.$transition-base, transform variables.$transition-base, border-color variables.$transition-base;
+
+  &:hover {
+    box-shadow: variables.$shadow-md;
+    border-color: variables.$primary-light;
+    transform: translateY(-4px);
+  }
+}
+
+.about__value-icon {
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: variables.$primary-lighter;
+  border-radius: variables.$radius-full;
+  color: variables.$primary;
+  margin-bottom: variables.$spacing-4;
+
+  svg {
+    width: 22px;
+    height: 22px;
+  }
+}
+
+.about__value-title {
+  font-size: variables.$font-size-base;
+  font-weight: 700;
+  color: variables.$text-dark;
+  margin-bottom: variables.$spacing-2;
+}
+
+.about__value-desc {
+  font-size: variables.$font-size-xs;
+  color: variables.$text-muted;
+  line-height: 1.6;
+}
+
+/* ────────────────────────────────────────────────────────────────
+   LEADERSHIP TEAM
+──────────────────────────────────────────────────────────────── */
+.about__team {
+  background: variables.$bg-light;
+}
+
+.about__team-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: variables.$spacing-8;
+  max-width: 800px;
+  margin: 0 auto;
+
+  @media (max-width: variables.$bp-md) {
+    grid-template-columns: 1fr;
+    max-width: 280px;
+  }
+}
+
+.about__team-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: variables.$spacing-3;
+}
+
+.about__team-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: variables.$radius-full;
+  overflow: hidden;
+  border: 3px solid variables.$primary-light;
+  box-shadow: variables.$shadow-sm;
+  transition: transform variables.$transition-base, box-shadow variables.$transition-base;
+
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: variables.$shadow-lg;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.about__team-name {
+  font-size: variables.$font-size-base;
+  font-weight: 700;
+  color: variables.$text-dark;
+}
+
+.about__team-role {
+  font-size: variables.$font-size-xs;
+  font-weight: 500;
+  color: variables.$primary;
+}
+
+/* ────────────────────────────────────────────────────────────────
+   CTA BANNER
+──────────────────────────────────────────────────────────────── */
+.about__cta {
+  background: linear-gradient(135deg, variables.$primary 0%, variables.$primary-dark 100%);
+  padding: variables.$spacing-16 0 !important;
+}
+
+.about__cta-inner {
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.about__cta-title {
+  font-size: variables.$font-size-2xl;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: variables.$spacing-4;
+}
+
+.about__cta-desc {
+  font-size: variables.$font-size-sm;
+  color: rgba(255, 255, 255, 0.88);
+  line-height: 1.7;
+  margin-bottom: variables.$spacing-8;
+}
+
+.about__cta-btn {
+  display: inline-block;
+  background: transparent;
+  color: #fff;
+  font-size: variables.$font-size-sm;
+  font-weight: 600;
+  padding: variables.$spacing-3 variables.$spacing-8;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  border-radius: variables.$radius-full;
+  transition: background variables.$transition-base, color variables.$transition-base, transform variables.$transition-fast;
+
+  &:hover {
+    background: #fff;
+    color: variables.$primary;
+    transform: translateY(-2px);
+  }
+}

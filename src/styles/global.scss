@@ -1,0 +1,202 @@
+@use 'variables';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  font-family: variables.$font-family-body;
+  background-color: variables.$bg-light;
+  color: variables.$text-body;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: variables.$font-family-heading;
+  color: variables.$text-dark;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+a {
+  text-decoration: none;
+  color: variables.$primary;
+  transition: color variables.$transition-fast;
+}
+
+ul {
+  list-style: none;
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 variables.$spacing-6;
+
+  @media (max-width: variables.$bp-sm) {
+    padding: 0 variables.$spacing-4;
+  }
+}
+
+.glass-panel {
+  background: variables.$bg-glass;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid variables.$border-glass;
+  border-radius: variables.$radius-2xl;
+  box-shadow: variables.$shadow-md;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: variables.$spacing-2;
+  padding: variables.$spacing-3 variables.$spacing-8; // Increased padding for a more solid feel
+  border-radius: variables.$radius-md;
+  font-family: variables.$font-family-heading;
+  font-weight: 600;
+  font-size: variables.$font-size-base;
+  cursor: pointer;
+  transition: all variables.$transition-base;
+  border: 2px solid transparent; // Set base border width
+  min-height: 48px; // Ensure identical height
+
+  &:active {
+    transform: scale(0.97);
+  }
+}
+
+.btn-primary {
+  background: variables.$primary;
+  color: white;
+  box-shadow: variables.$shadow-primary;
+  border: 2px solid variables.$primary; // Match border width of outline
+
+  &:hover {
+    background: variables.$primary-dark;
+    border-color: variables.$primary-dark;
+    box-shadow: 0 10px 24px rgba(variables.$primary, 0.3);
+    transform: translateY(-2px);
+  }
+}
+
+.btn-outline {
+  background: transparent;
+  color: variables.$text-dark;
+  border: 2px solid variables.$text-dark; // Thicker border for better contrast
+
+  &:hover {
+    background: variables.$text-dark;
+    color: white;
+  }
+}
+
+.text-gradient {
+  color: variables.$primary;
+  // We'll keep the class name but style it solidly for the confident aesthetic, or use a subtle gradient
+  background: linear-gradient(135deg, variables.$primary, variables.$primary-light);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Urgency Glowing Badges */
+.urgency-glowing-badge {
+  $badge-danger: #e11d48;
+  $badge-warning: #f59e0b;
+  $badge-warning-dark: #d97706;
+  $badge-success: #10b981;
+
+  display: inline-flex;
+  align-items: center;
+  gap: variables.$spacing-2;
+  padding: variables.$spacing-2 variables.$spacing-4;
+  border-radius: variables.$radius-full;
+  font-size: variables.$font-size-xs;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: variables.$shadow-sm;
+
+  &--critical {
+    background: rgba($badge-danger, 0.1);
+    color: $badge-danger;
+    border: 1px solid rgba($badge-danger, 0.2);
+    box-shadow: 0 0 15px rgba($badge-danger, 0.3);
+    
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      background: $badge-danger;
+      border-radius: 50%;
+      box-shadow: 0 0 0 0 rgba($badge-danger, 0.7);
+      animation: pulse-red 1.5s infinite;
+    }
+  }
+
+  &--high {
+    background: rgba($badge-warning, 0.1);
+    color: $badge-warning-dark;
+    border: 1px solid rgba($badge-warning, 0.2);
+  }
+
+  &--routine {
+    background: rgba($badge-success, 0.1);
+    color: $badge-success;
+    border: 1px solid rgba($badge-success, 0.2);
+  }
+}
+
+@keyframes pulse-red {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(#e11d48, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(#e11d48, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(#e11d48, 0); }
+}
+
+
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 0;
+  padding: 8px 16px;
+  background: variables.$primary;
+  color: white;
+  z-index: 9999;
+  transition: top 0.2s;
+
+  &:focus {
+    top: 0;
+  }
+}
