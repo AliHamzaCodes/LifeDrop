@@ -122,7 +122,7 @@ const DonorProfilePage = () => {
             aria-label={`${donor.name}'s avatar`}
           >
             {donor.avatarUrl ? (
-              <img src={`http://localhost:8000${donor.avatarUrl}`} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              <img src={`https://mxali.pythonanywhere.com${donor.avatarUrl}`} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             ) : (
               donor.avatar
             )}

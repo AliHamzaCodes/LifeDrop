@@ -67,7 +67,7 @@ const DonorRegistrationPage = () => {
   });
 
   const [avatarFile, setAvatarFile] = useState(null);
-  const [avatarPreview, setAvatarPreview] = useState<string | null>(currentUser?.avatar ? `http://localhost:8000${currentUser.avatar}` : null);
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(currentUser?.avatar ? `https://mxali.pythonanywhere.com${currentUser.avatar}` : null);
 
   // Keep form in sync if currentUser updates after mount
   useEffect(() => {

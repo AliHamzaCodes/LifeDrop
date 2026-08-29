@@ -47,7 +47,7 @@ const SidebarContent = ({ activeTab, onSelect, isMobile = false, ctaRef, current
     <>
       <div className="dashboard-sidebar__profile">
         {currentUser?.avatar ? (
-          <img src={`http://localhost:8000${currentUser.avatar}`} alt="Avatar" className="dashboard-sidebar__avatar-fallback" style={{ objectFit: 'cover', padding: 0 }} />
+          <img src={`https://mxali.pythonanywhere.com${currentUser.avatar}`} alt="Avatar" className="dashboard-sidebar__avatar-fallback" style={{ objectFit: 'cover', padding: 0 }} />
         ) : (
           <div className="dashboard-sidebar__avatar-fallback" aria-hidden="true">{initials}</div>
         )}
