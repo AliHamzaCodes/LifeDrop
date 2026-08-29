@@ -215,8 +215,9 @@ class BloodRequestViewSet(viewsets.ModelViewSet):
         blood_request = self.get_object()
         if request.user in blood_request.accepted_donors.all():
             blood_request.accepted_donors.remove(request.user)
-            # If it was FULFILLED and they cancel, well we shouldn't allow cancel after fulfill, but it's fine for demo
-            if blood_request.status == BloodRequest.Status.ACCEPTED:
+            # If it was FULFILLED and they cancel, check if total pledged drops below needed
+            total_pledged = blood_request.units_fulfilled + blood_request.accepted_donors.count()
+            if blood_request.status == BloodRequest.Status.FULFILLED and total_pledged < blood_request.units_needed:
                 blood_request.status = BloodRequest.Status.PENDING
                 blood_request.save()
             return Response({"status": "Acceptance cancelled"})
