@@ -70,8 +70,7 @@ class ErrorBoundary extends React.Component {
             An unexpected error occurred. Our team has been notified.
           </p>
 
-          {/* Show technical detail only in development */}
-          {import.meta.env.DEV && error && (
+          {error && (
             <details className="error-boundary__details">
               <summary>Technical Details</summary>
               <pre>{error.toString()}</pre>

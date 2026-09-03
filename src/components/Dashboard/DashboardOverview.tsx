@@ -7,6 +7,7 @@ import {
   faLocationDot,
   faMagnifyingGlass,
   faClock,
+  faInbox,
 } from '@fortawesome/free-solid-svg-icons';
 import './DashboardOverview.scss';
 import AppSpinner from '../AppSpinner/AppSpinner';
@@ -119,7 +120,9 @@ const DashboardOverview = ({ onTabChange }) => {
             <span className="dashboard-overview__card-icon" aria-hidden="true">
               <FontAwesomeIcon icon={faDroplet} />
             </span>
-            <span className="dashboard-overview__card-badge">Urgent Need</span>
+            <span className="urgency-glowing-badge urgency-glowing-badge--critical">
+              <span className="pulse-dot"></span> Urgent Need
+            </span>
           </div>
           <h2 className="dashboard-overview__card-title">Request Blood</h2>
           <p className="dashboard-overview__card-desc">
@@ -174,12 +177,13 @@ const DashboardOverview = ({ onTabChange }) => {
           </div>
           <div className="dashboard-overview__request-list">
             {activeRequests.length === 0 ? (
-              <EmptyState
-                title="No active requests"
-                message="When hospitals or patients submit urgent needs, they will appear here."
-                actionLabel="Submit a request"
-                actionTo="/request"
-              />
+                <EmptyState
+                  title="No active requests"
+                  message="When hospitals or patients submit urgent needs, they will appear here."
+                  actionLabel="Submit a request"
+                  actionTo="/request"
+                  icon={<FontAwesomeIcon icon={faInbox} size="2x" style={{ color: '#cbd5e1', marginBottom: '8px' }} />}
+                />
             ) : activeRequests.map((req) => (
               <article key={req.id} className="dashboard-request" aria-label={`Request from ${req.hospital}`}>
                 <div className="dashboard-request__badge">

@@ -34,8 +34,8 @@ const DonorCard = ({ donor, isBestMatch }) => {
     <article className="donor-card" id={`donor-card-${donor.id}`} aria-label={`Donor: ${donor.name}`} style={{ position: 'relative' }}>
       {isBestMatch && (
         <div style={{
-          position: 'absolute', top: '-12px', right: '-12px', background: 'linear-gradient(135deg, #f59e0b, #eab308)', 
-          color: '#fff', padding: '4px 12px', borderRadius: '16px', fontSize: '0.75rem', fontWeight: 700, 
+          position: 'absolute', top: '-12px', right: '-12px', background: 'linear-gradient(135deg, #f59e0b, #eab308)',
+          color: '#fff', padding: '4px 12px', borderRadius: '16px', fontSize: '0.75rem', fontWeight: 700,
           boxShadow: '0 4px 12px rgba(245, 158, 11, 0.3)', zIndex: 10, display: 'flex', alignItems: 'center', gap: '4px'
         }}>
           ✨ Best Match
@@ -57,8 +57,8 @@ const DonorCard = ({ donor, isBestMatch }) => {
           <div className={`donor-card__status ${isVerified ? 'donor-card__status--verified' : 'donor-card__status--pending'}`}>
             <svg viewBox="0 0 24 24" className="donor-card__status-icon" aria-hidden="true">
               {isVerified
-                ? <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5l-4-4 1.41-1.41L10 13.67l6.59-6.59L18 8.5l-8 8z"/>
-                : <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                ? <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5l-4-4 1.41-1.41L10 13.67l6.59-6.59L18 8.5l-8 8z" />
+                : <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
               }
             </svg>
             {isVerified ? 'Verified Donor' : 'Pending Verification'}
@@ -69,7 +69,7 @@ const DonorCard = ({ donor, isBestMatch }) => {
         <div className={`donor-card__badge ${isVerified ? 'donor-card__badge--verified' : 'donor-card__badge--pending'}`}>
           {isVerified && (
             <svg viewBox="0 0 24 24" className="donor-card__badge-drop" aria-hidden="true">
-              <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
+              <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z" />
             </svg>
           )}
           {donor.bloodGroup}
@@ -86,13 +86,14 @@ const DonorCard = ({ donor, isBestMatch }) => {
               'GOLD_DONOR': { bg: '#ffd700', color: '#333' },
               'LIFE_SAVER': { bg: '#ff4d4f', color: '#fff' },
             };
-            const theme = colors[badge.badge_type] || { bg: '#eee', color: '#333' };
-            const label = badge.badge_type.replace('_', ' ');
+            const badgeType = typeof badge === 'string' ? badge : badge?.badge_type;
+            const theme = colors[badgeType] || { bg: '#eee', color: '#333' };
+            const label = badgeType ? badgeType.replace('_', ' ') : '';
             return (
-              <span key={idx} style={{ 
-                background: theme.bg, color: theme.color, 
-                padding: '4px 8px', borderRadius: '4px', fontSize: '0.75rem', fontWeight: 600, 
-                boxShadow: '0 2px 4px rgba(0,0,0,0.1)' 
+              <span key={idx} style={{
+                background: theme.bg, color: theme.color,
+                padding: '4px 8px', borderRadius: '4px', fontSize: '0.75rem', fontWeight: 600,
+                boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
               }}>
                 {label}
               </span>
@@ -105,7 +106,7 @@ const DonorCard = ({ donor, isBestMatch }) => {
         {/* Location */}
         <div className="donor-card__meta-row">
           <svg viewBox="0 0 24 24" className="donor-card__meta-icon" aria-hidden="true">
-            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
           </svg>
           <span>{donor.city} &bull; <strong>{formatKm(donor.km ?? donor.miles)}</strong></span>
         </div>
@@ -113,7 +114,7 @@ const DonorCard = ({ donor, isBestMatch }) => {
         {/* Last donated */}
         <div className="donor-card__meta-row">
           <svg viewBox="0 0 24 24" className="donor-card__meta-icon" aria-hidden="true">
-            <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm4.24 16L11 14V7h1.5v6.25l4.5 2.67-1.77 1.08z"/>
+            <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm4.24 16L11 14V7h1.5v6.25l4.5 2.67-1.77 1.08z" />
           </svg>
           <span>Last donated: <strong>{donor.lastDonated}</strong></span>
         </div>
@@ -129,7 +130,7 @@ const DonorCard = ({ donor, isBestMatch }) => {
             aria-label={`Call ${donor.name}`}
           >
             <svg viewBox="0 0 24 24" className="donor-card__call-icon" aria-hidden="true">
-              <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+              <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
             </svg>
             Call Donor
           </a>
@@ -141,7 +142,7 @@ const DonorCard = ({ donor, isBestMatch }) => {
             title="Contact unavailable until donor is verified"
           >
             <svg viewBox="0 0 24 24" className="donor-card__call-icon" aria-hidden="true">
-              <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+              <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
             </svg>
             Unavailable
           </button>
@@ -310,7 +311,7 @@ const SearchBloodPage = () => {
               <label className="filter-bar__label" htmlFor="location-input">Location</label>
               <div className="filter-bar__input-wrap">
                 <svg viewBox="0 0 24 24" className="filter-bar__input-icon" aria-hidden="true">
-                  <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                  <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
                 </svg>
                 <input
                   id="location-input"
@@ -330,17 +331,17 @@ const SearchBloodPage = () => {
                   >×</button>
                 )}
               </div>
-              
+
               <div style={{ marginTop: '16px', width: '100%' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', color: '#4a5568', marginBottom: '8px', fontWeight: 500 }}>
                   <span>Distance: {radius} km</span>
                 </div>
-                <input 
-                  type="range" 
-                  min="5" 
-                  max="100" 
+                <input
+                  type="range"
+                  min="5"
+                  max="100"
                   step="5"
-                  value={radius} 
+                  value={radius}
                   onChange={(e) => { setRadius(Number(e.target.value)); setCurrentPage(1); }}
                   style={{ width: '100%', accentColor: '#ef4444' }}
                 />
@@ -364,7 +365,7 @@ const SearchBloodPage = () => {
                   >
                     {selectedGroup === group && (
                       <svg viewBox="0 0 24 24" className="filter-bar__drop" aria-hidden="true">
-                        <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
+                        <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z" />
                       </svg>
                     )}
                     {group}
@@ -408,7 +409,7 @@ const SearchBloodPage = () => {
 
             {/* Map Toggle & Sort dropdown */}
             <div className="results-header__sort" id="sort-dropdown" ref={dropdownRef} style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-              <button 
+              <button
                 onClick={() => setViewMode(v => v === 'list' ? 'map' : 'list')}
                 className="results-header__sort-btn"
                 style={{ background: viewMode === 'map' ? '#ffe6e6' : 'white' }}
@@ -423,11 +424,11 @@ const SearchBloodPage = () => {
                 aria-expanded={showSortMenu}
               >
                 <svg viewBox="0 0 24 24" className="results-header__sort-icon" aria-hidden="true">
-                  <path d="M3 18h6v-2H3v2zM3 6v2h18V6H3zm0 7h12v-2H3v2z"/>
+                  <path d="M3 18h6v-2H3v2zM3 6v2h18V6H3zm0 7h12v-2H3v2z" />
                 </svg>
                 Sort by {sortBy === 'distance' ? 'Distance' : 'Most Recent'}
                 <svg viewBox="0 0 24 24" className={`results-header__chevron ${showSortMenu ? 'results-header__chevron--up' : ''}`} aria-hidden="true">
-                  <path d="M7 10l5 5 5-5z"/>
+                  <path d="M7 10l5 5 5-5z" />
                 </svg>
               </button>
 
@@ -483,7 +484,7 @@ const SearchBloodPage = () => {
                   ))}
                 </div>
               )}
-              
+
               {/* Pagination Controls */}
               {totalPages > 1 && viewMode === 'list' && (
                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '16px', marginTop: '32px' }}>

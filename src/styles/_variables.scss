@@ -5,7 +5,7 @@ $primary-light: #E74C3C;  // Warm Coral/Salmon accent
 $primary-lighter: #FDF2F3; // Extremely faint coral for subtle backgrounds
 
 // Neutrals & Backgrounds
-$bg-light: #FFF8F6;       // Off-white/Cream base
+$bg-light: #F8F9FA;       // Off-white/Cream base
 $bg-white: #FFFFFF;       // Pure white for cards
 $bg-glass: rgba(255, 255, 255, 0.9); // Semi-transparent white
 
@@ -62,8 +62,8 @@ $radius-3xl: 2rem;
 $radius-full: 9999px;
 
 // Soft Shadows
-$shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
-$shadow-md: 0 4px 16px rgba(0, 0, 0, 0.05);
+$shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.03);
+$shadow-md: 0 8px 30px rgba(0, 0, 0, 0.04);
 $shadow-lg: 0 12px 30px rgba(0, 0, 0, 0.06);
 $shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.08);
 $shadow-primary: 0 8px 24px rgba($primary, 0.2);
