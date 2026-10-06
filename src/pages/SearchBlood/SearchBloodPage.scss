@@ -536,6 +536,19 @@
       border-color: $border-color;
       color: $text-body;
     }
+
+    &--whatsapp {
+      background: #f0fdf4;
+      border-color: #86efac;
+      color: #16a34a;
+
+      &:hover:not(:disabled) {
+        background: #25d366;
+        border-color: #25d366;
+        color: #fff;
+        box-shadow: 0 4px 14px rgba(37, 211, 102, 0.35);
+      }
+    }
   }
 
   &__call-icon {

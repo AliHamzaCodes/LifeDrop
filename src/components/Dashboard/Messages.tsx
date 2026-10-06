@@ -19,6 +19,7 @@ import {
 import './Messages.scss';
 import AppSpinner from '../AppSpinner/AppSpinner';
 import { fetchConversations, getAutoReplies } from '../../api/services';
+import { useAuth } from '../../context/AuthContext';
 
 
 
@@ -49,9 +50,12 @@ const Messages = () => {
   const [isTyping, setIsTyping]           = useState(false);
   const [searchQuery, setSearchQuery]     = useState('');
   const [loading, setLoading]             = useState(true);
+  const [isWsConnected, setIsWsConnected] = useState(false);
   const messagesEndRef  = useRef(null);
   const inputRef        = useRef(null);
   const typingTimerRef  = useRef(null);
+  const socketRef       = useRef<WebSocket | null>(null);
+  const { currentUser } = useAuth();
 
   useEffect(() => {
     const load = async () => {
@@ -63,6 +67,69 @@ const Messages = () => {
     };
     load();
   }, []);
+
+  // WebSocket Live Connection (Django Channels / Daphne)
+  useEffect(() => {
+    if (!activeId) return;
+    const roomName = String(activeId).replace(/[^a-zA-Z0-9]/g, '_');
+    const wsProto = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+    const wsUrl = `${wsProto}//127.0.0.1:8000/ws/chat/${roomName}/`;
+
+    let ws: WebSocket | null = null;
+    try {
+      ws = new WebSocket(wsUrl);
+      socketRef.current = ws;
+
+      ws.onopen = () => {
+        setIsWsConnected(true);
+      };
+
+      ws.onclose = () => {
+        setIsWsConnected(false);
+      };
+
+      ws.onerror = () => {
+        setIsWsConnected(false);
+      };
+
+      ws.onmessage = (event) => {
+        try {
+          const payload = JSON.parse(event.data);
+          const currentSender = currentUser?.fullName || 'me';
+          if (payload.sender && payload.sender !== currentSender) {
+            const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            const incomingMsg = {
+              id: `ws-${Date.now()}`,
+              from: 'them',
+              type: 'text',
+              text: payload.message,
+              time: timeStr,
+              read: true,
+            };
+            setConversations((prev) =>
+              prev.map((c) =>
+                c.id === activeId
+                  ? { ...c, messages: [...c.messages, incomingMsg], lastMessage: payload.message, timestamp: timeStr }
+                  : c
+              )
+            );
+          }
+        } catch (e) {
+          console.error('WS message error', e);
+        }
+      };
+    } catch (e) {
+      console.warn('WS initialization error', e);
+      setIsWsConnected(false);
+    }
+
+    return () => {
+      if (ws) {
+        ws.close();
+      }
+      setIsWsConnected(false);
+    };
+  }, [activeId, currentUser?.fullName]);
 
   const activeConv = conversations.find((c) => c.id === activeId);
 
@@ -105,29 +172,37 @@ const Messages = () => {
     );
     setInputText('');
 
-    // Typing indicator + auto-reply
-    clearTimeout(typingTimerRef.current);
-    setIsTyping(true);
-    typingTimerRef.current = setTimeout(() => {
-      setIsTyping(false);
-      const replies = getAutoReplies(activeId);
-      const reply   = replies[Math.floor(Math.random() * replies.length)];
-      const replyMsg = {
-        id: `m${Date.now() + 1}`,
-        from: 'them',
-        type: 'text',
-        text: reply,
-        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        read: true,
-      };
-      setConversations((prev) =>
-        prev.map((c) =>
-          c.id === activeId
-            ? { ...c, messages: [...c.messages, replyMsg], lastMessage: reply }
-            : c
-        )
-      );
-    }, 1800);
+    // Broadcast over WebSocket if connected
+    if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
+      socketRef.current.send(JSON.stringify({
+        message: text,
+        sender: currentUser?.fullName || 'me'
+      }));
+    } else {
+      // Local fallback auto-reply when offline
+      clearTimeout(typingTimerRef.current);
+      setIsTyping(true);
+      typingTimerRef.current = setTimeout(() => {
+        setIsTyping(false);
+        const replies = getAutoReplies(activeId);
+        const reply   = replies[Math.floor(Math.random() * replies.length)];
+        const replyMsg = {
+          id: `m${Date.now() + 1}`,
+          from: 'them',
+          type: 'text',
+          text: reply,
+          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          read: true,
+        };
+        setConversations((prev) =>
+          prev.map((c) =>
+            c.id === activeId
+              ? { ...c, messages: [...c.messages, replyMsg], lastMessage: reply }
+              : c
+          )
+        );
+      }, 1800);
+    }
   };
 
   const handleKeyDown = (e) => {
@@ -207,7 +282,23 @@ const Messages = () => {
           <div className="msg-chat__header-info">
             <Avatar conv={activeConv} size={42} />
             <div>
-              <p className="msg-chat__name">{activeConv.name}</p>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <p className="msg-chat__name" style={{ margin: 0 }}>{activeConv.name}</p>
+                <span style={{
+                  fontSize: '0.72rem',
+                  padding: '2px 8px',
+                  borderRadius: '10px',
+                  background: isWsConnected ? '#dcfce7' : '#f1f5f9',
+                  color: isWsConnected ? '#166534' : '#64748b',
+                  fontWeight: 600,
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '4px'
+                }}>
+                  <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: isWsConnected ? '#22c55e' : '#94a3b8' }} />
+                  {isWsConnected ? 'Daphne Live' : 'Offline'}
+                </span>
+              </div>
               <p className="msg-chat__role">
                 {activeConv.online && (
                   <span className="msg-chat__online-dot" aria-hidden="true" />

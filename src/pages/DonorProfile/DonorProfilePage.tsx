@@ -7,6 +7,10 @@ import { getAvatarColor } from '../../utils/avatar';
 import { formatKm } from '../../constants/pakistan';
 import { getCooldownDaysLeft } from '../../utils/status';
 import { DONOR_STATUS } from '../../utils/status';
+import { getMediaUrl } from '../../utils/api';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
+import { getWhatsAppUrl } from '../../utils/whatsapp';
 import './DonorProfilePage.scss';
 
 const InfoItem = ({ icon, label, value }) => (
@@ -122,7 +126,7 @@ const DonorProfilePage = () => {
             aria-label={`${donor.name}'s avatar`}
           >
             {donor.avatarUrl ? (
-              <img src={`https://mxali.pythonanywhere.com${donor.avatarUrl}`} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              <img src={getMediaUrl(donor.avatarUrl)} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             ) : (
               donor.avatar
             )}
@@ -200,14 +204,40 @@ const DonorProfilePage = () => {
 
         <div className="donor-profile__actions">
           {canContact ? (
-            <a
-              href={`tel:${donor.phone}`}
-              className="donor-profile__btn-primary"
-              id={`call-donor-${donor.id}`}
-            >
-              <PhoneSvg />
-              Call Donor
-            </a>
+            <>
+              <a
+                href={`tel:${donor.phone}`}
+                className="donor-profile__btn-primary"
+                id={`call-donor-${donor.id}`}
+              >
+                <PhoneSvg />
+                Call Donor
+              </a>
+              {donor.phone && (
+                <a
+                  href={getWhatsAppUrl(donor.phone, `Assalam-o-Alaikum ${donor.name}, I found your profile on LifeDrop. We urgently require ${donor.bloodGroup} blood in ${donor.city || 'our city'}. Can you please confirm if you can donate?`)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="donor-profile__btn-whatsapp"
+                  id={`whatsapp-donor-${donor.id}`}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    padding: '12px 22px',
+                    borderRadius: '10px',
+                    background: '#25d366',
+                    color: '#fff',
+                    fontWeight: 700,
+                    textDecoration: 'none',
+                    boxShadow: '0 4px 12px rgba(37, 211, 102, 0.3)'
+                  }}
+                >
+                  <FontAwesomeIcon icon={faWhatsapp} />
+                  WhatsApp
+                </a>
+              )}
+            </>
           ) : (
             <button
               className="donor-profile__btn-primary"

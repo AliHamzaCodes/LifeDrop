@@ -8,7 +8,8 @@ import {
   faHandHoldingDroplet,
   faCircleInfo,
   faBars,
-  faXmark
+  faXmark,
+  faCalendarDays
 } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from '../../context/AuthContext';
 import './Navbar.scss';
@@ -17,6 +18,7 @@ const NAV_LINKS = [
   { to: '/', label: 'Home', icon: faHouse, end: true },
   { to: '/search', label: 'Search Blood', icon: faMagnifyingGlass },
   { to: '/request', label: 'Requests', icon: faHandHoldingDroplet },
+  { to: '/campaigns', label: 'Blood Camps', icon: faCalendarDays },
   { to: '/about', label: 'About Us', icon: faCircleInfo },
 ];
 

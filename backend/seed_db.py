@@ -85,6 +85,48 @@ def run():
             urgency=r['urgency'],
             status=BloodRequest.Status.PENDING
         )
+
+    print("Seeding Demo Accounts (Admin & John)...")
+    # 1. Admin
+    admin_user, _ = User.objects.get_or_create(username='admin', defaults={
+        'email': 'admin@lifestream.com',
+        'role': User.Role.HOSPITAL,
+        'is_staff': True,
+        'is_superuser': True,
+    })
+    admin_user.set_password('Admin@1234')
+    admin_user.email = 'admin@lifestream.com'
+    admin_user.role = User.Role.HOSPITAL
+    admin_user.is_staff = True
+    admin_user.is_superuser = True
+    admin_user.save()
+    p_admin, _ = Profile.objects.get_or_create(user=admin_user)
+    p_admin.city = 'Lahore'
+    p_admin.phone_number = '0300-9998877'
+    p_admin.blood_group = 'O+'
+    p_admin.save()
+
+    # 2. John Doe
+    john_user, _ = User.objects.get_or_create(username='john', defaults={
+        'email': 'john@example.com',
+        'role': User.Role.DONOR,
+    })
+    john_user.set_password('Test@1234')
+    john_user.email = 'john@example.com'
+    john_user.role = User.Role.DONOR
+    john_user.save()
+    p_john, _ = Profile.objects.get_or_create(user=john_user)
+    p_john.city = 'Islamabad'
+    p_john.phone_number = '0321-5554433'
+    p_john.blood_group = 'A+'
+    p_john.save()
+
+    # Also reset existing test users password to password123
+    for u in User.objects.all():
+        if u.username not in ['admin', 'john']:
+            u.set_password('password123')
+            u.save()
+
     print("Done seeding data.")
 
 if __name__ == '__main__':

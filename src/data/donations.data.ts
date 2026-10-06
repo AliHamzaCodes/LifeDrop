@@ -56,9 +56,10 @@ export const donationData = [
 
 /** Table column definitions — used to render headers and drive sorting logic */
 export const columns = [
-  { key: 'date',     label: 'Date',          sortable: true  },
-  { key: 'location', label: 'Location',      sortable: true  },
-  { key: 'type',     label: 'Donation Type', sortable: true  },
-  { key: 'volume',   label: 'Volume',        sortable: false },
-  { key: 'status',   label: 'Status',        sortable: false },
+  { key: 'date',        label: 'Date',          sortable: true  },
+  { key: 'location',    label: 'Location',      sortable: true  },
+  { key: 'type',        label: 'Donation Type', sortable: true  },
+  { key: 'volume',      label: 'Volume',        sortable: false },
+  { key: 'status',      label: 'Status',        sortable: false },
+  { key: 'certificate', label: 'Certificate',   sortable: false },
 ];

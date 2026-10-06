@@ -17,6 +17,7 @@ import {
 import './DashboardSidebar.scss';
 import { useAuth } from '../../context/AuthContext';
 import { getCooldownDaysLeft } from '../../utils/status';
+import { getMediaUrl } from '../../utils/api';
 
 const allTabs = [
   { id: 'dashboard',        label: 'Dashboard',        icon: faTableColumns, adminOnly: false },
@@ -47,7 +48,7 @@ const SidebarContent = ({ activeTab, onSelect, isMobile = false, ctaRef, current
     <>
       <div className="dashboard-sidebar__profile">
         {currentUser?.avatar ? (
-          <img src={`https://mxali.pythonanywhere.com${currentUser.avatar}`} alt="Avatar" className="dashboard-sidebar__avatar-fallback" style={{ objectFit: 'cover', padding: 0 }} />
+          <img src={getMediaUrl(currentUser.avatar)} alt="Avatar" className="dashboard-sidebar__avatar-fallback" style={{ objectFit: 'cover', padding: 0 }} />
         ) : (
           <div className="dashboard-sidebar__avatar-fallback" aria-hidden="true">{initials}</div>
         )}

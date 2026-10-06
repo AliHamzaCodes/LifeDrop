@@ -18,6 +18,7 @@ const PAGE_TITLES: Record<string, string> = {
   '/faq':           'FAQ',
   '/eligibility':   'Donation Eligibility',
   '/compatibility': 'Blood Compatibility',
+  '/campaigns':     'Blood Donation Camps & Drives',
 };
 
 const HIDE_NAV_PREFIXES = [

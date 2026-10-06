@@ -5,7 +5,7 @@ import MapPickerModal from '../../components/MapPicker/MapPickerModal';
 import CustomCalendar, { formatDisplayDate } from '../../components/CustomCalendar/CustomCalendar';
 import { useAuth } from '../../context/AuthContext';
 import { useAppData } from '../../context/AppDataContext';
-import api from '../../utils/api';
+import api, { getMediaUrl } from '../../utils/api';
 import usePageTitle from '../../hooks/usePageTitle';
 import { BLOOD_GROUPS } from '../../constants/blood';
 import { PAKISTAN_CITIES, isValidPakistanPhone } from '../../constants/pakistan';
@@ -67,7 +67,7 @@ const DonorRegistrationPage = () => {
   });
 
   const [avatarFile, setAvatarFile] = useState(null);
-  const [avatarPreview, setAvatarPreview] = useState<string | null>(currentUser?.avatar ? `https://mxali.pythonanywhere.com${currentUser.avatar}` : null);
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(currentUser?.avatar ? getMediaUrl(currentUser.avatar) : null);
 
   // Keep form in sync if currentUser updates after mount
   useEffect(() => {

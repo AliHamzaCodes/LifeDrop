@@ -6,13 +6,16 @@ import {
   faChevronUp,
   faChevronDown,
   faSort,
+  faAward,
+  faPrint,
+  faXmark,
+  faHeartPulse
 } from '@fortawesome/free-solid-svg-icons';
 import './DonationHistory.scss';
 import AppSpinner from '../AppSpinner/AppSpinner';
 import { columns } from '../../data/donations.data';
 import { fetchDonations } from '../../api/services';
 import { useAuth } from '../../context/AuthContext';
-
 
 // ── CSV Export ────────────────────────────────────────────────────────────────
 const exportToCSV = (rows) => {
@@ -38,6 +41,7 @@ const DonationHistory = () => {
   const [sortDir, setSortDir]     = useState('desc');
   const [donations, setDonations] = useState<any[]>([]);
   const [loading, setLoading]     = useState(true);
+  const [selectedCert, setSelectedCert] = useState<any>(null);
   const { currentUser } = useAuth();
 
   useEffect(() => {
@@ -87,10 +91,8 @@ const DonationHistory = () => {
 
   return (
     <section className="donation-history" aria-label="Donation History">
-
       {/* ── Card ── */}
       <div className="dh-card">
-
         {/* Header */}
         <div className="dh-card__header">
           <h2 className="dh-card__title">Recent Donation History</h2>
@@ -99,23 +101,11 @@ const DonationHistory = () => {
             className="dh-card__export-btn"
             id="btn-export-donations"
             onClick={() => exportToCSV(sorted)}
-            aria-label="Export donation history as CSV"
+            aria-label="Export donations to CSV"
           >
-            <FontAwesomeIcon icon={faArrowUpFromBracket} />
-            Export Record
+            <FontAwesomeIcon icon={faArrowUpFromBracket} aria-hidden="true" />
+            Export CSV
           </button>
-        </div>
-
-        <div className="dh-cards">
-          {sorted.length === 0 ? (
-            <p className="dh-table__empty">No donations recorded yet. After you donate, your history will appear here.</p>
-          ) : sorted.map((row) => (
-            <article key={`card-${row.id}`} className="dh-card-item">
-              <p><strong>{row.date}</strong> · {row.type}</p>
-              <p>{row.location}</p>
-              <p>{row.volume} · {row.status}</p>
-            </article>
-          ))}
         </div>
 
         {/* Table */}
@@ -144,7 +134,7 @@ const DonationHistory = () => {
               {sorted.length === 0 ? (
                 <tr>
                   <td colSpan={columns.length} className="dh-table__empty">
-                    No donations recorded yet. After you donate, your history will appear here.
+                    No donations recorded yet. After you donate, your history and digital award certificates will appear here.
                   </td>
                 </tr>
               ) : sorted.map((row, idx) => (
@@ -159,6 +149,29 @@ const DonationHistory = () => {
                       {row.status}
                     </span>
                   </td>
+                  <td className="dh-table__td">
+                    <button
+                      type="button"
+                      onClick={() => setSelectedCert(row)}
+                      style={{
+                        padding: '5px 12px',
+                        borderRadius: '6px',
+                        border: '1px solid #f59e0b',
+                        background: '#fffbeb',
+                        color: '#b45309',
+                        fontSize: '0.8rem',
+                        fontWeight: 700,
+                        cursor: 'pointer',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '6px'
+                      }}
+                      title="View Official Certificate"
+                    >
+                      <FontAwesomeIcon icon={faAward} />
+                      Certificate
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -170,9 +183,121 @@ const DonationHistory = () => {
           Showing <strong>{sorted.length}</strong> donation{sorted.length !== 1 ? 's' : ''}
         </p>
       </div>
+
+      {/* ── Official Certificate Modal ── */}
+      {selectedCert && (
+        <div style={{
+          position: 'fixed', inset: 0,
+          background: 'rgba(0,0,0,0.65)',
+          backdropFilter: 'blur(5px)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          zIndex: 1000, padding: '20px'
+        }}>
+          <div style={{
+            background: '#fff',
+            borderRadius: '16px',
+            width: '100%', maxWidth: '640px',
+            boxShadow: '0 25px 50px rgba(0,0,0,0.25)',
+            overflow: 'hidden'
+          }}>
+            <div style={{
+              padding: '16px 20px',
+              borderBottom: '1px solid #e2e8f0',
+              display: 'flex', justifyContent: 'space-between', alignItems: 'center'
+            }}>
+              <span style={{ fontWeight: 700, color: '#334155', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <FontAwesomeIcon icon={faAward} style={{ color: '#d97706' }} />
+                LifeDrop Official Digital Certificate
+              </span>
+              <button
+                onClick={() => setSelectedCert(null)}
+                style={{ background: 'none', border: 'none', fontSize: '1.2rem', color: '#64748b', cursor: 'pointer' }}
+              >
+                <FontAwesomeIcon icon={faXmark} />
+              </button>
+            </div>
+
+            {/* Certificate Canvas */}
+            <div id="printable-certificate" style={{
+              margin: '20px',
+              padding: '36px 30px',
+              borderRadius: '12px',
+              border: '6px double #d97706',
+              background: 'linear-gradient(180deg, #fffdfa 0%, #fff 100%)',
+              textAlign: 'center',
+              position: 'relative'
+            }}>
+              <div style={{ color: '#dc2626', fontSize: '2rem', marginBottom: '8px' }}>
+                <FontAwesomeIcon icon={faHeartPulse} />
+              </div>
+              <div style={{ fontSize: '0.8rem', fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#b45309' }}>
+                LifeDrop Pakistan Blood Network
+              </div>
+              <h1 style={{ fontSize: '1.8rem', fontWeight: 900, color: '#0f172a', margin: '8px 0 16px 0', fontFamily: 'serif' }}>
+                Certificate of Appreciation
+              </h1>
+              <p style={{ fontSize: '0.9rem', color: '#64748b', margin: 0 }}>This is proudly presented to</p>
+              <h2 style={{ fontSize: '1.6rem', color: '#dc2626', margin: '8px 0', textDecoration: 'underline' }}>
+                {currentUser?.fullName || 'Hero Donor'}
+              </h2>
+              <p style={{ fontSize: '0.9rem', color: '#475569', lineHeight: 1.6, maxWidth: '480px', margin: '12px auto' }}>
+                In grateful recognition of your voluntary donation of <strong>{selectedCert.volume} ({selectedCert.type})</strong> at <strong>{selectedCert.location}</strong> on <strong>{selectedCert.date}</strong>. Your compassion and selfless act of giving blood has helped save lives.
+              </p>
+
+              <div style={{
+                display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end',
+                marginTop: '32px', paddingTop: '20px', borderTop: '1px solid #f1f5f9'
+              }}>
+                <div style={{ textAlign: 'left' }}>
+                  <div style={{ fontSize: '0.75rem', color: '#94a3b8' }}>VERIFIED AT</div>
+                  <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#1e293b' }}>{selectedCert.location}</div>
+                  <div style={{ fontSize: '0.75rem', color: '#64748b' }}>Date: {selectedCert.date}</div>
+                </div>
+
+                <div style={{
+                  width: '64px', height: '64px', borderRadius: '50%',
+                  border: '2px dashed #d97706', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  color: '#d97706', fontSize: '0.65rem', fontWeight: 800, textTransform: 'uppercase', textAlign: 'center',
+                  padding: '4px'
+                }}>
+                  Official LifeSaver
+                </div>
+
+                <div style={{ textAlign: 'right' }}>
+                  <div style={{ fontSize: '0.75rem', color: '#94a3b8' }}>ISSUED BY</div>
+                  <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#dc2626' }}>LifeDrop PK</div>
+                  <div style={{ fontSize: '0.75rem', color: '#16a34a', fontWeight: 600 }}>Status: VERIFIED</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Actions */}
+            <div style={{ padding: '16px 20px', background: '#f8fafc', borderTop: '1px solid #e2e8f0', display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
+              <button
+                type="button"
+                onClick={() => setSelectedCert(null)}
+                style={{ padding: '8px 16px', borderRadius: '8px', border: '1px solid #cbd5e1', background: '#fff', cursor: 'pointer', fontWeight: 600 }}
+              >
+                Close
+              </button>
+              <button
+                type="button"
+                onClick={() => window.print()}
+                style={{
+                  padding: '8px 18px', borderRadius: '8px', border: 'none',
+                  background: '#dc2626', color: '#fff', cursor: 'pointer', fontWeight: 700,
+                  display: 'flex', alignItems: 'center', gap: '8px'
+                }}
+              >
+                <FontAwesomeIcon icon={faPrint} />
+                Print / Save PDF
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 };
 
 export default DonationHistory;
-

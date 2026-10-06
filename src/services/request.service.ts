@@ -32,9 +32,9 @@ export const fetchRequests = async (userId, page = 1) => {
     if (userId) {
       const uidStr = String(userId);
       const filtered = all.filter(r => String(r.userId) === uidStr || (r.acceptedDonorsRaw && r.acceptedDonorsRaw.some(id => String(id) === uidStr)));
-      return { results: filtered, count: res.data.count, next: res.data.next, previous: res.data.previous };
+      return { results: filtered, count: res.data.count ?? filtered.length, next: res.data.next ?? null, previous: res.data.previous ?? null };
     }
-    return { results: all, count: res.data.count, next: res.data.next, previous: res.data.previous };
+    return { results: all, count: res.data.count ?? all.length, next: res.data.next ?? null, previous: res.data.previous ?? null };
   } catch (error) {
     console.error("Failed to fetch requests", error);
     return { results: [], count: 0, next: null, previous: null };

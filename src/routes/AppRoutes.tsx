@@ -28,6 +28,7 @@ const ContactPage            = lazy(() => import('../pages/Contact/ContactPage')
 const FaqPage                = lazy(() => import('../pages/Faq/FaqPage'));
 const EligibilityPage        = lazy(() => import('../pages/Eligibility/EligibilityPage'));
 const CompatibilityPage      = lazy(() => import('../pages/Compatibility/CompatibilityPage'));
+const CampaignsPage          = lazy(() => import('../pages/Campaigns/CampaignsPage'));
 
 // ── Loading fallback ───────────────────────────────────────────────────────────
 const PageLoader = () => (
@@ -64,6 +65,7 @@ const AppRoutes = () => {
         <Route path="/faq" element={<FaqPage />} />
         <Route path="/eligibility" element={<EligibilityPage />} />
         <Route path="/compatibility" element={<CompatibilityPage />} />
+        <Route path="/campaigns" element={<CampaignsPage />} />
 
         {/* ── Protected ─────────────────────────────── */}
         <Route

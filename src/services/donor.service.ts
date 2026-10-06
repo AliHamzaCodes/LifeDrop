@@ -20,7 +20,7 @@ export const fetchDonors = async (page = 1) => {
       donations: d.donations_made || 0,
       lastDonated: d.last_donation_date ? new Date(d.last_donation_date).toLocaleDateString() : 'Never',
     }));
-    return { results: mapped, count: res.data.count, next: res.data.next, previous: res.data.previous };
+    return { results: mapped, count: res.data.count ?? mapped.length, next: res.data.next ?? null, previous: res.data.previous ?? null };
   } catch (error) {
     console.error("Failed to fetch donors", error);
     return { results: [], count: 0, next: null, previous: null };

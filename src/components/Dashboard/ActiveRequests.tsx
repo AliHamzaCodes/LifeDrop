@@ -7,6 +7,8 @@ import {
   faClock,
   faCircleCheck,
   faCircleXmark,
+  faLocationCrosshairs,
+  faLocationDot,
 } from '@fortawesome/free-solid-svg-icons';
 import './ActiveRequests.scss';
 import AppSpinner from '../AppSpinner/AppSpinner';
@@ -18,6 +20,7 @@ import EmptyState from '../EmptyState/EmptyState';
 import { requestBloodGroup, normalizeRequestStatus } from '../../utils/status';
 import { useAuth } from '../../context/AuthContext';
 import toast from 'react-hot-toast';
+import api from '../../utils/api';
 
 // ── iconKey → FontAwesome icon resolver ───────────────────────────────────────
 // Keeps data files free of icon-library imports. Add new keys here as needed.
@@ -45,6 +48,7 @@ const ActiveRequests = () => {
   const [loading, setLoading]     = useState(true);
   const [selectedId, setSelectedId] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [sharingLocationId, setSharingLocationId] = useState<number | null>(null);
   const ITEMS_PER_PAGE = 5;
   const { currentUser } = useAuth();
 
@@ -81,6 +85,31 @@ const ActiveRequests = () => {
         toast.error(res.error);
       }
     }
+  };
+
+  const handleShareLocation = (reqId: number) => {
+    if (!navigator.geolocation) {
+      toast.error('Geolocation is not supported by your browser.');
+      return;
+    }
+    toast.loading('Acquiring GPS location...', { id: 'gps-loc' });
+    navigator.geolocation.getCurrentPosition(
+      async (pos) => {
+        const { latitude, longitude } = pos.coords;
+        try {
+          await api.post(`requests/${reqId}/update_location/`, { latitude, longitude });
+          toast.success('Live GPS coordinates shared with hospital / patient!', { id: 'gps-loc' });
+          setSharingLocationId(reqId);
+          load();
+        } catch (e) {
+          toast.error('Failed to update location on server.', { id: 'gps-loc' });
+        }
+      },
+      (err) => {
+        toast.error('Could not get GPS coordinates: ' + err.message, { id: 'gps-loc' });
+      },
+      { enableHighAccuracy: true }
+    );
   };
 
   const handleRSVP = async (reqId) => {
@@ -221,7 +250,7 @@ const ActiveRequests = () => {
                     {cfg.label}
                   </span>
                   <a
-                    href={`https://wa.me/?text=${encodeURIComponent(`URGENT: ${blood} Blood needed at ${req.hospital} (${req.location}). Patient Name: ${req.patient}. Click here to donate: http://localhost:5173/dashboard`)}`}
+                    href={`https://api.whatsapp.com/send?text=${encodeURIComponent(`URGENT: ${blood} Blood needed at ${req.hospital} (${req.location}). Patient Name: ${req.patient}. Click here to donate: http://localhost:5173/dashboard`)}`}
                     target="_blank"
                     rel="noreferrer"
                     className="ar-card__action"
@@ -274,13 +303,29 @@ const ActiveRequests = () => {
                             </button>
                           )}
                           {String(currentUser?.id) === String(donor.id) && (
-                            <button
-                              type="button"
-                              onClick={() => handleCancel(req.id)}
-                              style={{ marginLeft: '12px', padding: '4px 12px', fontSize: '0.8rem', fontWeight: 'bold', background: '#ef4444', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', boxShadow: '0 2px 4px rgba(239, 68, 68, 0.3)' }}
-                            >
-                              ✕ Cancel Pledge
-                            </button>
+                            <>
+                              <button
+                                type="button"
+                                onClick={() => handleShareLocation(req.id)}
+                                style={{ marginLeft: '8px', padding: '4px 12px', fontSize: '0.8rem', fontWeight: 'bold', background: '#0284c7', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', boxShadow: '0 2px 4px rgba(2, 132, 199, 0.3)' }}
+                                title="Share live GPS location with hospital"
+                              >
+                                <FontAwesomeIcon icon={faLocationCrosshairs} style={{ marginRight: '4px' }} />
+                                Share GPS Location
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => handleCancel(req.id)}
+                                style={{ marginLeft: '8px', padding: '4px 12px', fontSize: '0.8rem', fontWeight: 'bold', background: '#ef4444', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', boxShadow: '0 2px 4px rgba(239, 68, 68, 0.3)' }}
+                              >
+                                ✕ Cancel Pledge
+                              </button>
+                            </>
+                          )}
+                          {(req.tracking_active || sharingLocationId === req.id) && (
+                            <span style={{ marginLeft: '8px', padding: '2px 8px', background: '#e0f2fe', color: '#0369a1', borderRadius: '10px', fontSize: '0.72rem', fontWeight: 700 }}>
+                              🛰️ Live GPS Active
+                            </span>
                           )}
                         </li>
                       ))}

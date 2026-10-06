@@ -13,6 +13,10 @@ import { getAvatarColor } from '../../utils/avatar';
 import { DONOR_STATUS, isDonorOnCooldown } from '../../utils/status';
 import EmptyState from '../../components/EmptyState/EmptyState';
 import DonorMap from '../../components/DonorMap/DonorMap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
+import { faPhone } from '@fortawesome/free-solid-svg-icons';
+import { getWhatsAppUrl } from '../../utils/whatsapp';
 
 const PAGE_SIZE = 6;
 
@@ -123,17 +127,29 @@ const DonorCard = ({ donor, isBestMatch }) => {
       {/* CTA */}
       <div className="donor-card__actions">
         {donor.status === DONOR_STATUS.verified && donor.phone ? (
-          <a
-            href={`tel:${donor.phone}`}
-            className="donor-card__call-btn"
-            id={`call-donor-${donor.id}`}
-            aria-label={`Call ${donor.name}`}
-          >
-            <svg viewBox="0 0 24 24" className="donor-card__call-icon" aria-hidden="true">
-              <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
-            </svg>
-            Call Donor
-          </a>
+          <>
+            <a
+              href={`tel:${donor.phone}`}
+              className="donor-card__call-btn"
+              id={`call-donor-${donor.id}`}
+              aria-label={`Call ${donor.name}`}
+            >
+              <FontAwesomeIcon icon={faPhone} style={{ marginRight: '6px' }} />
+              Call
+            </a>
+            <a
+              href={getWhatsAppUrl(donor.phone, `Assalam-o-Alaikum ${donor.name}, I found your contact on LifeDrop. We urgently require ${donor.bloodGroup} blood in ${donor.city || 'our city'}. Are you available to donate?`)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="donor-card__call-btn donor-card__call-btn--whatsapp"
+              id={`wa-donor-${donor.id}`}
+              aria-label={`WhatsApp ${donor.name}`}
+              title="Chat on WhatsApp"
+            >
+              <FontAwesomeIcon icon={faWhatsapp} style={{ marginRight: '6px' }} />
+              WhatsApp
+            </a>
+          </>
         ) : (
           <button
             className="donor-card__call-btn"

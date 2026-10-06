@@ -7,6 +7,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from django.utils import timezone
 from datetime import timedelta
+from django.db.models import Q
 import math
 
 from .models import User, BloodRequest, Donation, Profile, Campaign, BloodInventory
@@ -46,6 +47,15 @@ class DonorViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = [permissions.AllowAny]
     lookup_field = 'user__username'
     lookup_url_kwarg = 'slug'
+
+    def get_object(self):
+        lookup_url_kwarg = self.lookup_url_kwarg or self.lookup_field
+        lookup_value = self.kwargs.get(lookup_url_kwarg)
+        if lookup_value and str(lookup_value).isdigit():
+            obj = Profile.objects.filter(Q(id=lookup_value) | Q(user__id=lookup_value)).first()
+            if obj:
+                return obj
+        return super().get_object()
 
     def get_queryset(self):
         # Feature 3: Smart Matching Algorithm (Priority System)
@@ -102,7 +112,7 @@ class DonorViewSet(viewsets.ReadOnlyModelViewSet):
         return Response(data)
 
     @action(detail=True, methods=['get'], permission_classes=[permissions.AllowAny])
-    def qr_code(self, request, pk=None):
+    def qr_code(self, request, *args, **kwargs):
         """Feature 5: Generate Donor QR Code Health Card"""
         donor = self.get_object()
         
@@ -291,9 +301,23 @@ class CampaignViewSet(viewsets.ModelViewSet):
 
 class BloodInventoryViewSet(viewsets.ModelViewSet):
     """Feature 6: Hospital Blood Bank Module"""
-    queryset = BloodInventory.objects.all()
+    queryset = BloodInventory.objects.all().order_by('blood_group')
     serializer_class = BloodInventorySerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def perform_create(self, serializer):
         serializer.save(hospital=self.request.user)
+
+    @action(detail=False, methods=['post'], permission_classes=[permissions.IsAuthenticated])
+    def set_stock(self, request):
+        blood_group = request.data.get('blood_group')
+        units = request.data.get('units', 0)
+        if not blood_group:
+            return Response({'error': 'blood_group is required'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        obj, _ = BloodInventory.objects.update_or_create(
+            hospital=request.user,
+            blood_group=blood_group,
+            defaults={'units_available': max(0, int(units))}
+        )
+        return Response(self.get_serializer(obj).data)

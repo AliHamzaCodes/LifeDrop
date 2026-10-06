@@ -68,7 +68,7 @@ const RequestPage = () => {
     await new Promise((resolve) => setTimeout(resolve, 700));
 
     const urgencyLabel = urgency.charAt(0).toUpperCase() + urgency.slice(1);
-    const newRequest = addRequest({
+    const newRequest = await addRequest({
       bloodGroup: selectedGroup,
       hospital: formData.hospitalName,
       patient: formData.patientName,
@@ -86,7 +86,7 @@ const RequestPage = () => {
     });
 
     setIsSubmitting(false);
-    setSubmittedId(newRequest.id);
+    setSubmittedId(newRequest?.id ? String(newRequest.id) : 'REQ-' + Date.now().toString().slice(-4));
     setSubmitted(true);
   };
 

@@ -234,8 +234,9 @@ const MyProfile = ({ onLogout }) => {
       ]);
       setProfileData(data);
       setDonations(history);
-      if (data && data.id) {
-        api.get(`donors/${data.id}/qr_code/`)
+      const donorLookup = currentUser?.fullName || currentUser?.id;
+      if (donorLookup) {
+        api.get(`donors/${donorLookup}/qr_code/`)
           .then(res => setQrCode(res.data.qr_code_base64))
           .catch(console.error);
       }

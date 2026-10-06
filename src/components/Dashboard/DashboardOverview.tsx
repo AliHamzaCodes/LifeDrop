@@ -234,7 +234,7 @@ const DashboardOverview = ({ onTabChange }) => {
                     View
                   </button>
                   <a
-                    href={`https://wa.me/?text=${encodeURIComponent(`URGENT: ${req.blood} Blood needed at ${req.hospital}. Click here to donate: http://localhost:5173/dashboard`)}`}
+                    href={`https://api.whatsapp.com/send?text=${encodeURIComponent(`URGENT: ${req.blood} Blood needed at ${req.hospital}. Click here to donate: http://localhost:5173/dashboard`)}`}
                     target="_blank"
                     rel="noreferrer"
                     className="dashboard-request__cta"
