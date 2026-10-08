@@ -141,3 +141,29 @@ class BloodInventory(models.Model):
 
     def __str__(self):
         return f"{self.blood_group} - {self.units_available} units at {self.hospital.username}"
+
+class BloodExchangeRequest(models.Model):
+    """Mutual Blood Replacement / Exchange Program (خون کا تبادلہ)"""
+    class Status(models.TextChoices):
+        PENDING = 'PENDING', 'Pending Review'
+        APPROVED = 'APPROVED', 'Approved for Exchange'
+        COMPLETED = 'COMPLETED', 'Completed & Exchanged'
+        REJECTED = 'REJECTED', 'Rejected'
+
+    patient_name = models.CharField(max_length=255)
+    attendant_name = models.CharField(max_length=255, help_text="Family member or attendant donating blood")
+    contact_number = models.CharField(max_length=30)
+    hospital = models.ForeignKey(User, on_delete=models.CASCADE, related_name='exchange_requests')
+    required_blood_group = models.CharField(max_length=3, choices=Profile.BloodGroup.choices, help_text="Blood group patient needs")
+    offered_blood_group = models.CharField(max_length=3, choices=Profile.BloodGroup.choices, help_text="Blood group attendant is donating in replacement")
+    units = models.IntegerField(default=1)
+    status = models.CharField(max_length=20, choices=Status.choices, default=Status.PENDING)
+    urgency = models.CharField(max_length=20, choices=BloodRequest.Urgency.choices, default=BloodRequest.Urgency.CRITICAL)
+    notes = models.TextField(blank=True, default='')
+    requester = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='my_exchange_requests')
+    created_at = models.DateTimeField(auto_now_add=True)
+    completed_at = models.DateTimeField(null=True, blank=True)
+
+    def __str__(self):
+        return f"Exchange: {self.offered_blood_group} -> {self.required_blood_group} ({self.units} units) at {self.hospital.username}"
+

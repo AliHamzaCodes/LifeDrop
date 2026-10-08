@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, Profile, BloodRequest, Donation, Campaign, BloodInventory
+from .models import User, Profile, BloodRequest, Donation, Campaign, BloodInventory, BloodExchangeRequest
 
 class ProfileSerializer(serializers.ModelSerializer):
     user_id = serializers.IntegerField(source='user.id', read_only=True)
@@ -152,3 +152,22 @@ class HospitalSerializer(serializers.ModelSerializer):
             }
             for item in inv_qs
         ]
+
+class BloodExchangeRequestSerializer(serializers.ModelSerializer):
+    hospital_name = serializers.SerializerMethodField()
+    requester_username = serializers.CharField(source='requester.username', read_only=True)
+
+    class Meta:
+        model = BloodExchangeRequest
+        fields = [
+            'id', 'patient_name', 'attendant_name', 'contact_number',
+            'hospital', 'hospital_name', 'required_blood_group', 'offered_blood_group',
+            'units', 'status', 'urgency', 'notes', 'requester', 'requester_username',
+            'created_at', 'completed_at'
+        ]
+        read_only_fields = ['requester', 'status', 'created_at', 'completed_at']
+
+    def get_hospital_name(self, obj):
+        profile = getattr(obj.hospital, 'profile', None)
+        return (profile.hospital_name if profile and profile.hospital_name else obj.hospital.get_full_name()) or obj.hospital.username
+

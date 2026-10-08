@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
   faHospital, faPhone, faLocationDot, faMagnifyingGlass, 
-  faCheckCircle, faDroplet, faHandHoldingDroplet 
+  faCheckCircle, faDroplet, faHandHoldingDroplet, faArrowsRotate 
 } from '@fortawesome/free-solid-svg-icons';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import { fetchHospitals, Hospital } from '../../services/hospital.service';
@@ -199,7 +199,23 @@ const HospitalsPage: React.FC = () => {
                       })}
                     >
                       <FontAwesomeIcon icon={faHandHoldingDroplet} />
-                      Request Blood at This Hospital
+                      Request Blood
+                    </button>
+
+                    <button
+                      type="button"
+                      className="hospitals-page__btn-exchange"
+                      onClick={() => navigate('/request', { 
+                        state: { 
+                          mode: 'exchange',
+                          hospitalId: hospital.id,
+                          hospitalName: hospital.hospital_name || hospital.username,
+                          city: hospital.city 
+                        } 
+                      })}
+                    >
+                      <FontAwesomeIcon icon={faArrowsRotate} className="exchange-icon" />
+                      <span>Blood Exchange (خون کا تبادلہ)</span>
                     </button>
                   </div>
                 </div>

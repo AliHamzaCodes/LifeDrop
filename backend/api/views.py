@@ -10,10 +10,11 @@ from datetime import timedelta
 from django.db.models import Q
 import math
 
-from .models import User, BloodRequest, Donation, Profile, Campaign, BloodInventory
+from .models import User, BloodRequest, Donation, Profile, Campaign, BloodInventory, BloodExchangeRequest
 from .serializers import (
     UserSerializer, BloodRequestSerializer, DonationSerializer, 
-    ProfileSerializer, CampaignSerializer, BloodInventorySerializer, HospitalSerializer
+    ProfileSerializer, CampaignSerializer, BloodInventorySerializer, HospitalSerializer,
+    BloodExchangeRequestSerializer
 )
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -416,3 +417,84 @@ class HospitalViewSet(viewsets.ReadOnlyModelViewSet):
         if city and city.lower() != 'all':
             qs = qs.filter(city__iexact=city)
         return Response(ProfileSerializer(qs, many=True).data)
+
+class BloodExchangeViewSet(viewsets.ModelViewSet):
+    """Mutual Blood Replacement / Exchange Desk (خون کا تبادلہ)"""
+    queryset = BloodExchangeRequest.objects.all()
+    serializer_class = BloodExchangeRequestSerializer
+    permission_classes = [permissions.AllowAny]
+
+    def get_queryset(self):
+        qs = BloodExchangeRequest.objects.all().order_by('-created_at')
+        hospital_id = self.request.query_params.get('hospital_id')
+        if hospital_id:
+            qs = qs.filter(hospital_id=hospital_id)
+        
+        user = self.request.user
+        if user and user.is_authenticated:
+            if user.role == User.Role.HOSPITAL:
+                return qs.filter(hospital=user)
+        return qs
+
+    def perform_create(self, serializer):
+        user = self.request.user
+        if user and user.is_authenticated:
+            serializer.save(requester=user)
+        else:
+            serializer.save()
+
+    @action(detail=True, methods=['post'], permission_classes=[permissions.IsAuthenticated])
+    def approve(self, request, pk=None):
+        exchange = self.get_object()
+        if request.user != exchange.hospital and request.user.role != User.Role.HOSPITAL:
+            return Response({'error': 'Only the assigned hospital can approve this exchange.'}, status=status.HTTP_403_FORBIDDEN)
+        
+        exchange.status = BloodExchangeRequest.Status.APPROVED
+        exchange.save()
+        return Response(self.get_serializer(exchange).data)
+
+    @action(detail=True, methods=['post'], permission_classes=[permissions.IsAuthenticated])
+    def complete(self, request, pk=None):
+        """Atomically perform the mutual blood swap in the hospital blood bank"""
+        from django.db import transaction
+        exchange = self.get_object()
+        if request.user != exchange.hospital and request.user.role != User.Role.HOSPITAL:
+            return Response({'error': 'Only the assigned hospital can complete this exchange.'}, status=status.HTTP_403_FORBIDDEN)
+
+        with transaction.atomic():
+            # 1. Decrease required blood group units
+            req_inv, _ = BloodInventory.objects.get_or_create(
+                hospital=exchange.hospital, blood_group=exchange.required_blood_group,
+                defaults={'units_available': 0}
+            )
+            req_inv.units_available = max(0, req_inv.units_available - exchange.units)
+            req_inv.save()
+
+            # 2. Increase offered blood group units
+            off_inv, _ = BloodInventory.objects.get_or_create(
+                hospital=exchange.hospital, blood_group=exchange.offered_blood_group,
+                defaults={'units_available': 0}
+            )
+            off_inv.units_available += exchange.units
+            off_inv.save()
+
+            exchange.status = BloodExchangeRequest.Status.COMPLETED
+            exchange.completed_at = timezone.now()
+            exchange.save()
+
+        return Response({
+            'status': 'Exchange completed successfully',
+            'exchange': self.get_serializer(exchange).data,
+            'message': f'{exchange.units} unit(s) of {exchange.offered_blood_group} received into blood bank, and {exchange.units} unit(s) of {exchange.required_blood_group} issued to patient {exchange.patient_name}.'
+        })
+
+    @action(detail=True, methods=['post'], permission_classes=[permissions.IsAuthenticated])
+    def reject(self, request, pk=None):
+        exchange = self.get_object()
+        if request.user != exchange.hospital and request.user.role != User.Role.HOSPITAL:
+            return Response({'error': 'Only the assigned hospital can reject this exchange.'}, status=status.HTTP_403_FORBIDDEN)
+        
+        exchange.status = BloodExchangeRequest.Status.REJECTED
+        exchange.save()
+        return Response(self.get_serializer(exchange).data)
+
