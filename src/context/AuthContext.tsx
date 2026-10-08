@@ -29,7 +29,8 @@ export const AuthProvider = ({ children }) => {
 
   const mapBackendUser = (userData) => ({
     id: userData.id,
-    fullName: userData.username,
+    fullName: userData.profile?.hospital_name || userData.username,
+    username: userData.username,
     email: userData.email,
     bloodGroup: userData.profile?.blood_group,
     role: userData.role,
@@ -38,7 +39,11 @@ export const AuthProvider = ({ children }) => {
     badge: userData.profile?.badge,
     donationsMade: userData.profile?.donations_made,
     lastDonationDate: userData.profile?.last_donation_date,
-    avatar: userData.profile?.avatar
+    avatar: userData.profile?.avatar,
+    hospitalName: userData.profile?.hospital_name,
+    address: userData.profile?.address,
+    helpline: userData.profile?.helpline,
+    licenseNumber: userData.profile?.license_number,
   });
 
   const login = useCallback(async (emailOrUsername, password) => {
@@ -52,32 +57,40 @@ export const AuthProvider = ({ children }) => {
       const mappedUser = mapBackendUser(userRes.data);
       
       setCurrentUser(mappedUser);
-      return { ok: true };
+      return { ok: true, user: mappedUser };
     } catch (err: any) {
       console.error("Login Error:", err.response?.data || err.message);
       return { ok: false, error: err.response?.data?.detail || 'Invalid credentials or server error.' };
     }
   }, []);
 
-  const register = useCallback(async ({ fullName, email, password, bloodGroup, phone, city }) => {
+  const register = useCallback(async ({ 
+    fullName, email, password, bloodGroup, phone, city, 
+    role = 'DONOR', hospitalName = '', address = '', helpline = '', licenseNumber = '' 
+  }: any) => {
     try {
-      const username = email.split('@')[0];
+      const username = email.split('@')[0].replace(/[^a-zA-Z0-9_]/g, '_');
       const payload = {
         username,
         email,
         password,
-        role: email.toLowerCase() === 'admin@lifestream.com' ? 'HOSPITAL' : 'DONOR',
+        role: role === 'HOSPITAL' || email.toLowerCase() === 'admin@lifestream.com' ? 'HOSPITAL' : 'DONOR',
         profile: {
           blood_group: bloodGroup || '',
           phone_number: phone || '',
-          city: city || ''
+          city: city || '',
+          hospital_name: hospitalName || (role === 'HOSPITAL' ? fullName : ''),
+          address: address || '',
+          helpline: helpline || phone || '',
+          license_number: licenseNumber || ''
         }
       };
       
       await api.post('users/', payload);
       return await login(email, password);
     } catch (err: any) {
-      return { ok: false, error: 'Registration failed. Email/Username might already exist.' };
+      console.error("Registration Error:", err.response?.data || err.message);
+      return { ok: false, error: err.response?.data?.detail || 'Registration failed. Email/Username might already exist.' };
     }
   }, [login]);
 

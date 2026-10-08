@@ -11,7 +11,10 @@ from django.db.models import Q
 import math
 
 from .models import User, BloodRequest, Donation, Profile, Campaign, BloodInventory
-from .serializers import UserSerializer, BloodRequestSerializer, DonationSerializer, ProfileSerializer, CampaignSerializer, BloodInventorySerializer
+from .serializers import (
+    UserSerializer, BloodRequestSerializer, DonationSerializer, 
+    ProfileSerializer, CampaignSerializer, BloodInventorySerializer, HospitalSerializer
+)
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -301,9 +304,23 @@ class CampaignViewSet(viewsets.ModelViewSet):
 
 class BloodInventoryViewSet(viewsets.ModelViewSet):
     """Feature 6: Hospital Blood Bank Module"""
-    queryset = BloodInventory.objects.all().order_by('blood_group')
     serializer_class = BloodInventorySerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def get_queryset(self):
+        user = self.request.user
+        hospital_id = self.request.query_params.get('hospital_id')
+        if hospital_id:
+            return BloodInventory.objects.filter(hospital_id=hospital_id).order_by('blood_group')
+        if user.is_authenticated and user.role == User.Role.HOSPITAL:
+            for bg in Profile.BloodGroup.values:
+                BloodInventory.objects.get_or_create(
+                    hospital=user,
+                    blood_group=bg,
+                    defaults={'units_available': 0}
+                )
+            return BloodInventory.objects.filter(hospital=user).order_by('blood_group')
+        return BloodInventory.objects.all().order_by('blood_group')
 
     def perform_create(self, serializer):
         serializer.save(hospital=self.request.user)
@@ -321,3 +338,81 @@ class BloodInventoryViewSet(viewsets.ModelViewSet):
             defaults={'units_available': max(0, int(units))}
         )
         return Response(self.get_serializer(obj).data)
+
+class HospitalViewSet(viewsets.ReadOnlyModelViewSet):
+    """Public & Authenticated Hospital Directory & Command Actions"""
+    queryset = Profile.objects.filter(user__role=User.Role.HOSPITAL)
+    serializer_class = HospitalSerializer
+    permission_classes = [permissions.AllowAny]
+
+    def get_queryset(self):
+        qs = Profile.objects.filter(user__role=User.Role.HOSPITAL)
+        city = self.request.query_params.get('city')
+        search = self.request.query_params.get('search')
+        if city and city.lower() != 'all':
+            qs = qs.filter(city__iexact=city)
+        if search:
+            qs = qs.filter(
+                Q(hospital_name__icontains=search) | 
+                Q(user__username__icontains=search) | 
+                Q(city__icontains=search) |
+                Q(address__icontains=search)
+            )
+        return qs
+
+    @action(detail=False, methods=['get'], permission_classes=[permissions.IsAuthenticated])
+    def my_inventory(self, request):
+        if request.user.role != User.Role.HOSPITAL:
+            return Response({'error': 'Only hospitals can access inventory'}, status=status.HTTP_403_FORBIDDEN)
+        
+        for bg in Profile.BloodGroup.values:
+            BloodInventory.objects.get_or_create(
+                hospital=request.user,
+                blood_group=bg,
+                defaults={'units_available': 0}
+            )
+        qs = BloodInventory.objects.filter(hospital=request.user).order_by('blood_group')
+        return Response(BloodInventorySerializer(qs, many=True).data)
+
+    @action(detail=False, methods=['post'], permission_classes=[permissions.IsAuthenticated])
+    def request_external_donors(self, request):
+        """Allows hospital staff to broadcast an emergency request to community donors"""
+        if request.user.role != User.Role.HOSPITAL:
+            return Response({'error': 'Only registered hospitals can broadcast emergency requests.'}, status=status.HTTP_403_FORBIDDEN)
+
+        data = request.data
+        blood_group = data.get('blood_group')
+        units_needed = int(data.get('units_needed', 1))
+        urgency = data.get('urgency', BloodRequest.Urgency.CRITICAL)
+        patient_ref = data.get('patient_ref', 'Emergency Patient')
+        notes = data.get('notes', '')
+        
+        profile = getattr(request.user, 'profile', None)
+        hospital_name = (profile.hospital_name if profile and profile.hospital_name else request.user.get_full_name()) or request.user.username
+        city = profile.city if profile and profile.city else 'Lahore'
+
+        blood_request = BloodRequest.objects.create(
+            patient=request.user,
+            required_blood_group=blood_group,
+            hospital_name=hospital_name,
+            city=city,
+            units_needed=units_needed,
+            urgency=urgency,
+            status=BloodRequest.Status.PENDING,
+            latitude=profile.latitude if profile else None,
+            longitude=profile.longitude if profile else None,
+        )
+
+        return Response(BloodRequestSerializer(blood_request).data, status=status.HTTP_201_CREATED)
+
+    @action(detail=False, methods=['get'], permission_classes=[permissions.IsAuthenticated])
+    def community_donors(self, request):
+        """Hospital search for community donors"""
+        qs = Profile.objects.filter(user__role=User.Role.DONOR, user__is_verified=True)
+        blood_group = request.query_params.get('blood_group')
+        city = request.query_params.get('city')
+        if blood_group:
+            qs = qs.filter(blood_group=blood_group)
+        if city and city.lower() != 'all':
+            qs = qs.filter(city__iexact=city)
+        return Response(ProfileSerializer(qs, many=True).data)

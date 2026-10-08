@@ -300,18 +300,20 @@
     display: inline-flex;
     align-items: center;
     gap: $spacing-2;
-    background: $primary;
-    color: $text-dark;
+    background: $primary-gradient;
+    color: #ffffff;
+    border: none;
     border-radius: $radius-full;
-    padding: $spacing-2 $spacing-6;
-    font-weight: 600;
-    font-size: $font-size-sm;
-    box-shadow: 0 6px 16px rgba($primary, 0.3);
+    padding: $spacing-3 $spacing-8;
+    font-weight: 700;
+    font-size: $font-size-base;
+    box-shadow: 0 8px 20px rgba($primary, 0.35);
+    cursor: pointer;
     transition: all $transition-fast;
 
     &:hover {
-      background: $primary-dark;
-      transform: translateY(-1px);
+      box-shadow: 0 12px 28px rgba($primary, 0.45);
+      transform: translateY(-2px);
     }
   }
 

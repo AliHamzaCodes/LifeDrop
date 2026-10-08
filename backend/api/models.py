@@ -43,6 +43,12 @@ class Profile(models.Model):
     badge = models.CharField(max_length=10, choices=BadgeLevel.choices, default=BadgeLevel.NONE)
     last_donation_date = models.DateField(null=True, blank=True)
 
+    # Hospital Specific Fields
+    hospital_name = models.CharField(max_length=255, blank=True, default='')
+    address = models.TextField(blank=True, default='')
+    helpline = models.CharField(max_length=50, blank=True, default='')
+    license_number = models.CharField(max_length=100, blank=True, default='')
+
     def update_gamification(self):
         """Update badge based on donations made."""
         if self.donations_made >= 10:

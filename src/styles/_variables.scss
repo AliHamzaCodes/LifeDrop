@@ -1,26 +1,36 @@
-// LifeDrop Brand Palette (Modern Healthcare Startup)
-$primary: #C81E3A;        // Deep Medical Crimson
-$primary-dark: #A0152B;   // Darker Crimson for hovers
-$primary-light: #E74C3C;  // Warm Coral/Salmon accent
-$primary-lighter: #FDF2F3; // Extremely faint coral for subtle backgrounds
+// LifeDrop Brand Palette - Vibrant Red & Crimson Aesthetic
+$primary: #DC2626;            // Pure Vibrant Blood Red
+$primary-crimson: #BE123C;    // Deep Ruby Crimson
+$primary-dark: #991B1B;       // Deep Burgundy / Blood Crimson
+$primary-light: #EF4444;      // Bright Alert Red
+$primary-lighter: #FEF2F2;    // Soft Pearl Rose / Faint Red background
+$primary-blush: #FFF1F2;      // Ultra-soft Blush
+
+// Radiant Red Gradients
+$primary-gradient: linear-gradient(135deg, #EF4444 0%, #DC2626 50%, #B91C1C 100%);
+$primary-gradient-subtle: linear-gradient(180deg, #FEF2F2 0%, #FFFFFF 100%);
+$accent-gradient: linear-gradient(135deg, #DC2626 0%, #991B1B 100%);
 
 // Neutrals & Backgrounds
-$bg-light: #F8F9FA;       // Off-white/Cream base
-$bg-white: #FFFFFF;       // Pure white for cards
-$bg-glass: rgba(255, 255, 255, 0.9); // Semi-transparent white
+$bg-light: #FBFBFC;          // Warm clean pearl canvas
+$bg-white: #FFFFFF;          // Pure white for cards
+$bg-glass: rgba(255, 255, 255, 0.85); // Frosted Glass
+$bg-dark: #0F172A;
 
 // Text Colors
-$text-dark: #1A1A1A;      // Near-black for confident headings
-$text-body: #4A4A4A;      // Readable dark gray for body
-$text-muted: #7E7E7E;     // Muted gray for subtext
+$text-dark: #0F172A;         // Deep Slate for high-contrast headlines
+$text-body: #334155;         // Balanced Slate body
+$text-muted: #64748B;        // Sophisticated muted text
+$text-red: #DC2626;
 
 // Structural
-$border-color: #F1E5E2;   // Warm, subtle borders
-$border-glass: rgba(0, 0, 0, 0.04);
+$border-color: #F1F5F9;
+$border-red: #FEE2E2;
+$border-glass: rgba(220, 38, 38, 0.1);
 
 // Typography
-$font-family-heading: 'Sora', -apple-system, BlinkMacSystemFont, sans-serif;
-$font-family-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+$font-family-heading: 'Plus Jakarta Sans', 'Sora', -apple-system, sans-serif;
+$font-family-body: 'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif;
 
 $font-size-xs: 0.75rem;
 $font-size-sm: 0.875rem;
@@ -53,22 +63,24 @@ $bp-lg: 1024px;
 $bp-xl: 1280px;
 
 // Border Radius
-$radius-sm: 0.375rem;
-$radius-md: 0.5rem;
-$radius-lg: 0.75rem;
-$radius-xl: 1rem;
+$radius-sm: 0.5rem;
+$radius-md: 0.75rem;
+$radius-lg: 1rem;
+$radius-xl: 1.25rem;
 $radius-2xl: 1.5rem;
 $radius-3xl: 2rem;
 $radius-full: 9999px;
 
-// Soft Shadows
-$shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.03);
-$shadow-md: 0 8px 30px rgba(0, 0, 0, 0.04);
-$shadow-lg: 0 12px 30px rgba(0, 0, 0, 0.06);
-$shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.08);
-$shadow-primary: 0 8px 24px rgba($primary, 0.2);
+// Radiant Glowing Shadows
+$shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.04);
+$shadow-md: 0 6px 20px rgba(15, 23, 42, 0.06);
+$shadow-lg: 0 12px 32px rgba(15, 23, 42, 0.08);
+$shadow-xl: 0 20px 48px rgba(15, 23, 42, 0.12);
+$shadow-primary: 0 8px 24px rgba(220, 38, 38, 0.28);
+$shadow-primary-glow: 0 12px 30px rgba(220, 38, 38, 0.35);
+$shadow-primary-hover: 0 16px 36px rgba(220, 38, 38, 0.42);
 
 // Transitions
-$transition-fast: 0.2s ease-in-out;
-$transition-base: 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-$transition-slow: 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+$transition-fast: 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+$transition-base: 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+$transition-slow: 0.5s cubic-bezier(0.16, 1, 0.3, 1);

@@ -58,14 +58,15 @@
   width: 3.25rem;
   height: 3.25rem;
   border-radius: variables.$radius-full;
-  background: linear-gradient(135deg, #f3b3ab, variables.$primary);
-  color: variables.$text-dark;
-  font-weight: 700;
-  font-size: 1rem;
+  background: variables.$primary-gradient;
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 1.1rem;
   display: grid;
   place-items: center;
   flex-shrink: 0;
   letter-spacing: 0.03125rem;
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.25);
 }
 
 .dashboard-sidebar__welcome {
@@ -159,12 +160,12 @@
 }
 
 .dashboard-sidebar__tab--active {
-  background: variables.$primary;
+  background: variables.$primary-gradient;
   color: #fff;
-  font-weight: 600;
+  font-weight: 700;
   border-radius: variables.$radius-full;
   border: 1px solid transparent;
-  box-shadow: 0 4px 12px rgba(225, 29, 72, 0.25);
+  box-shadow: 0 6px 18px rgba(220, 38, 38, 0.35);
 
   .dashboard-sidebar__tab-icon { color: #fff; }
 }

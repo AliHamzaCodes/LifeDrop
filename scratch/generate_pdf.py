@@ -177,34 +177,44 @@ def build_pdf():
             Paragraph("<b>What Was Added & How It Works</b>", table_header)
         ],
         [
-            Paragraph("<b>1. Local Backend Sync & Dynamic BaseURL</b>", table_cell),
-            Paragraph("<code>.env</code><br/><code>api.ts</code>", table_cell),
-            Paragraph("Fixed inactive remote cloud URL. Created environment-based configuration pointing to active local Django REST API. Enabled media/avatar resolution.", table_cell)
+            Paragraph("<b>1. Hospital Self-Registration & Onboarding</b>", table_cell),
+            Paragraph("<code>AuthPage.tsx</code><br/><code>AuthContext.tsx</code><br/><code>models.py</code>", table_cell),
+            Paragraph("Role-based signup toggle: Individual Donor vs Hospital/Blood Bank. Collects hospital name, address, 24/7 helpline, and license number. Auto-initializes 8 blood group inventories.", table_cell)
         ],
         [
-            Paragraph("<b>2. Hospital Blood Inventory Center</b>", table_cell),
-            Paragraph("<code>HospitalPanel.tsx</code><br/><code>views.py (set_stock)</code>", table_cell),
+            Paragraph("<b>2. Public Hospitals Directory (/hospitals)</b>", table_cell),
+            Paragraph("<code>HospitalsPage.tsx</code><br/><code>views.py (HospitalViewSet)</code>", table_cell),
+            Paragraph("Patients can search verified hospital blood banks across Pakistan. Displays live 8-group stock counts, emergency helplines, 1-click WhatsApp inquiry, and 'Request Blood Here' action.", table_cell)
+        ],
+        [
+            Paragraph("<b>3. Hospital Blood Bank Command Center</b>", table_cell),
+            Paragraph("<code>HospitalPanel.tsx</code><br/><code>views.py (BloodInventoryViewSet)</code>", table_cell),
             Paragraph("Interactive reserve management for all 8 blood groups (A+, A-, B+, B-, AB+, AB-, O+, O-). Live +/- unit adjustment buttons, critical low stock alerts (<3 units), and visual progress bars.", table_cell)
         ],
         [
-            Paragraph("<b>3. NGO Blood Camps & Drives Page</b>", table_cell),
+            Paragraph("<b>4. Emergency External Donor Broadcast</b>", table_cell),
+            Paragraph("<code>HospitalPanel.tsx</code><br/><code>request_external_donors</code>", table_cell),
+            Paragraph("When hospital blood bank is out of stock for an admitted patient, hospital staff broadcasts an emergency request specifying patient MR, blood group, units, and urgency (<2 hours).", table_cell)
+        ],
+        [
+            Paragraph("<b>5. Community Donors Summon Directory</b>", table_cell),
+            Paragraph("<code>HospitalPanel.tsx</code><br/><code>community_donors</code>", table_cell),
+            Paragraph("Hospital staff can search external verified donors by blood group and city, and directly summon them with 1-click Phone Call or WhatsApp emergency message.", table_cell)
+        ],
+        [
+            Paragraph("<b>6. WhatsApp 1-Click Normalization Engine</b>", table_cell),
+            Paragraph("<code>whatsapp.ts</code><br/><code>SearchBloodPage.tsx</code>", table_cell),
+            Paragraph("Sanitizes Pakistani local phone numbers (03xx -> 923xx) and formats pre-filled urgent blood request messages that open directly in WhatsApp App and WhatsApp Web.", table_cell)
+        ],
+        [
+            Paragraph("<b>7. NGO Blood Camps & Drives Page</b>", table_cell),
             Paragraph("<code>CampaignsPage.tsx</code><br/><code>/campaigns</code> route", table_cell),
-            Paragraph("Directory of upcoming blood donation camps. City filters (Lahore, Karachi, Islamabad), event timings, perks (Free screening, Refreshments), 1-click volunteer registration, and a 'Host a Drive' modal.", table_cell)
+            Paragraph("Directory of upcoming blood donation camps. Multi-city filters (Lahore, Karachi, Islamabad), timings, volunteer registration form, and 'Host a Drive' modal.", table_cell)
         ],
         [
-            Paragraph("<b>4. WhatsApp Emergency Quick-Contact</b>", table_cell),
-            Paragraph("<code>SearchBloodPage.tsx</code><br/><code>DonorProfilePage.tsx</code>", table_cell),
-            Paragraph("Added dedicated WhatsApp action buttons on verified donor cards and profile pages. Formats instant urgent coordination message with donor name, city, and needed blood group.", table_cell)
-        ],
-        [
-            Paragraph("<b>5. Digital Certificate of Appreciation</b>", table_cell),
-            Paragraph("<code>DonationHistory.tsx</code><br/><code>donations.data.ts</code>", table_cell),
+            Paragraph("<b>8. Digital Certificate of Appreciation</b>", table_cell),
+            Paragraph("<code>DonationHistory.tsx</code>", table_cell),
             Paragraph("Automated LifeSaver award certificate generation for completed donations. Renders donor name, donated volume, date, hospital, gold seal, and Print/Save PDF support.", table_cell)
-        ],
-        [
-            Paragraph("<b>6. Realtime WebSockets Chat & Live GPS</b>", table_cell),
-            Paragraph("<code>Messages.tsx</code><br/><code>ActiveRequests.tsx</code>", table_cell),
-            Paragraph("Direct Daphne/Django Channels WebSocket communication in the Messages tab with connection indicators. Added HTML5 GPS location sharing for donors pledging to donate.", table_cell)
         ],
     ]
 

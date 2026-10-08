@@ -54,28 +54,30 @@ const DonorCard = ({ donor, isBestMatch }) => {
         >
           {donor.avatar}
         </div>
-
         {/* Info */}
         <div className="donor-card__info">
           <h3 className="donor-card__name">{donor.name}</h3>
-          <div className={`donor-card__status ${isVerified ? 'donor-card__status--verified' : 'donor-card__status--pending'}`}>
-            <svg viewBox="0 0 24 24" className="donor-card__status-icon" aria-hidden="true">
-              {isVerified
-                ? <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5l-4-4 1.41-1.41L10 13.67l6.59-6.59L18 8.5l-8 8z" />
-                : <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
-              }
-            </svg>
-            {isVerified ? 'Verified Donor' : 'Pending Verification'}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+            <div className={`donor-card__status ${isVerified ? 'donor-card__status--verified' : 'donor-card__status--pending'}`}>
+              <svg viewBox="0 0 24 24" className="donor-card__status-icon" aria-hidden="true">
+                {isVerified
+                  ? <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5l-4-4 1.41-1.41L10 13.67l6.59-6.59L18 8.5l-8 8z" />
+                  : <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
+                }
+              </svg>
+              {isVerified ? 'Verified Donor' : 'Pending Verification'}
+            </div>
+            <span style={{ fontSize: '0.72rem', background: '#ecfdf5', color: '#047857', padding: '2px 8px', borderRadius: '999px', fontWeight: 700, border: '1px solid #a7f3d0' }}>
+              🟢 Ready to Donate
+            </span>
           </div>
         </div>
 
         {/* Blood Group Badge */}
         <div className={`donor-card__badge ${isVerified ? 'donor-card__badge--verified' : 'donor-card__badge--pending'}`}>
-          {isVerified && (
-            <svg viewBox="0 0 24 24" className="donor-card__badge-drop" aria-hidden="true">
-              <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z" />
-            </svg>
-          )}
+          <svg viewBox="0 0 24 24" className="donor-card__badge-drop" aria-hidden="true">
+            <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z" />
+          </svg>
           {donor.bloodGroup}
         </div>
       </div>
@@ -109,18 +111,18 @@ const DonorCard = ({ donor, isBestMatch }) => {
       <div className="donor-card__meta">
         {/* Location */}
         <div className="donor-card__meta-row">
-          <svg viewBox="0 0 24 24" className="donor-card__meta-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" className="donor-card__meta-icon" aria-hidden="true" style={{ fill: '#dc2626' }}>
             <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
           </svg>
-          <span>{donor.city} &bull; <strong>{formatKm(donor.km ?? donor.miles)}</strong></span>
+          <span><strong style={{ color: '#0f172a' }}>{donor.city}</strong> &bull; <span style={{ color: '#dc2626', fontWeight: 700 }}>{formatKm(donor.km ?? donor.miles)}</span></span>
         </div>
 
         {/* Last donated */}
         <div className="donor-card__meta-row">
-          <svg viewBox="0 0 24 24" className="donor-card__meta-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" className="donor-card__meta-icon" aria-hidden="true" style={{ fill: '#64748b' }}>
             <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm4.24 16L11 14V7h1.5v6.25l4.5 2.67-1.77 1.08z" />
           </svg>
-          <span>Last donated: <strong>{donor.lastDonated}</strong></span>
+          <span>Last donated: <strong style={{ color: '#334155' }}>{donor.lastDonated || 'Eligible Now'}</strong></span>
         </div>
       </div>
 

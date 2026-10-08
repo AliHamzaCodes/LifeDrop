@@ -29,6 +29,7 @@ const FaqPage                = lazy(() => import('../pages/Faq/FaqPage'));
 const EligibilityPage        = lazy(() => import('../pages/Eligibility/EligibilityPage'));
 const CompatibilityPage      = lazy(() => import('../pages/Compatibility/CompatibilityPage'));
 const CampaignsPage          = lazy(() => import('../pages/Campaigns/CampaignsPage'));
+const HospitalsPage          = lazy(() => import('../pages/Hospitals/HospitalsPage'));
 
 // ── Loading fallback ───────────────────────────────────────────────────────────
 const PageLoader = () => (
@@ -56,6 +57,7 @@ const AppRoutes = () => {
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/reset-password"  element={<ResetPasswordPage />}  />
         <Route path="/search"  element={<SearchBloodPage />} />
+        <Route path="/hospitals" element={<HospitalsPage />} />
         <Route path="/request" element={<RequestPage />} />
         <Route path="/about"   element={<AboutPage />} />
         <Route path="/donor/:slug" element={<DonorProfilePage />} />

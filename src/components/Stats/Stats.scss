@@ -42,45 +42,64 @@
   padding: variables.$spacing-8 variables.$spacing-6;
   background: variables.$bg-light;
   border-radius: variables.$radius-2xl;
-  border: 1px solid rgba(0,0,0,0.04);
-  border-left: 4px solid variables.$primary; // Thin accent left-bar
-  transition: transform variables.$transition-base, box-shadow variables.$transition-base;
+  border: 1px solid rgba(220, 38, 38, 0.1);
+  border-left: 4px solid variables.$primary;
+  transition: all variables.$transition-base;
   text-align: left;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02);
   
   &:hover {
     transform: translateY(-8px);
-    box-shadow: variables.$shadow-lg;
+    box-shadow: 0 16px 36px rgba(220, 38, 38, 0.12);
+    border-color: rgba(220, 38, 38, 0.28);
     background: white;
+
+    .stat-icon-wrap {
+      transform: scale(1.08) rotate(3deg);
+    }
   }
 
-  // Subtle colored backgrounds per stat
+  // Vibrant Red-themed badges and accents per stat
   &.stat-donors {
-    border-left-color: #3B82F6; // Blue
-    background: linear-gradient(to right, rgba(59, 130, 246, 0.05), transparent);
-    .stat-icon-wrap { color: #3B82F6; background: rgba(59, 130, 246, 0.1); }
+    border-left-color: #dc2626;
+    background: #ffffff;
+    .stat-icon-wrap {
+      color: #ffffff;
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      box-shadow: 0 8px 20px rgba(220, 38, 38, 0.3);
+    }
   }
 
   &.stat-requests {
-    border-left-color: variables.$primary; // Crimson
-    background: linear-gradient(to right, rgba(variables.$primary, 0.05), transparent);
-    .stat-icon-wrap { color: variables.$primary; background: rgba(variables.$primary, 0.1); }
+    border-left-color: #f87171;
+    background: #ffffff;
+    .stat-icon-wrap {
+      color: #ffffff;
+      background: linear-gradient(135deg, #f87171, #ef4444);
+      box-shadow: 0 8px 20px rgba(239, 68, 68, 0.3);
+    }
   }
 
   &.stat-donations {
-    border-left-color: #10B981; // Green
-    background: linear-gradient(to right, rgba(16, 185, 129, 0.05), transparent);
-    .stat-icon-wrap { color: #10B981; background: rgba(16, 185, 129, 0.1); }
+    border-left-color: #991b1b;
+    background: #ffffff;
+    .stat-icon-wrap {
+      color: #ffffff;
+      background: linear-gradient(135deg, #dc2626, #991b1b);
+      box-shadow: 0 8px 20px rgba(153, 27, 27, 0.3);
+    }
   }
 
   .stat-icon-wrap {
-    width: 64px;
-    height: 64px;
-    border-radius: variables.$radius-full;
+    width: 66px;
+    height: 66px;
+    border-radius: 18px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: variables.$font-size-2xl;
+    font-size: 1.55rem;
     flex-shrink: 0;
+    transition: transform 0.25s ease;
   }
 
   .stat-content {

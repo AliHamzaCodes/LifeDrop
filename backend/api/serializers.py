@@ -7,7 +7,11 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ['id', 'user_id', 'name', 'avatar', 'blood_group', 'phone_number', 'city', 'latitude', 'longitude', 'donations_made', 'badge', 'last_donation_date']
+        fields = [
+            'id', 'user_id', 'name', 'avatar', 'blood_group', 'phone_number', 
+            'city', 'latitude', 'longitude', 'donations_made', 'badge', 'last_donation_date',
+            'hospital_name', 'address', 'helpline', 'license_number'
+        ]
         read_only_fields = ['id', 'user_id', 'name', 'donations_made', 'badge', 'last_donation_date']
 
 class UserSerializer(serializers.ModelSerializer):
@@ -20,8 +24,19 @@ class UserSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         profile_data = validated_data.pop('profile', {})
+        role = validated_data.get('role', User.Role.DONOR)
+        if role == User.Role.HOSPITAL:
+            validated_data['is_verified'] = True
         user = User.objects.create_user(**validated_data)
         Profile.objects.create(user=user, **profile_data)
+        
+        if role == User.Role.HOSPITAL:
+            for bg in Profile.BloodGroup.values:
+                BloodInventory.objects.get_or_create(
+                    hospital=user,
+                    blood_group=bg,
+                    defaults={'units_available': 0}
+                )
         return user
 
     def update(self, instance, validated_data):
@@ -111,3 +126,29 @@ class BloodInventorySerializer(serializers.ModelSerializer):
         model = BloodInventory
         fields = ['id', 'hospital', 'hospital_name', 'blood_group', 'units_available', 'last_updated']
         read_only_fields = ['hospital']
+
+class HospitalSerializer(serializers.ModelSerializer):
+    user_id = serializers.IntegerField(source='user.id', read_only=True)
+    username = serializers.CharField(source='user.username', read_only=True)
+    email = serializers.EmailField(source='user.email', read_only=True)
+    is_verified = serializers.BooleanField(source='user.is_verified', read_only=True)
+    inventory = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Profile
+        fields = [
+            'id', 'user_id', 'username', 'email', 'hospital_name', 
+            'city', 'address', 'phone_number', 'helpline', 'license_number', 
+            'latitude', 'longitude', 'avatar', 'is_verified', 'inventory'
+        ]
+
+    def get_inventory(self, obj):
+        inv_qs = BloodInventory.objects.filter(hospital=obj.user).order_by('blood_group')
+        return [
+            {
+                'blood_group': item.blood_group,
+                'units_available': item.units_available,
+                'last_updated': item.last_updated
+            }
+            for item in inv_qs
+        ]

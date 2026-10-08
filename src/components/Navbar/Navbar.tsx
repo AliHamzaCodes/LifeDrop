@@ -9,7 +9,8 @@ import {
   faCircleInfo,
   faBars,
   faXmark,
-  faCalendarDays
+  faCalendarDays,
+  faHospital
 } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from '../../context/AuthContext';
 import './Navbar.scss';
@@ -17,6 +18,7 @@ import './Navbar.scss';
 const NAV_LINKS = [
   { to: '/', label: 'Home', icon: faHouse, end: true },
   { to: '/search', label: 'Search Blood', icon: faMagnifyingGlass },
+  { to: '/hospitals', label: 'Hospitals', icon: faHospital },
   { to: '/request', label: 'Requests', icon: faHandHoldingDroplet },
   { to: '/campaigns', label: 'Blood Camps', icon: faCalendarDays },
   { to: '/about', label: 'About Us', icon: faCircleInfo },

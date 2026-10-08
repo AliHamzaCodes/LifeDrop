@@ -4,9 +4,9 @@
 }
 
 .campaigns-hero {
-  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  background: linear-gradient(135deg, #180507 0%, #30080d 50%, #150305 100%);
   color: #fff;
-  padding: 60px 0 50px 0;
+  padding: 68px 0 54px 0;
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -17,9 +17,9 @@
     top: -50%;
     left: 50%;
     transform: translateX(-50%);
-    width: 600px;
-    height: 600px;
-    background: radial-gradient(circle, rgba(220, 38, 38, 0.15) 0%, transparent 70%);
+    width: 650px;
+    height: 650px;
+    background: radial-gradient(circle, rgba(220, 38, 38, 0.28) 0%, transparent 70%);
     pointer-events: none;
   }
 
@@ -27,21 +27,22 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    background: rgba(220, 38, 38, 0.2);
+    background: rgba(220, 38, 38, 0.25);
     color: #fca5a5;
-    border: 1px solid rgba(220, 38, 38, 0.4);
-    padding: 6px 16px;
+    border: 1px solid rgba(220, 38, 38, 0.5);
+    padding: 6px 18px;
     border-radius: 20px;
     font-size: 0.85rem;
-    font-weight: 600;
+    font-weight: 700;
     margin-bottom: 16px;
+    box-shadow: 0 4px 14px rgba(220, 38, 38, 0.2);
   }
 
   &__title {
-    font-size: 2.5rem;
-    font-weight: 800;
+    font-size: 2.75rem;
+    font-weight: 900;
     margin: 0 0 16px 0;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
 
     @media (max-width: 768px) {
       font-size: 2rem;
@@ -49,8 +50,8 @@
   }
 
   &__subtitle {
-    font-size: 1.1rem;
-    color: #94a3b8;
+    font-size: 1.15rem;
+    color: #f1b3b3;
     max-width: 680px;
     margin: 0 auto 28px auto;
     line-height: 1.6;
@@ -76,48 +77,64 @@
 }
 
 .campaign-filter-btn {
-  padding: 8px 18px;
+  padding: 8px 20px;
   border-radius: 24px;
-  border: 1px solid #e2e8f0;
+  border: 1.5px solid rgba(220, 38, 38, 0.15);
   background: #fff;
   color: #475569;
   font-size: 0.9rem;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
   transition: all 0.2s ease;
 
   &:hover {
-    border-color: #cbd5e1;
-    background: #f8fafc;
+    border-color: #dc2626;
+    background: #fef2f2;
+    color: #dc2626;
   }
 
   &.active {
-    background: #dc2626;
+    background: linear-gradient(135deg, #EF4444 0%, #DC2626 50%, #B91C1C 100%);
     color: #fff;
     border-color: #dc2626;
-    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.25);
+    box-shadow: 0 4px 14px rgba(220, 38, 38, 0.35);
   }
 }
 
 .campaigns-grid {
   display: grid;
-  grid-templateColumns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 24px;
 }
 
 .campaign-card {
   background: #fff;
   border-radius: 16px;
-  border: 1px solid #e2e8f0;
+  border: 1px solid rgba(220, 38, 38, 0.12);
   padding: 24px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
   display: flex;
   flex-direction: column;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #EF4444, #B91C1C);
+  }
 
   &:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+    transform: translateY(-5px);
+    box-shadow: 0 16px 32px rgba(220, 38, 38, 0.12);
+    border-color: rgba(220, 38, 38, 0.25);
+
+    &::before {
+      height: 5px;
+    }
   }
 
   &__header {
@@ -128,8 +145,9 @@
   }
 
   &__city-badge {
-    background: #eff6ff;
-    color: #1d4ed8;
+    background: #fef2f2;
+    color: #dc2626;
+    border: 1px solid rgba(220, 38, 38, 0.2);
     font-size: 0.78rem;
     font-weight: 700;
     padding: 4px 10px;

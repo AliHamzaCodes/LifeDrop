@@ -1,7 +1,7 @@
 @use '../../styles/variables';
 
 .home-cta {
-  background: variables.$primary;
+  background: variables.$primary-gradient;
   color: white;
   padding: variables.$spacing-20 0;
   position: relative;
@@ -12,10 +12,10 @@
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
-    background-image: radial-gradient(circle at 100% 0%, rgba(255,255,255,0.15) 0%, transparent 50%),
-                      radial-gradient(circle at 0% 100%, rgba(0,0,0,0.1) 0%, transparent 50%),
-                      radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
-    background-size: 100% 100%, 100% 100%, 20px 20px; // Last one is the dot pattern scale
+    background-image: radial-gradient(circle at 100% 0%, rgba(255,255,255,0.2) 0%, transparent 50%),
+                      radial-gradient(circle at 0% 100%, rgba(0,0,0,0.15) 0%, transparent 50%),
+                      radial-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1px);
+    background-size: 100% 100%, 100% 100%, 20px 20px;
     pointer-events: none;
   }
 
@@ -39,7 +39,7 @@
 
   p {
     max-width: 40rem;
-    color: rgba(255, 255, 255, 0.9);
+    color: rgba(255, 255, 255, 0.95);
     font-size: variables.$font-size-lg;
     line-height: 1.6;
   }
@@ -51,7 +51,7 @@
     border-radius: variables.$radius-full;
     padding: variables.$spacing-4 variables.$spacing-8;
     font-size: variables.$font-size-lg;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.18);
     transition: all variables.$transition-base;
     display: inline-flex;
     align-items: center;
@@ -60,8 +60,9 @@
 
     &:hover {
       transform: translateY(-4px);
-      box-shadow: 0 12px 25px rgba(0,0,0,0.2);
-      background: variables.$bg-light;
+      box-shadow: 0 14px 28px rgba(0,0,0,0.25);
+      background: #fff;
+      color: variables.$primary;
     }
   }
 }
@@ -91,27 +92,28 @@
     gap: variables.$spacing-4;
     position: relative;
     overflow: hidden;
+    border: 1px solid rgba(220, 38, 38, 0.08);
 
-    // Colored Top Bars via pseudo-element
+    // Crimson Top Bars via pseudo-element
     &::before {
       content: '';
       position: absolute;
       top: 0; left: 0; right: 0;
       height: 4px;
-      background: variables.$primary;
       transition: height variables.$transition-fast;
     }
 
-    &:nth-child(1)::before { background: #3B82F6; } // Blue
-    &:nth-child(2)::before { background: #10B981; } // Green
-    &:nth-child(3)::before { background: variables.$primary; } // Crimson
+    &:nth-child(1)::before { background: linear-gradient(90deg, #F87171, #EF4444); }
+    &:nth-child(2)::before { background: linear-gradient(90deg, #EF4444, #DC2626); }
+    &:nth-child(3)::before { background: linear-gradient(90deg, #DC2626, #991B1B); }
 
     &:hover {
       transform: translateY(-8px);
-      box-shadow: variables.$shadow-lg;
+      box-shadow: 0 16px 32px rgba(variables.$primary, 0.12);
+      border-color: rgba(variables.$primary, 0.2);
       
       &::before {
-        height: 6px; // Thickens slightly on hover
+        height: 6px;
       }
     }
 

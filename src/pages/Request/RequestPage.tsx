@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import './RequestPage.scss';
 import usePageTitle from '../../hooks/usePageTitle';
 import { useAppData } from '../../context/AppDataContext';
@@ -15,14 +15,15 @@ const URGENCY_OPTIONS = [
 
 const RequestPage = () => {
   usePageTitle('Request Blood');
+  const locationState = useLocation().state as any;
   const { addRequest } = useAppData();
   const { currentUser, isLoggedIn } = useAuth();
   const [selectedGroup, setSelectedGroup] = useState('A+');
   const [urgency, setUrgency] = useState('critical');
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [formData, setFormData] = useState({
-    hospitalName: '',
-    location: '',
+    hospitalName: locationState?.hospitalName || '',
+    location: locationState?.city || '',
     patientName: '',
     contactNumber: currentUser?.phone || '',
     email: currentUser?.email || '',

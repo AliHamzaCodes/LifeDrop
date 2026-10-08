@@ -7,16 +7,19 @@
   width: 100%;
   z-index: 50;
   transition: all variables.$transition-base;
-  padding: variables.$spacing-5 0;
-  background: transparent;
+  padding: 18px 0;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(220, 38, 38, 0.06);
 
   &.scrolled {
-    background: rgba(255, 248, 246, 0.95);
+    background: rgba(255, 255, 255, 0.94);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    padding: variables.$spacing-3 0;
-    border-bottom: 1px solid variables.$border-color;
-    box-shadow: variables.$shadow-sm;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(220, 38, 38, 0.12);
+    box-shadow: 0 8px 24px rgba(220, 38, 38, 0.05);
   }
 
   .navbar-container {
@@ -29,43 +32,54 @@
 .navbar-logo {
   display: flex;
   align-items: center;
-  gap: variables.$spacing-2;
+  gap: 10px;
   font-family: variables.$font-family-heading;
-  font-size: variables.$font-size-2xl;
+  font-size: 1.55rem;
   font-weight: 800;
-  color: variables.$text-dark;
+  color: #0f172a;
   letter-spacing: -0.5px;
   text-decoration: none;
 
   .logo-icon {
-    color: variables.$primary;
-    font-size: variables.$font-size-xl;
+    color: #ffffff;
+    font-size: 1.15rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 36px;
-    height: 36px;
-    background: variables.$primary-lighter;
-    border-radius: variables.$radius-md;
+    width: 38px;
+    height: 38px;
+    background: variables.$primary-gradient;
+    border-radius: 12px;
+    box-shadow: 0 4px 14px rgba(220, 38, 38, 0.35);
+    transition: transform 0.2s ease;
+  }
+
+  &:hover .logo-icon {
+    transform: scale(1.08) rotate(-4deg);
+  }
+
+  .logo-text {
+    font-size: 1.5rem;
+    font-weight: 900;
   }
 }
 
 .navbar-links {
   display: flex;
   align-items: center;
-  gap: variables.$spacing-8;
+  gap: 28px;
 
   @media (max-width: variables.$bp-lg) {
     position: absolute;
     top: 100%;
     left: 0;
     width: 100%;
-    background: variables.$bg-light;
+    background: #ffffff;
     flex-direction: column;
-    padding: variables.$spacing-8;
-    gap: variables.$spacing-6;
-    border-bottom: 1px solid variables.$border-color;
-    box-shadow: variables.$shadow-md;
+    padding: 24px;
+    gap: 16px;
+    border-bottom: 2px solid rgba(220, 38, 38, 0.1);
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.08);
     transform: translateY(-100%);
     opacity: 0;
     pointer-events: none;
@@ -81,39 +95,69 @@
 }
 
 .nav-link {
-  color: variables.$text-body;
+  color: #475569;
   font-family: variables.$font-family-heading;
   font-weight: 600;
   position: relative;
   text-decoration: none;
-  font-size: variables.$font-size-sm;
-  padding-bottom: variables.$spacing-1;
-  transition: color variables.$transition-fast;
+  font-size: 0.92rem;
+  padding: 6px 12px;
+  border-radius: 8px;
+  transition: all variables.$transition-fast;
 
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: -4px;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: variables.$primary;
-    transition: width variables.$transition-base;
+  &:hover {
+    color: variables.$primary;
+    background: rgba(220, 38, 38, 0.04);
   }
 
-  &:hover, &.active {
+  &.active {
     color: variables.$primary;
-    &::after { width: 100%; }
+    font-weight: 700;
+    background: rgba(220, 38, 38, 0.08);
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 12px;
+      right: 12px;
+      height: 2.5px;
+      background: variables.$primary;
+      border-radius: 999px;
+    }
   }
 }
 
 .navbar-actions {
   display: flex;
   align-items: center;
-  gap: variables.$spacing-4;
+  gap: 12px;
 
   @media (max-width: variables.$bp-lg) {
     display: none;
+  }
+
+  .btn-outline {
+    padding: 0.55rem 1.25rem;
+    font-size: 0.9rem;
+    min-height: 42px;
+    border-radius: 10px;
+    border-color: #cbd5e1;
+    color: #334155;
+
+    &:hover {
+      border-color: variables.$primary;
+      color: variables.$primary;
+      background: #fef2f2;
+    }
+  }
+
+  .btn-primary {
+    padding: 0.55rem 1.35rem;
+    font-size: 0.9rem;
+    min-height: 42px;
+    border-radius: 10px;
+    font-weight: 700;
   }
 }
 
@@ -121,8 +165,8 @@
   display: none;
   flex-direction: column;
   width: 100%;
-  gap: variables.$spacing-4;
-  margin-top: variables.$spacing-4;
+  gap: 12px;
+  margin-top: 12px;
 
   @media (max-width: variables.$bp-lg) {
     display: flex;
@@ -137,11 +181,11 @@
 
 .mobile-menu-btn {
   display: none;
-  font-size: variables.$font-size-2xl;
-  color: variables.$text-dark;
+  font-size: 1.4rem;
+  color: #0f172a;
   background: transparent;
   border: none;
-  padding: variables.$spacing-2;
+  padding: 8px;
   cursor: pointer;
   
   @media (max-width: variables.$bp-lg) {

@@ -38,13 +38,21 @@
   }
 
   &__cell {
-    border: 1px solid variables.$border-color;
-    border-radius: variables.$radius-md;
-    padding: variables.$spacing-3;
+    border: 1.5px solid rgba(variables.$primary, 0.12);
+    border-radius: variables.$radius-lg;
+    padding: variables.$spacing-4;
     background: variables.$bg-white;
     font-size: variables.$font-size-sm;
+    box-shadow: 0 2px 8px rgba(220, 38, 38, 0.03);
+    transition: all variables.$transition-fast;
 
-    strong { display: block; color: variables.$primary; margin-bottom: variables.$spacing-1; }
+    &:hover {
+      border-color: variables.$primary;
+      box-shadow: 0 8px 20px rgba(variables.$primary, 0.12);
+      transform: translateY(-2px);
+    }
+
+    strong { display: block; color: variables.$primary; margin-bottom: variables.$spacing-1; font-weight: 800; font-size: 1rem; }
   }
 
   &__form {
@@ -65,13 +73,14 @@
     width: 100%;
     margin-top: variables.$spacing-1;
     padding: variables.$spacing-3 variables.$spacing-4;
-    border: 1.5px solid variables.$border-color;
+    border: 1.5px solid rgba(variables.$primary, 0.15);
     border-radius: variables.$radius-md;
     font-family: variables.$font-family-body;
     font-size: variables.$font-size-sm;
 
     &:focus {
-      outline: 3px solid rgba(variables.$primary, 0.25);
+      outline: none;
+      box-shadow: 0 0 0 4px rgba(variables.$primary, 0.15);
       border-color: variables.$primary;
     }
   }
@@ -84,15 +93,21 @@
 
   &__btn {
     justify-self: start;
-    background: variables.$primary;
+    background: variables.$primary-gradient;
     color: #fff;
     border: none;
     border-radius: variables.$radius-full;
-    padding: variables.$spacing-3 variables.$spacing-6;
+    padding: variables.$spacing-3 variables.$spacing-8;
     font-weight: 700;
     font-family: variables.$font-family-body;
+    box-shadow: 0 4px 14px rgba(variables.$primary, 0.25);
+    cursor: pointer;
+    transition: all variables.$transition-fast;
 
-    &:hover { background: variables.$primary-dark; }
+    &:hover {
+      box-shadow: 0 6px 20px rgba(variables.$primary, 0.4);
+      transform: translateY(-2px);
+    }
     &:disabled { opacity: 0.7; }
   }
 

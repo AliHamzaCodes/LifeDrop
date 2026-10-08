@@ -1,11 +1,16 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-from .views import UserViewSet, BloodRequestViewSet, DonationViewSet, DonorViewSet, AnalyticsViewSet, CampaignViewSet, BloodInventoryViewSet
+from .views import (
+    UserViewSet, BloodRequestViewSet, DonationViewSet, 
+    DonorViewSet, AnalyticsViewSet, CampaignViewSet, 
+    BloodInventoryViewSet, HospitalViewSet
+)
 
 router = DefaultRouter()
 router.register(r'users', UserViewSet)
 router.register(r'donors', DonorViewSet, basename='donors')
+router.register(r'hospitals', HospitalViewSet, basename='hospitals')
 router.register(r'requests', BloodRequestViewSet, basename='requests')
 router.register(r'donations', DonationViewSet)
 router.register(r'analytics', AnalyticsViewSet, basename='analytics')
