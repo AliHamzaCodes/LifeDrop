@@ -38,7 +38,7 @@ const SidebarContent = ({ activeTab, onSelect, isMobile = false, ctaRef, current
   const isAdmin     = role === 'admin';
   const isHospital  = role === 'HOSPITAL';
   const tabs        = allTabs.filter((t) => {
-    if (t.id === 'hospital-panel' && !isHospital && !isAdmin) return false;
+    if (t.id === 'hospital-panel') return true;
     return !t.adminOnly || isAdmin;
   });
 

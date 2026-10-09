@@ -4,7 +4,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from .views import (
     UserViewSet, BloodRequestViewSet, DonationViewSet, 
     DonorViewSet, AnalyticsViewSet, CampaignViewSet, 
-    BloodInventoryViewSet, HospitalViewSet
+    BloodInventoryViewSet, HospitalViewSet, BloodExchangeViewSet
 )
 
 router = DefaultRouter()
@@ -16,6 +16,7 @@ router.register(r'donations', DonationViewSet)
 router.register(r'analytics', AnalyticsViewSet, basename='analytics')
 router.register(r'campaigns', CampaignViewSet)
 router.register(r'inventory', BloodInventoryViewSet, basename='inventory')
+router.register(r'exchanges', BloodExchangeViewSet, basename='exchanges')
 
 urlpatterns = [
     path('', include(router.urls)),

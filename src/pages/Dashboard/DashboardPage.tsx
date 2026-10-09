@@ -41,7 +41,7 @@ const DashboardPage = () => {
       setShowLogout(true);
     } else {
       setActiveTab(tab);
-      setParams(tab === 'dashboard' || tab === 'hospital-panel' ? {} : { tab }, { replace: true });
+      setParams(tab === 'dashboard' ? {} : { tab }, { replace: true });
     }
   };
 

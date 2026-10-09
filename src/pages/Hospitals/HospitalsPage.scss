@@ -300,17 +300,19 @@
     border-radius: 10px;
     background: #fef2f2;
     color: #991b1b;
-    border: 1px solid rgba(220, 38, 38, 0.2);
+    border: 1.5px solid rgba(220, 38, 38, 0.2);
     font-weight: 700;
     font-size: 0.9rem;
     text-decoration: none;
-    transition: all 0.2s ease;
+    box-shadow: 0 3px 10px rgba(220, 38, 38, 0.12);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 
     &:hover {
       background: #fee2e2;
       color: #7f1d1d;
       border-color: #dc2626;
-      transform: translateY(-1px);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(220, 38, 38, 0.25);
     }
   }
 
@@ -326,11 +328,14 @@
     font-weight: 700;
     font-size: 0.9rem;
     text-decoration: none;
-    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.25);
-    transition: filter 0.2s;
+    box-shadow: 0 4px 14px rgba(37, 211, 102, 0.32);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 
     &:hover {
-      filter: brightness(0.95);
+      background: #20bd5a;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(37, 211, 102, 0.45);
+      filter: brightness(1.05);
     }
   }
 
@@ -348,12 +353,97 @@
     font-size: 0.95rem;
     border: none;
     cursor: pointer;
-    box-shadow: 0 4px 14px rgba(220, 38, 38, 0.28);
-    transition: all 0.25s ease;
+    box-shadow: 0 4px 14px rgba(220, 38, 38, 0.3);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 
     &:hover {
-      box-shadow: 0 8px 24px rgba(220, 38, 38, 0.4);
+      box-shadow: 0 8px 24px rgba(220, 38, 38, 0.45);
       transform: translateY(-2px);
+      filter: brightness(1.05);
     }
+  }
+
+  &__btn-exchange {
+    grid-column: span 2;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    padding: 11px 18px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #fff5f5 0%, #fee2e2 100%);
+    color: #991b1b;
+    font-weight: 800;
+    font-size: 0.92rem;
+    letter-spacing: 0.01em;
+    border: 1.5px solid rgba(220, 38, 38, 0.28);
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(220, 38, 38, 0.16);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: exchange-pulse-glow 3s infinite ease-in-out;
+
+    .exchange-icon {
+      font-size: 1rem;
+      color: #dc2626;
+      transition: transform 0.45s ease, color 0.25s ease;
+    }
+
+    // Shimmer sweep reflection
+    &::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -70%;
+      width: 45%;
+      height: 200%;
+      background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.6) 50%,
+        rgba(255, 255, 255, 0) 100%
+      );
+      transform: rotate(25deg);
+      animation: exchange-shimmer 4s infinite ease-in-out;
+      pointer-events: none;
+    }
+
+    &:hover {
+      background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+      color: #ffffff;
+      border-color: #991b1b;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(220, 38, 38, 0.42);
+
+      .exchange-icon {
+        color: #ffffff;
+        transform: rotate(180deg) scale(1.15);
+      }
+    }
+
+    &:active {
+      transform: translateY(0) scale(0.98);
+      box-shadow: 0 2px 8px rgba(220, 38, 38, 0.25);
+    }
+  }
+}
+
+// Keyframe Animations for Blood Exchange Button
+@keyframes exchange-pulse-glow {
+  0%, 100% {
+    box-shadow: 0 4px 14px rgba(220, 38, 38, 0.18), 0 0 0 0 rgba(220, 38, 38, 0.2);
+  }
+  50% {
+    box-shadow: 0 6px 18px rgba(220, 38, 38, 0.3), 0 0 0 4px rgba(220, 38, 38, 0.1);
+  }
+}
+
+@keyframes exchange-shimmer {
+  0% {
+    left: -70%;
+  }
+  30%, 100% {
+    left: 140%;
   }
 }
